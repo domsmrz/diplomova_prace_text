@@ -1,4 +1,4 @@
-%% Creator: Inkscape 1.0 (6e3e5246a0, 2020-05-07), www.inkscape.org
+%% Creator: Inkscape 1.0 (4035a4fb49, 2020-05-01), www.inkscape.org
 %% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
 %% Accompanies image file 'workflow.pdf' (pdf, eps, ps)
 %%
@@ -38,7 +38,7 @@
   \newcommand*\fsize{\dimexpr\f@size pt\relax}%
   \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{1012.24530009bp}%
+    \setlength{\unitlength}{953.0788982bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -50,14 +50,19 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.15409271)%
+  \begin{picture}(1,0.24108355)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{workflow.pdf}}%
-    \put(0.03751065,0.11790276){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Input\end{tabular}}}}%
-    \put(0.01637526,0.08636988){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Cameras,\\Frames,\\Detections\end{tabular}}}}%
-    \put(0.26558799,0.06649003){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Feature vec.\end{tabular}}}}%
-    \put(0.55680932,0.06890672){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Trajectories\end{tabular}}}}%
-    \put(0.84877585,0.06603419){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Identities\end{tabular}}}}%
+    \put(0.01644483,0.17436441){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.17845191\unitlength}\centering Spatial metadata\end{minipage}}}%
+    \put(0.00157384,0.23006663){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.20819388\unitlength}\centering Detection\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{workflow.pdf}}%
+    \put(0.01644483,0.0716571){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.17845191\unitlength}\centering Image\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{workflow.pdf}}%
+    \put(0.81997425,0.07157831){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.1784519\unitlength}\centering Identity\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{workflow.pdf}}%
+    \put(0.56815863,0.16600911){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.1784519\unitlength}\centering Trajectory\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{workflow.pdf}}%
+    \put(0.31460822,0.08472751){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.14870994\unitlength}\centering Feature vector\end{minipage}}}%
   \end{picture}%
 \endgroup%
