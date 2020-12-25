@@ -46,6 +46,8 @@
 \newtheorem*{rem}{Remark}
 \newtheorem*{example}{Example}
 
+\newcommand{\defnautorefname}{definition}
+
 %%% An environment for proofs
 
 \newenvironment{myproof}{
@@ -64,6 +66,7 @@
 %%% The field of all real and natural numbers
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
+\newcommand{\Pt}[1]{\mathcal{P}\left(#1\right)}
 
 %%% Useful operators for statistics and probability
 \DeclareMathOperator{\pr}{\textsf{P}}
@@ -85,3 +88,7 @@
 %%% Various table goodies
 \newcommand{\pulrad}[1]{\raisebox{1.5ex}[0pt]{#1}}
 \newcommand{\mc}[1]{\multicolumn{1}{c}{#1}}
+
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}

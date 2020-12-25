@@ -1,0 +1,160 @@
+% \chapter{Related Work}
+
+% \chapter{Task and Workflow}
+
+% \section{Videolytics}
+
+% Our work is designed to fit into \emph{Videolytics} -- an analytical system for video processing
+% and advanced analytics. The system utilizes various artificial intelligence models
+% to allow automated processing of the input. The goal is to offer effective way 
+% to produce answer to various querries. Such requests may range from showing advanced
+% user interface for live stream, to retrieving various statistical from data stored
+% for offline processing. Such system may be used not only to enhance the basic
+% capabilities of secutity cameras, but also provide better data that can be utilized
+% in various area of city planning.
+
+% The core component of the system is the database used for exchanging the data between
+% modules of the system. Such solution offers various advantages. One of them is that the data is
+% presistent and can be re-evaluated if needed. As the database functions as an exclusive communication medium
+% between the modules of the entire system, each individual module can be almost
+% completely independent (from the implementation point of view) as the only
+% communication point is the database.
+
+% \section{Our contribution}
+
+% Our task is to create a module for \emph{Videolytics} systems, that would be able
+% to re-identify the same object across different frames. That includes different
+% frames within a single video input and, more importantly, re-identification across
+% multiple sources.
+
+% Aside from the actual re-identification algorithm, in the thesis we present entire
+% framework encapsulating the issue. We show an easy-to-use pipleline, that can be
+% used for testing other approaches to the problem. We also implement simple, yet
+% effective, tool for annotating input data, that can be also used for in-depth
+% analysis of any given re-identification algorithm. Finally, we also present the
+% set of other utilities, used for evaluation of various re-identification algorithms
+% and other related tasks.
+
+% \section{Task formulation}
+
+% In general, our task as a whole is to find the same object across different frames of a camera
+% (or even several cameras).
+
+% Firstly, let us define the input for our system. As we set our work to primary work within the \emph{Videolytics} system, we make use of pre-processing of the video streams. Therefore, we do
+% not work with raw footage, but rather with processed \emph{detections}, which are esentialy
+% crops from the videos enriched by various metadata.
+
+% Most important part of the detection is the image of the detected object. We shall define
+% universe of rectangular images $\mathcal{I}$, using standard RGB representation:
+
+% $$\mathcal{I} = \bigcup_{\substack{n \in \mathbb{N} \\ m \in \mathbb{N}}} \{0, 1, \ldots, 2^8-1\}^{3mn}$$
+
+% In this representation we describe the image as an matrix of pixels where each pixel
+% if further split into triplet, each describing one channel (red, green and blue).
+
+% We next describe the source of the original stream (i.e. camera or the video file)
+% where the detection comes from. For the given task the only relevant information
+% is the dimension of the stream. Aside that we assign each camera unique identification
+% (so we can tell if two given detection is associated with the same origin or not).
+% We can then describe the universe of sources as:
+
+% $$\mathcal{C} = \{c_i, c_h, c_w | c_i \in \mathbb{N}, c_h \in \mathbb{N}, c_w \in \mathbb{N}\}
+%  = \mathbb{N}^3$$
+ 
+% We shall also refer to sources as cameras interchangeably due to consistency with
+% underlaying implementation.
+
+% Finally, we associate each detection with additional metadata. For each detection
+% we know the position $x_0, y_0$, of the top left corner of the image relative to
+% the dimension of the stream. Similarly we denote $x_1, y_1$ relative position
+% of the bottom right corner. Furthermore, we add \emph{class} to each detection
+% -- representing the class of the detected object. Such class is an element of
+% pre-defined vocabulary $V$; in our work we use:
+
+% $$V = \{\text{``person'', ``motorcycle'', ``car'', ``truck'', ``train'', ``bicycle'', ``bus''\}}$$
+
+% Finally, we associate a timestamp $t \in \mathbb{R}$ to each detection. Note that
+% technically we store the timestamp to a certain degree of precision. Therefore,
+% we can consider $t \in \mathbb{N}$. This notation allows us to define the universe
+% of metadata $\mathcal{M}$ as:
+
+% $$\mathcal{M} = \{{(x_0, x_1, y_0, y_1, t, c) \in [0,1]^4 \times \mathbb{R} \times V | x_0 < x_1 \land y_0 < y_1}\}$$
+
+% Finally, we can then define the universe of detections $\mathcal{D}$ as:
+% $$\mathcal{D} = \mathcal{I \times C \times M}$$
+
+% Single problem then can be described as set of \emph{detections} grouped together by the
+% object they capture. We therefore describe each such \emph{session} as a pair of set of
+% detections $D$ and its partition $A^*$ by the captured object. Universe of these sessions
+% $\mathcal{S}$ is then defined as:
+
+% $$\mathcal{S} = \left\{D \subset \mathcal{D}, A^* \subset \mathcal{P(D)} \vert \forall a, a' \in A^*:\, a \neq \emptyset \land a \cap a' = \emptyset \land \bigcup A^* = D\right\}$$
+
+% Our goal is to be able for sessions (sampled from the real world situations) generate
+% correct assignment $A^*$. The assignment $A^*$ is (partially or entirely) hidden for
+% the algorithm and used only for evaluation. However, we shall use different fixed set
+% of sessions with known assignment to leverage methods of machine learning.
+
+% Technically speaking we mean to construct re-identification $r_S'$ algorithm, that would
+% for given session $S = (D, A^*)$ identify the detection that display same object:
+
+% $$r_S': D^2 \rightarrow \{0,1\} \text{ s.t. } \forall d, d' \in D^2 : r_S'(d, d') = 1 \Leftrightarrow \exists a \in A^* : \{d, d'\} \subseteq a$$
+
+% However, such definition may not be directly suited for implementation. Therefore, we
+% shall focus on construction identification algorithm $r_S$ which shall assign all the
+% all the detection with same object the same arbitrary identification number:
+
+% $$r_S^*: D \rightarrow \mathbb{N} \text{ s.t. } \forall d, d' \in D^2 r_S^*(d) = r_S^*(d') \Leftrightarrow \exists a \in A^*: \{d, d'\} \subseteq a$$
+
+% Original $r_S'$ can be easily reconstructed from this definition if need be:
+
+% $$r_S'(d, d') = 1 \Leftrightarrow r_S(d) = r_S(d')$$
+
+% Construction of perfect function $r_S^*$ is generally hard problem and may not even
+% be possible due to imperfections on input $D$. Therefore, we focus on creating
+% close approximation $r_S$. We shall then proceed to evaluate how well the function
+% $r_S$ fit desire result $r_S^*$ in Chapter \ref{ch:evaluation}.
+
+% \section{Workflow}
+
+% Let us now describe the workflow of the identification algorithm (function $r_S$).
+
+% As the first step we shall generate the feature vectors from the images of the detections. Such
+% feature vector should sufficiently describe the image itself as we shall now use the images directly
+% further in the workflow. There are severel advantages of such feature vectors, mainly steming from the
+% fact that once the feature vectors is generated, the original images can be discarded. For once if the
+% generation of the feature vectors is irreversible it produce a layer of anonymization which may be
+% crucial given our task. Other advantage is the lowered memory consumption as the feature vectors may
+% be smaller than the original image.
+
+% After this feature vector generation we proceed to actual re-identification. This process we usually
+% split into two parts (we shall describe details in furher chapters).
+
+% The first step is to group together that are physically close together (i.e. they originate from
+% the same camera, have very similar position within the frame and very similar timestamp). We refer
+% to this preliminary grouping as \emph{trajectories}. Although, some very advanced strategies can
+% be used even for this stage of the grouping, we shall only work with simple approaches and focus
+% more on the second step. We leave the experimenting with more thought-through appraches (e.g.
+% other algorithms offered by \emph{Videolytics}) as feature work.
+
+% The second step is then to group generated trajectories into identities. As in this step we need
+% to be able to merge trajectories of the same object across cameras --- which makes the spatial
+% metadata of the detections less useful --- we shall focus more on the information of the actual
+% images of the detections.
+
+% While this split is a bit arbitrary it arises from practical use. For the first step we can use
+% very simple, yet precise, algorithm where the advanced approaches is not needed. In the second
+% step then we can leverage the fact that we have significantly fewer (by a few magnitudes) object
+% to merge, which allow for employment of some merging strategies. A workflow diagram can be seen
+% in Figure \ref{fig:workflow} (TODO ten obrazek se bude muset cely predelat).
+
+% \begin{figure}
+%     \centering
+%     \def\svgwidth{\textwidth}
+%     \input{workflow.pdf_tex}
+%     \caption{General workflow when creating re-identifications. Dashed lines marks
+%     dependencies only for specific algorithms}
+%     \label{fig:workflow}
+% \end{figure}
+
+

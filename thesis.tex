@@ -53,7 +53,19 @@
 \usepackage{tabularx}
 \usepackage[toc,nogroupskip,nopostdot]{glossaries}
 \usepackage{todonotes}
+\usepackage{enumitem}
+
+\setlist[enumerate]{topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex}
 %\usepackage{svg}
+
+\usepackage{xcolor} % TODO TODO TODO
+\usepackage{gensymb}
+\usepackage{mathtools}
+\usepackage{caption}
+\usepackage[ruled,vlined]{algorithm2e}
+
+\newcommand{\algautorefname}{Algorithm}
+\newcommand{\clmautorefname}{Claim}
 
 \makenoidxglossaries
 \loadglsentries{glossary}
@@ -107,6 +119,7 @@ Abstract.
 %% The hyperref package for clickable links in PDF and also for storing
 %% metadata to PDF (including the table of contents).
 %% Most settings are pre-set by the pdfx package.
+\hypersetup{hidelinks}
 \hypersetup{unicode}
 \hypersetup{breaklinks=true}
 

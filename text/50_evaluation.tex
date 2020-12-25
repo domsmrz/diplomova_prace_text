@@ -1,1 +1,263 @@
 \chapter{Evaluation}
+
+%123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
+
+In this chapter we aim to empirically evaluate the approaches we have described
+in previous chapters of this work.
+
+\section{Datasets}
+
+In this thesis we work with two distinct \glspl{ses}.
+
+The first \gls{ses} comes from processing recording from single camera which
+capture a busy square. The original recording is about 5 minutes long. The total
+number of \glspl{det} extracted from the recording is 181,792. We manually sorted
+these \glspl{det} into 274 different \glspl{iden}. The main usage of this
+\gls{det} is to be a training dataset for training neural network based
+approaches to extract feature vectors from the images of \glspl{det}. The
+manual annotation serves as a golden truth for this training. A frame from
+this \gls{ses} and extracted \glspl{det} can be seen in
+\autoref{fig:single_session}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.48\textwidth]{img/frame_single_session.png}
+    \includegraphics[width=0.48\textwidth]{img/frame_single_session_det.png}
+    \caption{Frame from first session and extracted detections}
+    \label{fig:single_session}
+\end{figure}
+
+We use the second \gls{ses} for actual evaluation. This second session is
+constructed from the recording of two simultaneously recording camera. The
+recording is over two minutes long. The view of the cameras partially overlap.
+In this session total of 147,681 \glspl{det} were extracted. We sorted these
+\glspl{det} into 52 unique \glspl{iden}. These \glspl{iden} were used as a
+ground truth for actual evaluation of our approach. Examples of frames from
+this \gls{ses} is in \autoref{fig:double_session}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.48\textwidth]{img/frame_double_session_1.png}
+    \includegraphics[width=0.48\textwidth]{img/frame_double_session_2.png}
+    \caption{Frames from second session}
+    \label{fig:double_session}
+\end{figure}
+
+The recordings for those two \glspl{ses} are entirely disconnected -- they
+capture entirely different place and were recorded at different time. That gives
+us unbiased estimation of the quality of our algorithm in terms of
+\autoref{eq:mla}. It would be better to evaluate our algorithm to multiple
+\glspl{ses}, however due to technical difficulty of creating new \gls{ses}
+(especially in terms of annotating the data), we leave more thorough evaluation
+to feature work.
+
+\section{Feature vectors}
+
+As the first step of actual evaluation of our approaches is to evaluate the
+quality of feature vectors as described in \autoref{ch:features}. We shall
+evaluate this part purely based on how well the resulting feature vectors
+separate the golden \glspl{iden} from each other. We recognize there is some
+information lost, as we skip the final step in this evaluation -- that is to
+construct actual \glspl{iden} and compare them with the golden \glspl{iden}.
+However, this preliminary evaluation is computationally less expensive and
+therefore we may experiment with broader spectrum of parameters. We shall
+select couple of best performing setting and verify its usefulness in later
+stages.
+
+\subsection{Measures of Quality}
+
+Furthermore, this preliminary testing offer simpler statistics for evaluation.
+The scenario we evaluate in this section is just ``how far away (in terms of
+the corresponding feature vectors) are the \glspl{det} of the same golden
+\gls{iden} and how far are golden \glspl{det} of different \glspl{iden}''. We
+can add a threshold and consider \glspl{det} closet that the threshold to be
+of the same \gls{iden} and \glspl{det} more distant than the threshold to be
+of different \glspl{iden}.
+
+This simple approach allows us to sort pairs of \glspl{det} into four standard
+categories. First two are \glspl{tp} and \glspl{tn}, they represent
+correct classification. In our context they represent pairs that were indeed
+of the same \gls{iden} and we classified them as such and pairs that were of
+different \glspl{iden} and our algorithm assign them to different \glspl{iden}.
+The other categories are \glspl{fp} -- pairs that are of different
+\glspl{iden} and we assign them to be of same \gls{iden} -- and \glspl{fn},
+that are pairs that are from the same \glspl{iden} but were assigned different
+\glspl{iden}.
+
+This allows us to introduce two standard derived quantities --- \gls{tpr} and
+\gls{fpr}:
+
+\begin{align*}
+    \mathrm{TPR} &= \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FN}} \\
+    \mathrm{FPR} &= \frac{\mathrm{FP}}{\mathrm{FP} + \mathrm{TN}}
+\end{align*}
+
+Let us note that when we increase the threshold, we consider more and more
+pairs to be of same \gls{iden}. That means that number of \glspl{tp} and
+\glspl{fp} increases and number of \glspl{tn} and \glspl{fn} decreases.
+In terms of rates, that means that both \gls{tpr} and \gls{fpr} increases.
+This allows us to draw a plot of how \gls{tpr} depends on \gls{fpr}. That
+is a quite common way to elaborate on the quality of \gls{ml} algorithm.
+The resulting plot is often called \gls{roc} curve.
+
+Ideal classifiers would have a \gls{roc} curve going through a point
+(0, 1). Such classifier with corresponding threshold would correctly
+classify every input, positive or negative. We usually do not
+have access to ideal classifiers. In such case we are, broadly speaking,
+want to come up with classifier that have \gls{roc} curve as close to
+point (0,1) as possible.
+
+However, \gls{roc} curves gives us more in-depth view into the classifier.
+The curve shows which trade-offs between \glspl{fp} and \glspl{fn} (or in terms
+of the axis \gls{fpr} and \gls{tpr}) are possible for given classifiers.
+
+While the \gls{roc} curve offers quite useful evaluation of the
+selected approach, it is often useful to express the quality of the
+approach as a single number. Some information will be lost this way,
+on the other hand it offers very straight-forward way to compare different
+classifiers. For this evaluation we leverage also leverage the \gls{roc} curve.
+In particular we compute the area under the curve. Generally, the greated
+the area the better classifier we have.
+
+\subsection{Evaluation of Color Histograms}
+
+Firstly, we aim to evaluate various approaches for feature vector generation
+based on the color histograms. To recapitulate there are several basic choices
+for histogram generation we need to evaluate (please refer to
+\autoref{sec:histograms} for detailed explanation):
+
+\begin{itemize}
+    \item Selection of color model
+    \item Type of background filtering
+    \item Number of bins of a histogram
+    \item Choice of distance function
+\end{itemize}
+
+\subsubsection{Evaluation of Background Filtering}
+
+As there are too many options per category to evaluate all combinations we
+firstly evaluate which background filtering mechanism works best for us. As we
+aim to decide what section of the crop is important for the re-identification
+the selection of background filtering should be relatively independent of
+the choice of color model and number of bins. For the experiments in this
+subsection we selected a hue and saturation with histogram with 8 bins in
+each component (i.e. 64 bins total).
+
+Let us recall that we reviewed several approaches to background filtering.
+Each approach allows for fine-tuning via various parameters:
+
+\begin{itemize}
+    \item No background filtering -- no additional parameters
+    \item Filtering using cropping -- total of three parameters: percentage of the image cropped from left and right, percentage of the image cropped from the bottom, and percentage of the image cropped from the top
+    \item Weighting by Gaussian -- total of two parameters: center of the Gaussian along $y$-axis and the scale of the Gaussian
+\end{itemize}
+
+For each of these approaches we use grid search to find optimal values of
+these parameters. The main value we use for comparison is the size of the
+area under the \gls{roc} curve. However, we still explore some of the
+\gls{roc} curves directly.
+
+As we can see from the measurements \todo{add link to results} any method
+of background filtering significantly improved the quality of the feature
+vectors. We note that we achieved the best performance with cropping when we 
+cropped 30\% image from the left and right side, 20\% from the top and 30\%
+from the bottom (although variant with 20\% achieved almost as good results). An example of such cropping can be seen in
+\autoref{fig:best_cropping}.
+
+\begin{figure}
+    \centering
+    \includegraphics{img/0.png} \includegraphics{img/1.png} \\
+    \includegraphics{img/0_crop.png} \includegraphics{img/1_crop.png}
+    \caption{Example of most effective cropping}
+    \label{fig:best_cropping}
+\end{figure}
+
+In terms of weighting with Gaussian, we have achieved the best results
+by offsetting the Gaussian slightly above the center of the image, to 40\%
+of the height of the image to be precise. The best setting for the scale
+of the Gaussian seems 0.2 of the dimensions of the image. For detailed results
+of the grid search see \todo{ref}.
+
+As we can see in \autoref{fig:roc_background} all the selected approaches
+with background filtering gives almost identical results.
+
+\begin{figure}[tb]
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{img/background_roc.pdf_tex}
+    \caption{ROC curve of various type of background filtering}
+    \label{fig:roc_background}
+\end{figure}
+
+\subsubsection{Choice of distance function}
+
+Another subject of our experiments is the choice of distance function. In
+\autoref{ssec:used_distances} we introduced three distance functions --
+Euclidean, Manhattan and cosine. As we can see in \autoref{fig:roc_distances}
+the choice of distance function have significant effect on the results.
+The worst distance function seems to be Euclidean distance. The best one,
+especially while preserving lower \gls{fpr} seem to be Manhattan distance.
+After all, Manhattan distance has quite straigh-forward explanation in context
+of histograms -- it is simple the amount each bin needs to decrease or increase
+in order to achieve the second histogram.
+
+\begin{figure}[tb]
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{img/roc_distances.pdf_tex}
+    \caption{ROC curve of various distance functions}
+    \label{fig:roc_distances}
+\end{figure}
+
+\subsubsection{Selection of Color Model and Number of Bins}
+
+The last parameter we need to appropriately set is the actual color model
+and number of bins per histogram. We explore several color models:
+
+\begin{itemize}
+    \item RGB model
+    \item HSV model (we select hue component for one histogram and both hue and saturation component for another one)
+    \item YUV model (we select UV components)
+\end{itemize}
+
+For each model we explore various numbers of bins. Contrary to our original
+assumption the results gives usage of the raw RGB channels.
+
+This can be explained by various phenomena For one the varying lightning
+conditions are note as common in our dataset as we expected. The other aspect
+is that as we notice large quantity of the images are of people with black or
+dark clothing. The downside of using hue as a component in histograms is that
+hue can change very significantly case of black and white colors even in small
+changes in actual color. See \autoref{fig:bad_hue} for the visualization.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=3cm]{img/bad_hue_orig.png}
+    \includegraphics[width=3cm]{img/bad_hue_hue.png}
+    \caption[Hue extraction from an image]{Hue extraction from an image. The image on the left is original. The right image was obtained by preserving hue of each pixel but setting saturation and value to the same high level. As we can see, the mono-colored black coat has various hue levels and on the other hand the black coat and the white background is represented by similar hue levels even tough both are of entirely different colors.}
+    \label{fig:bad_hue}
+\end{figure}
+
+We aim to support this reasoning by considering pixels with low ($< 0.2$)
+value as black and non-black pixels with low saturation ($< 0.2$) as white and
+assign them to separate bins. As we can see in \todo{ref} this indeed
+significantly improved the feature vector. However is still seems best to
+use basic RGB decomposition.
+
+\subsection{Evaluation of Deep Learning Approaches}
+
+In the previous section we have focused on the feature vectors drawn using
+histograms. Now, we explore the approaches involving \glspl{nn}. In this
+section we make use of pre-trained model in Tensorflow framework
+(\cite{tensorflow}) and described in \autoref{sec:existing_architectures}.
+
+\subsubsection{Straing-forward Use of Pre-trained Models}
+
+Perhaps the simplest usage of pre-trained models is to use them directly
+wihtout any additional training. The potential in such usage is that the
+second to last layer (i.e. prior actual ``classification'' layer) has to
+contain enough of information to classify the original image. Therefore,
+we experiment whether such information is enough for our purposes.
+
+As we already stated, we mainly use ResNet and MobileNet architectures
+pre-trained on the ImageNet dataset. Each of these 

@@ -3,14 +3,42 @@
 %123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
 
 In this chapter we provide an overview of the elementary concepts we use
-throughout thesis.
+throughout the thesis.
+
+\section{Notion}
+
+We briefly summarize the notion we use. We use standard notion for number
+systems: $\mathbb{N}$ for natural numbers (including zero), $\mathbb{R}$ for
+real numbers, $\mathbb{R}^+$ for positive real numbers and $\mathbb{R}^+_0$
+for non-negative real numbers.
+
+We shall often work with vectors, we shall write them as $\vec{a}$. In order
+to refer to $i$-th element of a vector $\vec{a}$ we shall write $a_i$.
+Similarly, in case of matrix $A$, we shall refer to specific element as
+$A_{i,j}$ in $i$-th row and in $j$-th column.
+
+Finally, we shall use the term \emph{tensor} as a generalization of vectors
+and matrices. We shall use following recursive definition
+
+\begin{defn}
+0-dimensional tensor is a single number. n-dimensional ($n > 0$) vector of sizes
+$(s_1, s_2, \ldots, s_n)$ is an ordered set of $s_1$ $(n-1)$-dimensional
+tensors of sizes $(s_2, s_3, \ldots, s_n)$.
+\end{defn}
+
+As we can see, 1-dimensional tensor is a vector and 2-dimensional tensor is
+a matrix. Similarly, we shall refer to specific element of tensor $a$ using
+subscripts ($a_{i,j,k}$).
 
 \section{Distance and Metric Spaces}
+\label{sec:distances}
 
 In this work we often need to express similarity between two datapoints
 (usually images or their representation). To provide a precise mathematical
 background for such similarity we use the concept of metric spaces introduced
-by \cite{metric} and named by \cite{metricname}. We use the following definition:
+by \cite{metric} and named by \cite{metricname}. We further differentiate
+between metrics (and metric spaces) and distances (and distance spaces). We
+use definitions per \cite{deza2009encyclopedia}.
 
 \begin{defn}
 Metric space $(\mathcal{F}, \delta)$ is a pair of set $\mathcal{F}$ and
@@ -23,6 +51,7 @@ following axioms hold:
     \item $\delta(x, y) \leq \delta(x, z) + \delta(z, y)$ (Triangle inequality)
 \end{itemize}
 \end{defn}%
+
 However, as these axioms prove to be too restrictive in some cases, we also
 use the concept of distance space:
 \begin{defn}
@@ -36,8 +65,12 @@ following axioms hold:
 \end{defn}%
 It is easy to see that each metric space is also a distance space.
 
-In particular we mostly use Euclidean and Cosine distance. We can easily define
-the first one:
+\subsection{Used Distances and Metrics}
+
+\label{ssec:used_distances}
+
+In this subsection we briefly introduce the specific metrics and distances
+we use in this thesis.
 
 \begin{defn}
 Euclidean space is a metric space ($\mathbb{R}^n, \delta$) where the
@@ -45,7 +78,15 @@ distance function $\delta$ (referred as euclidean distance) is:
 $$\delta(\vec{x}, \vec{y}) = \sqrt{\sum_{i=1}^n(x_i - y_i)^2}$$
 \end{defn}
 
-For the latter we firstly define cosine similarity:
+\begin{defn}
+Manhattan space (more often referred as space L1) is a metric
+space ($\mathbb{R}^n, \delta$) where the
+distance function $\delta$ (referred as Manhattan distance) is:
+$$\delta(\vec{x}, \vec{y}) = \sum_{i=1}^n(x_i - y_i)$$
+\end{defn}
+
+To define the last distance we shall use, we firstly introduce concept
+of Cosine similarity:
 
 \begin{defn}
 Cosine similarity is a function $S_C : \R^n \times \R^n \goto [-1, 1]$, s.t.:
@@ -54,7 +95,7 @@ $$S_C(\vec{x}, \vec{y}) = \mathrm{cos}(\vec{x}, \vec{y}) = \frac{\vec{x}\vec{y}}
 As the values of cosine similarity fall within the interval $[-1,1]$ we can
 easily derive following cosine space:
 \begin{defn}
-Cosine space is a distance space ($\mathbb{R}^n, \delta$) where the distance
+Cosine distance space is a distance space ($\mathbb{R}^n, \delta$) where the distance
 function $\delta$ (referred as cosine distance) is:
 $$\delta(\vec{x}, \vec{y}) = 1 - S_C(\vec{x}, \vec{y})$$
 where $S_C$ is cosine similarity.
@@ -122,7 +163,7 @@ further proceed to elaborate a few specifics that are relevant for the thesis.
 However if the reader wishes to learn more about general concept of (deep)
 neural networks we can refer him to \cite{deeplearningbook}.
 
-\section{Convolutional layers}
+\subsection{Convolutional layers}
 \label{sec:conv}
 
 One specific type of \gls{nn} layer is a convolutional layer. These convolutional layers
@@ -154,22 +195,68 @@ $$y_{i, j, r} = \sum_{k, l, s} x_{i+k, j+l, s} c_{k, l, r, s}$$
 For further description and motivation please refer to the original work
 or \cite{deeplearningbook}.
 
+\subsection{Transfer Learning}
+
+\label{ssec:transfer_learning}
+
+In this thesis we shall heavily use a concept of so called transfer learning.
+This concept tries to leverage information gained on solving different but
+related problem. In the context of \glspl{nn} it mostly means that we re-use
+the (part of) architecture and learned weights of a \gls{nn} designed for
+slightly different task.
+
+In the context of \glspl{nn} the advantages of transfer learning were first
+explored in 1976 and later revisited by \cite{transferreviewed}. However since
+then many more research was based on this premise (for example
+\cite{transferlearning}).
+
+Specifically in our case we shall re-use complex deep learning architectures
+(described in \autoref{ssec:resnet} and \autoref{ssec:mobilenet}) trained on
+ImageNet tasks (\cite{imagenetresults}. As these are classification tasks
+the last layer is responsible for selecting the correct class. The idea
+is to remove this layer under the assumption that the previous layers
+captures the general information about the input image. This altered
+network then can be used directly as is, or fine-tuned by training on the
+samples from our task.
+
+There are several advantages of using transfer learning. For one it may
+significantly reduce the time required to learn suitable weights for our
+tasks. This is important as some of the original networks were trained
+for the considerable amount of time on very powerful hardware. This allows
+us to use this models while spending just limited resources on the fine-tuning
+the parameters. As the weights are initiated by the training on different
+task it also circumvent the problem of proper initialization of the weights.
+Finally, we directly use architectures that were empirically proven to be
+appropriate for image processing task.
+
+
 \section{Triplet Loss}
+
+\label{sec:triplet_loss}
 
 Given the character of our task, standard loss function such as \gls{mse}
 described in \autoref{sec:nn} is not well suited for us. Such loss function
-is designed for tasks where there are specific know label for each given
-datapoint from training set. However, in our task we want to assign the
+is designed for tasks where there are specific know labels for each given
+datapoint from the training set. However, in our task we want to assign the
 images of people to clusters displaying the same person. This is still
-supervised task however, as the clusters of the training dataset are known.
+supervised task -- i.e., we know beforehand which images belong together.
 
+Our goal is to achieve this clustering, which would only create separated clusters and always one cluster per person.
 In order to achieve the desired clustering, we need to penalize the ``within
 cluster'' distance and reward the ``in-between cluster'' distance. In terms
 of loss function it means that the value of loss function should increase
-when the distance between two samples from the same cluster increases (or more
-precisely when the distance between feature vectors corresponding to such
-samples increases). To fulfill the second condition the loss function should
-decrease as the distance between samples from the different clusters increases.
+when the distance between the two samples from the same cluster increases (or more
+precisely when the distance between the feature vectors corresponding to the same cluster increases). To fulfill the second condition the loss function should
+decrease as the distance between the samples from the different clusters increases. 
+A visual representation of this process can be seen in the \autoref{fig:triplet_loss}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{img/triplet_loss.png}
+    \caption[Triplet loss]{The Triplet loss minimizes the distance between an anchor and a positive and maximizes the distance between the anchor and the negative datapoint.\\
+    Source: \cite{tripletlossnn}}
+    \label{fig:triplet_loss}
+\end{figure}
 
 This is the basic idea behind the triplet loss introduced by
 \cite{tripletlossfirst} and then further formalized by \cite{tripletlosssecond}
@@ -190,24 +277,24 @@ cluster as anchor point) and $N$ is a ``negative'' sample (i.e. sample of
 different cluster than anchor point).
 \end{defn}
 
-Such definition provide the formula of the loss for specific triplet, however
+Such definition provides the formula of the loss for specific triplet, however
 we can easily extend this notion by considering the average loss over selected
 triplets.
 
 It can be easily seen that the minimal value of the Triplet Loss is zero.
 In order to achieve this optimal value, not only all ``in-between'' clusters
 distances have to be greater then ``within'' cluster distances, but they
-must be greater by at least given margin $\alpha$.
+must be greater by at least a given margin $\alpha$.
 
 \subsection{Triplet Selection}
 
 Additional challenge for using Triplet Loss is to select suitable triplets.
-Usually each point in dataset (or more precisely in a subset of the datased,
-called batch) is once selected as anchor point. Then the task is to just find
-appropriate positive and negative sample per each anchor point.
+Usually each point in dataset (or more precisely in a subset of the dataset,
+called batch) is once selected as an anchor point. Then the task is then to find
+the appropriate positive and negative sample for each anchor point.
 
 The related terminology is somewhat ambiguous. For practical purposes we
-chose to use the terminology corresponding to the implementation in tensorflow
+chose to use the terminology corresponding to the implementation in Tensorflow
 framework (\cite{tensorflow}). They operate with two strategies: Hard and Semi
 Hard Triplet Loss.
 
@@ -223,106 +310,74 @@ positive one, but not by the required margin. In terms of \autoref{eq:triplet}
 it means that $\delta(f(A), f(P)) < \delta(f(A), f(N))$ and
 $\delta(f(A), f(N)) - \delta(f(A), f(P)) < \alpha$.
 
-\section{Transfer Learning}
+% \section{Residual Networks}
 
-In this thesis we shall heavily use a concept of so called transfer learning.
-This concept tries to leverage information gained on solving different but
-related problem. In the context of \glspl{nn} it mostly means that we re-use
-the (part of) architecture and learned weights of a \gls{nn} designed for
-slightly different task.
+% \label{sec:resnet}
 
-In the context of \glspl{nn} the advantages of transfer learning were first
-explored in 1976 and later revisited by \cite{transferreviewed}. However since
-then many more research was based on this premise (for example
-\cite{transferlearning}).
+% Residual networks (commonly referred as just ResNets) is quite popular family
+% of \gls{nn} architectures designed especially for processing images. It was
+% officially introduced and described by \cite{resnet} and later improved by
+% \cite{resnetimp}. This design gained much popularity by proving the empirically
+% proving its quality. They won the first places at ILSVRC competition on the
+% tasks of ImageNet detection, ImageNet localization (\cite{imagenetresults}) as
+% well as COCO detection and COCO segmentation at COCO competition
+% (\cite{cocodataset}).
 
-Specifically in our case we shall re-use complex deep learning architectures
-(described in \autoref{sec:resnet} and \autoref{sec:mobilenet}) trained on
-ImageNet tasks (\cite{imagenetresults}. As these are classification tasks
-the last layer is responsible for selecting the correct class. The idea
-is to remove this layer under the assumption that the previous layers
-captures the general information about the input image. This altered
-network then can be used directly as is, or fine-tuned by training on the
-samples from our task.
+% The authors tried to solve the problem of low training accuracy of the deep
+% neural networks compared to their shallower counter parts. This
+% counter-intuitive phenomenon led them to following design change.
 
-There are several advantages of using transfer learning. For one it may
-significantly reduce the time required to learn suitable weights for our
-tasks. This is important as some of the original networks were trained
-for the considerable amount of time on very powerful hardware. This allows
-us to use this models while spending just limited resources on the fine-tuning
-the parameters. As the weights are initiated by the training on different
-task it also circumvent the problem of proper initialization of the weights.
-Finally, we directly use architectures that were empirically proven to be
-appropriate for image processing task.
+% For a given layer, instead of learning direct suitable mapping $H(\vec{x})$,
+% they designed the layer to learn just the ``residuum''
+% $H(\vec{x}) - \vec{x} = F(\vec{x})$ (hence the name). This was achieved by
+% adding residual connection between layer $n$ and layer $m > n$.
+% The output of layer $n$ and layer $m - 1$ would be added
+% together effectively pushing the layer $m$ to learn the residuum with respect to
+% the output of layer $n$ rather then the complete golden function.
 
-\section{Residual Networks}
+% The rationale behind this change is that by adding layers that perform identity
+% function we can not worsen (or change at all for that matter) the output of the
+% network. Therefore, if we take shallow network and increase its complexity by
+% adding new layers the (training) error should not decrease if the learning to
+% approximate identity function is easily achieved. However, as the training
+% error increases in traditional design it can be argued that to learn identity
+% function is quite hard using traditional gradient descent algorithm. By adding
+% the residual connection the problem of learning to approximate identity function
+% became just a task of driving the weights of the connection to zero, which
+% should be easier that to learn identity function directly. As already mentioned
+% this rationale was successfully empirically tested on several datasets.
 
-\label{sec:resnet}
+% The original authors further improved this design in \cite{resnetimp} by
+% reorganizing the layers in the network. They removed the activation function
+% from the residual connection (or, more precisely, they moved it to ``skipped''
+% part of the \gls{nn}). This way thay simplified the shortcut even more. They
+% further support this change by thorough empirical testing.
 
-Residual networks (commonly referred as just ResNets) is quite popular family
-of \gls{nn} architectures designed especially for processing images. It was
-officially introduced and described by \cite{resnet} and later improved by
-\cite{resnetimp}. This design gained much popularity by proving the empirically
-proving its quality. They won the first places at ILSVRC competition on the
-tasks of ImageNet detection, ImageNet localization (\cite{imagenetresults}) as
-well as COCO detection and COCO segmentation at COCO competition
-(\cite{cocodataset}).
+% \section{MobileNets}
 
-The authors tried to solve the problem of low training accuracy of the deep
-neural networks compared to their shallower counter parts. This
-counter-intuitive phenomenon led them to following design change.
+% \label{sec:mobilenet}
 
-For a given layer, instead of learning direct suitable mapping $H(\vec{x})$,
-they designed the layer to learn just the ``residuum''
-$H(\vec{x}) - \vec{x} = F(\vec{x})$ (hence the name). This was achieved by
-adding residual connection between layer $n$ and layer $m > n$.
-The output of layer $n$ and layer $m - 1$ would be added
-together effectively pushing the layer $m$ to learn the residuum with respect to
-the output of layer $n$ rather then the complete golden function.
+% Other notable architecture are MobileNets by \cite{mobilenets}. In this
+% architecture the authors provide models with relatively low latency while
+% maintaining high level of accuracy. The motivation behind such architecture is
+% to provide suitable models for usage in mobile vision application. They
+% lower the latency of inference by simplifying the model.
 
-The rationale behind this change is that by adding layers that perform identity
-function we can not worsen (or change at all for that matter) the output of the
-network. Therefore, if we take shallow network and increase its complexity by
-adding new layers the (training) error should not decrease if the learning to
-approximate identity function is easily achieved. However, as the training
-error increases in traditional design it can be argued that to learn identity
-function is quite hard using traditional gradient descent algorithm. By adding
-the residual connection the problem of learning to approximate identity function
-became just a task of driving the weights of the connection to zero, which
-should be easier that to learn identity function directly. As already mentioned
-this rationale was successfully empirically tested on several datasets.
+% Most notable change is the replacement of standard convolution layers as
+% described in \autoref{sec:conv} by pair of layers -- depthwise convolutional
+% filter and pointwise convolution filter.
 
-The original authors further improved this design in \cite{resnetimp} by
-reorganizing the layers in the network. They removed the activation function
-from the residual connection (or, more precisely, they moved it to ``skipped''
-part of the \gls{nn}). This way thay simplified the shortcut even more. They
-further support this change by thorough empirical testing.
+% In the first of these layers -- depthwise convolutional filter -- the convolution is applied on each input channel
+% separately:
+% $$y_{i, j, r} = \sum_{k, l} x_{i+k, j+l, r} c_{i, j, r}$$
+% The latter of these two layers -- pointwise convolution filter -- is just simple convolution with kernel of size
+% $1 \times 1$.
 
-\section{MobileNets}
+% This replacement of the convolutional layer by two simpler layers significantly decreases the computation cost of inference, as well
+% as the time required for training such network. Furthermore the accuracy of
+% resulting \glspl{nn} was verified on the ImageNet task.
 
-\label{sec:mobilenet}
-
-Other notable architecture are MobileNets by \cite{mobilenets}. In this
-architecture the authors provide models with relatively low latency while
-maintaining high level of accuracy. The motivation behind such architecture is
-to provide suitable models for usage in mobile vision application. They
-lower the latency of inference by simplifying the model.
-
-Most notable change is the replacement of standard convolution layers as
-described in \autoref{sec:conv} by pair of layers -- depthwise convolutional
-filter and pointwise convolution filter.
-
-In the first of these layers -- depthwise convolutional filter -- the convolution is applied on each input channel
-separately:
-$$y_{i, j, r} = \sum_{k, l} x_{i+k, j+l, r} c_{i, j, r}$$
-The latter of these two layers -- pointwise convolution filter -- is just simple convolution with kernel of size
-$1 \times 1$.
-
-This replacement of the convolutional layer by two simpler layers significantly decreases the computation cost of inference, as well
-as the time required for training such network. Furthermore the accuracy of
-resulting \glspl{nn} was verified on the ImageNet task.
-
-This architecture was then further improved by \cite{mobilenetv2} by
-introduction of inverted residuals and linear bottlenecks. As these concepts
-are quite complex we refer the reader to the original article for more
-information.
+% This architecture was then further improved by \cite{mobilenetv2} by
+% introduction of inverted residuals and linear bottlenecks. As these concepts
+% are quite complex we refer the reader to the original article for more
+% information.

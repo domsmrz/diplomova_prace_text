@@ -1,7 +1,7 @@
 \chapter{Formulation and Workflow}
 
 %123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
-Here we present the formal description of our task and the basic overview of
+Here we present a formal description of our task and the basic overview of
 the proposed framework. In this context we also briefly review the \gls{VL}
 system as our work is intended to work as its module.
 
@@ -34,6 +34,8 @@ we make use of the stream pre-processing offered by the \gls{VL} system.
 
 \subsection{Input}
 
+\label{ssec:input}
+
 %123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
 Firstly, let us describe input of our module. In order to focus directly on the
 re-identification task, we make use of other modules to detect an object within
@@ -48,7 +50,10 @@ axis-aligned minimal bounding boxes of interesting objects, we focus on
 rectangular images only. We shall define universe of rectangular images
 $\mathcal{I}$, using standard RGB representation:
 
-$$\mathcal{I} = \bigcup_{\substack{n \in \mathbb{N} \\ m \in \mathbb{N}}} \{0, 1, \ldots, 2^8-1\}^{3mn}$$
+\begin{equation}
+\mathcal{I} = \bigcup_{\substack{n \in \mathbb{N} \\ m \in \mathbb{N}}} \{0, 1, \ldots, 2^8-1\}^{3mn}
+\label{eq:image}
+\end{equation}
 
 
 In this representation we describe an image as a matrix of pixels where each
@@ -85,7 +90,10 @@ technically we store the timestamp to a certain degree of precision. Therefore,
 we can consider $t \in \mathbb{N}$. This notation allows us to define
 the universe of metadata~$\mathcal{M}$ as:
 
-$$\mathcal{M} = \{{(x_0, x_1, y_0, y_1, c, t) \in [0,1]^4 \times V \times \mathbb{R} \mid x_0 < x_1 \land y_0 < y_1}\}$$
+$$\mathcal{M} = \{{(x_0, x_1, y_0, y_1) \in [0,1]^4 \mid x_0 < x_1 \land y_0 < y_1}\} \times V \times \N \times \R$$
+
+First quadruplet represents the position, then the class is given, followed
+by identifier of the camera and the last number represents timestamp.
 
 Now, we can define the universe of \glspl{det} $\mathcal{D}$ as combination
 of images and metadata:
@@ -93,6 +101,8 @@ of images and metadata:
 $$\mathcal{D} = \mathcal{I \times M}$$
 
 \subsection{Task}
+
+\label{ssec:task}
 
 As usual in \gls{ml} tasks, we formulate our goal via a pair of input and
 desired output (so called ``golden truth''). Here we present important
@@ -226,6 +236,8 @@ defined by \autoref{eq:formulation-final}.
 
 
 \section{Workflow}
+
+\label{sec:workflow}
 
 %123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
 
