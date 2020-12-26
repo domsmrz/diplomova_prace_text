@@ -2,263 +2,94 @@
 
 %123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
 
-\todo[inline]{Pridat marekove detekcie do related work}
-
-Great advantages offered by usable re-identification algorithm brings also
-considerable amount of the research in the area. In this chapter we aim to
-briefly review this research and related papers. Furthermore we also focus on
-the popular architecture of \glspl{nn} for image processing (not necessarily
-used for re-identification), as we make use of them in this work.
+Great advantages offered by the usable re-identification algorithm also bring a considerable amount of research in the area. In this chapter, we aim to review this research and related articles. Furthermore, we also focus on the popular architectures of \glspl{nn} for image processing (not necessarily used for \reid{}).
 
 
-\section{Person Re-identification}
+\section{Person \Reid{}}
 
-% {\color{red}
-% In order to re-identify the same person across time or different views various
-% techniques has been employed. In most of the cases the goal of the research
-% was to establish if the two images of a person displays the same person
-% rather than to produce whole complete cluster of images corresponding to one
-% person.
-% }
+\label{sec:person_reid}
 
-% {\color{blue}
-% Person re-identification aims to correctly match or discover images of the
-% same person. These images can origin from different views or even from the
-% same view, but happening at a different time.
-
-% Most of the research in this area focuses on correctly predicting if the
-% two provided images belong to the same person. This reduces the problem 
-% to simple supervised task of with a clear yes/no answer. An alternative 
-% approach would be rather clustering based on the person. It is clear,
-% that from the full information of the first task we can construct the full
-% results of the second one. The reason to think about the second option is XXXXX
-% }
-
-The problem of re-identification is an active research area for the past
-few decades. Many different approach were explored by this date. Most
-of the designs embed the input image of the person into a specific
-feature space. Resulting feature vectors are then simply compared using
-some standard distance functions. In a combination with a suitably selected
-threshold this produces the desired answer whether there is a same person
-on selected images (\cite{cheng2016person}) or not. However, even designs that seek to
-directly answer the question without embedding the images into some intermediate feature
-space were explored (\cite{li2014deepreid}).
+The problem of \reid{} has been an active research area for the past few decades and still is today. Many different approaches were explored by this date. Most of the designs embed the input image of the person into a specific feature space. Resulting feature vectors are then compared using some standard distance function. In combination with a suitably selected threshold, this produces the desired answer whether there is the same person on selected images or not (\cite{cheng2016person}). However, even designs that seek to directly answer the question without embedding the images into some intermediate feature space were explored (\cite{li2014deepreid}).
 
 \subsection{Early Research}
 \label{sec:early_research}
 
-% {\color{blue} 
-% One of the first break-through in the person re-identification can be traced
-% back to the \cite{krumm2000multi}. \todo{tak jak byl prvni?} This paper laid down a method using color
-% histogram, which became well-known and widely used later on.
+Many early attempts in tracking and re-identification describe the images using colors and color histograms in particular. For example, work presented by \cite{krumm2000multi} shows the usage of color histograms to perform tracking in the indoor environment.
 
-% In this histogram approach, the image is represented through its distribution 
-% of the colors. Such obtained histograms are then compared between different
-% images of the people to compare how much they match in the color distribution.
+\todo[color=cyan]{tento paper krum2000multi by som realne rozpisala viac, lebo to je ten zaklad od coho sa clovek odrazi. Akoze co na tu dobu dosiahol a na co sa pozrel}
 
-% The idea of this topic is still relevant. For example, authors of XXX (https://ieeexplore.ieee.org/document/7025495) aim to improve the histograms
-% by incorporating also the spatial information. This histogram
-% method is also often incorporated with more complex machine learning methods
-% as \gls{em} or set of Gaussians (\todo[inline]{zdroje do zatvoriek, ale konkretne tie, ktore to pouzivaju na tuto ulohu}).
-% }
+Another interesting research was shown by \cite{orwell1999multi}. Again the authors extract color histograms. These histograms are then matched to identities by using \gls{em} over a set of Gaussians.
 
-% {\color{red}
-% The earlier attempts to tackle this tasks incorporated color histograms
-% (\cite{krumm2000multi}). Where the distribution of color on a person's
-% image is aggregated into histogram. This histograms are then compared and
-% based on their similarity the conclusion is drawn whether the displayed
-% person is the same or not. This extraction if often accompanied by more
-% complex techniques such as \gls{em} over a set of gaussians
-% (\cite{orwell1999multi}).
-% }
+Even though the use of color histograms was later somewhat overshadowed by more complex techniques such as deep learning, some researchers still use it to perform \reid{}. For example, \cite{zeng2014person} combines the color histogram with spatial information to obtain better results.
+\todo[color=cyan]{overit ci sa chape spravne}
 
-Many of the early attempts in tracking and re-identification describe the images
-using colors and color histograms in particular. For example work presented by
-\cite{krumm2000multi} shows usage of color histograms to perform tracking in
-indoor environment.
-
-\todo[inline]{tento paper krum2000multi by som realne rozpisala viac, lebo to je ten zaklad od coho sa clovek odrazi. Akoze co na tu dobu dosiahol a na co sa pozrel}
-
-Another interesting research was shown by \cite{orwell1999multi}. Again the
-authors extract color histograms. These histograms are then matched to identities
-by using \gls{em} over a set of Gaussians.
-
-Even though the use of color histograms was later somewhat overshadowed by
-more complex techniques such as deep learning, some researches still use it
-in order to perform re-identification. For example \cite{zeng2014person}
-combines the color histogram with spatial information to obtain better results.
-
-Additionally to the color histograms, we can see a variety of new techniques emerging. A technique
-based on the principal axes is presented by \cite{hu2006principal}. Ability
-to correctly identify the axes heavily relies on successful filtering out the
-background. The filtering is especially challenging in the scenarios
-where the occlusion is present or if people form are in a crowded area. 
-The authors propose a special version of the approach to tackle these challenging scenarios.
-Once the silhouette of a person is established, the principal axis is found.
-Then the algorithm infers the position of the ``ground-point'', i.e. point
-where the person touches the ground (this is usually the point where principal
-axis intersects lower bound of the bounding box, but may not be so in case
-of occlusion). Based on these ``ground-points`` and with use of Kalman filter
-the algorithm then tracks the people. In order to re-identify the person
-across multiple cameras, the homography is firstly computed using suitable
-landmarks. Based on this obtained homography, it is straightforward to 
-compute the sets of points in the view of each camera corresponding 
-to the same ``ground-point''. To establish a suitable matching (re-identification)
-of detected peoples, simple algorithm for maximum likelihood is used.
-
-\todo[inline]{Tu by mohol prist este obrazok z toho hu2006principal s obrazkom dvoch kamier, lebo pises viac o homografii}
+Aside from the color histograms, we can see a variety of new techniques emerging. A technique based on the principal axes is presented by \cite{hu2006principal}. Ability to correctly identify the axes heavily relies on successful filtering out the background. The filtering is especially challenging in the scenarios where the occlusion is present or if people are in a crowded area. The authors propose a special version of the approach to tackle these challenging scenarios. Once the silhouette of a person is established, the principal axis is found. The algorithm then infers the position of the ``ground-point'', i.e., the point where the person touches the ground (this is usually the point where the principal axis intersects the lower bound of the bounding box but it may not be so simple in case of occlusion). Based on these ``ground-points`` and with the use of the Kalman filter, the algorithm then tracks the people. In order to re-identify the person across multiple cameras, the homography is firstly computed using suitable landmarks. Based on this obtained homography, it is straightforward to compute the sets of points in each camera's view corresponding to the same ``ground-point''. A simple algorithm for maximum likelihood is used to establish a suitable matching (\reid{}) of detected peoples.
 
 \subsection{Era of the Deep Neural Networks}
 
-{\color{red}
-In the past few years the models using deep learning approach started to
-emerge. For example \cite{ding2015deep} introduced relatively simple
-\gls{nn} consisting of a few convolutional and max-pooling layers,
-with the final dense layer. They trained the network essentialy using
-Triplet Loss (albeit using non-standard terminology). They also focused
-on the suitable selection of triplets.
-}
+More and more successful models based on the deep learning emerged in the past few years. As well as many other image processing task, this field also came to a new era of proposed approches based on \glspl{nn}.
 
-{\color{blue}
-In the past few years, more and more successful models based on the
-deep learning mode emerge. As many other image processing related tasks,
-also this field came to a new era of proposed approaches based on the 
-neural networks.
-
-One of such research is presented by \cite{ding2015deep}. The authors propose
-a relatively simple \gls{nn} consisting only of a few concolutional layers, 
-intertwined with the max-pooling layers. To train the network, they use a Triplet 
-loss (``albeit`` using non-standard terminology). They elaborate more on the
-selection of the triplets to train on.
-\todo[inline]{chyba tu realne povedat aky vysledok dosiahli, nech uvedies citatela}
-\todo[inline]{chyba to u vsetkych a bolo by to vhodne}
-}
-
-A similar approach was explored by \cite{cheng2016person}. The basis
-of their method is again convolutional \gls{nn} trained by Triplet Loss.
-However, they presented several notable improvements. Firstly, the architecture
-they designed after the first convolutional layer ``splits'' the input into
-four horizontal strips. Meaning that each of these strips is fed into its
-own independent part of the \gls{nn}, where each part tries to learn the
-features of its respective body part. However, the original information as
-a whole is also used (``coppied'') into fifth ``global'' part of the \gls{nn}
-and trained. At the end of the \gls{nn} pipe-line, the outputs of the parts
-is combined and the loss used is again the Triplet Loss. The authors also focused on the
-formulation of the Triplet Loss. They propose slightly different formulation
-of the Triplet Loss which is designed specifically for the re-identification
-task.
-\todo[inline]{obrazok toho modelu, tej pipeline}
+One such research is presented by \cite{ding2015deep}. The authors propose a relatively simple \gls{nn} consisting only of a few convolutional layers, interwoven with the max-pooling layers. To train the network, they use a Triplet loss (albeit using non-standard terminology). They elaborate more on the selection of the triplets to train on.
+\todo[color=cyan]{chyba tu realne povedat aky vysledok dosiahli, nech uvedies citatela}
+\todo[color=cyan]{chyba to u vsetkych a bolo by to vhodne}
 
 
-Another \gls{nn} design is presented by \cite{li2014deepreid}. Differently from
-other approaches, they do not use Triplet Loss or a similar loss to embed the original images into feature
-space (which is then compared via euclidean distance). They design directly
-filter pairing \gls{nn}, which takes two images as an input and combines them
-after a first convolution and max-pooling layer. The output of the network is
-then just a number encapsulating the ``confidence'' -- i.e. how likely is that the images
-display the same person. The whole network is then trained via simple softmax
-loss.
+A similar approach was explored by \cite{cheng2016person}. The basis of their method is again convolutional \gls{nn} trained by Triplet Loss. However, they presented several notable improvements. Firstly, the architecture they designed after the first convolutional layer ``splits'' the input into four horizontal stripes. Meaning that each of these strips is fed into its own independent part of the \gls{nn}, where each part tries to learn the features of its respective body part. However, the original information is also used (``copied'') into the fifth ``global'' part of the \gls{nn} and trained. At the end of the \gls{nn} pipe-line, the parts' outputs are combined. The loss function used is again the Triplet Loss. The authors also focused on the formulation of Triplet Loss. They propose a slightly different formulation of the Triplet Loss, designed specifically for the \reid{} task.
 
-Additional work that tries to solve this problem with usage of deep \gls{nn}
-is presented by \cite{hermans2017defense}. They experiment with the
-hand-crafted architecture of the neural network, as well as the pretrained
-ResNet model\todo{odkaz na resnet kap}. They further elaborate on the topic of Triplet Loss and 
-suitable triplet selection.
+Another \gls{nn} design is presented by \cite{li2014deepreid}. Unlike other approaches, they do not use Triplet Loss or a similar loss to embed the original images into feature space. The architecture they propose directly process pair of images. The output of the whole network is then simple number which describes ``confidence'' of the \gls{nn} how likely the images display the same person. Such architecture is then trained via simple softmax loss.
 
-Quite elaborate deep network architecture is offered by \cite{xu2018attention}.
-Their Attention-Aware Compositional Network can be broken into several parts.
-Firstly, the network tries to estimate attention map and a visibility score
-for each body part (given body parts are a priory setup by researchers). Based
-on the visibility, the features are extracted for the given parts. \todo{tu je myslienkovy skok z toho, ze maju jednotlive casti tela, do spojenia v base network. Neotruzmiem tomu uplne} Finally, the
-feature vector representing the original image is produced by selected base
-network.
+Additional work that tries to solve this problem with the usage of deep \gls{nn} is presented by \cite{hermans2017defense}. They experiment with the hand-crafted architecture of the neural network, as well as the pre-trained ResNet model, (we review ResNet in \autoref{ssec:resnet}). They further elaborate on the topic of Triplet Loss and suitable triplet selection.
+
+Quite elaborate deep network architecture is offered by \cite{xu2018attention}. Their Attention-Aware Compositional Network can be broken into several parts. Firstly, the network tries to estimate an attention map and a visibility score for each body part (given body parts are setup by researchers prior learning). Based on the visibility, the features are extracted for the given parts. \todo[color=cyan]{tu je myslienkovy skok z toho, ze maju jednotlive casti tela, do spojenia v base network. Neotruzmiem tomu uplne} Finally, the feature vector representing the original image is produced by selected base network.
 
 \section{Image Processing Architectures}
 
 \label{sec:existing_architectures}
 
-In this section we further review few very popular \gls{nn} architectures
-for the image processing. Even though they are not specifically designed for the
-task of re-identification, we utilize both their architectures and the 
-weights trained for classification tasks which we use via means of
-the transfer learning\todo{odkaz}.
+In this section, we further review a few very popular \gls{nn} architectures for image processing. Even though they are not specifically designed for re-identification, we utilize both their architectures and the weights trained for classification tasks that we use via means of the transfer learning (see \autoref{ssec:transfer_learning}).
 
-We present more in detail two well-known \gls{nn} -- MobileNet and ResNet.
-Both of them presented a break-through in their own category at the time they were introduced.
+We present more in detail two well-known \gls{nn} -- MobileNet and ResNet. Both of them presented a break-through in their own category at the time they were introduced.
 
 \subsection{Residual Networks}
-
 \label{ssec:resnet}
 
-Residual networks (commonly referred as just ResNets) is a quite popular family
-of \gls{nn} architectures designed especially for processing images. The first ResNet was
-officially introduced and described by \cite{resnet} and later improved by
-\cite{resnetimp}. This design gained much popularity by proving its qualities in many different tasks.
-The ResNet became a state-of-art, widely known model. The model won the first places at ILSVRC competition on the
-tasks of ImageNet detection, ImageNet localization (\cite{imagenetresults}) as
-well as COCO detection and COCO segmentation at COCO competition
-(\cite{cocodataset}).
 
-Next, we further investigate the proposed ResNet architecture and the
-motivations behind it. The authors tried to solve the problem of low training
-accuracy of the deep neural networks compared to their shallower counter parts.
-This counter-intuitive phenomenon led them to following design change.
+Residual networks (commonly referred to as just ResNets) is a quite popular family of \gls{nn} architectures designed especially for processing images. The first ResNet was officially introduced and described by \cite{resnet} and later improved by \cite{resnetimp}. With this model the authors won a few image processing competition and as such the architecture immediately became very popular. The model won the first places at ILSVRC competition on the tasks of ImageNet detection, ImageNet localization (\cite{imagenetresults}) as well as COCO detection and COCO segmentation at COCO competition (\cite{cocodataset}). To this date this architecture remains inspiration for various state-of-the-art models and approaches.
 
-For a given layer, instead of learning direct suitable mapping $H(\vec{x})$,
-they designed the layer to learn just the ``residuum''
-$H(\vec{x}) - \vec{x} = F(\vec{x})$ (hence the name). This was achieved by
-adding residual connection between layer $n$ and layer $m > n$.
-The output of layer $n$ and layer $m - 1$ would be added
-together effectively pushing the layer $m$ to learn the residuum with respect to
-the output of layer $n$ rather then the complete golden function.
+Next, we investigate the proposed ResNet architecture and the motivations behind it. The authors tried to solve the problem of low training accuracy of the deep neural networks compared to their shallower counterparts. This counter-intuitive phenomenon led them to the following design change.
 
-The rationale behind this change is that by adding layers that perform identity
-function we can not worsen (or change at all for that matter) the output of the
-network. Therefore, if we take shallow network and increase its complexity by
-adding new layers the (training) error should not decrease if the learning to
-approximate identity function is easily achieved. However, as the training
-error increases in traditional design it can be argued that to learn identity
-function is quite hard using traditional gradient descent algorithm. By adding
-the residual connection the problem of learning to approximate identity function
-became just a task of driving the weights of the connection to zero, which
-should be easier that to learn identity function directly. As already mentioned
-this rationale was successfully empirically tested on several datasets.
+For a given layer, instead of learning direct suitable mapping $H(\vec{x})$, they designed the layer to learn just the ``residuum'' $H(\vec{x}) - \vec{x} = F(\vec{x})$ (hence the name). This was achieved by adding a residual connection between layer $n$ and layer $m > n$. The output of layer $n$ and layer $m - 1$ would be added together (see \autoref{fig:resnet_schema}), effectively pushing the layer $m$ to learn the residuum with respect to the output of layer $n$ rather than the whole original function.
 
-The original authors further improved this design in \cite{resnetimp} by
-reorganizing the layers in the network. They removed the activation function
-from the residual connection (or, more precisely, they moved it to ``skipped''
-part of the \gls{nn}). This way thay simplified the shortcut even more. They
-further support this change by thorough empirical testing.
-\todo[inline]{obrazok}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.45\textwidth]{img/resnetv2.png}
+    \caption[Residual units]{Schema of the ``residual units''. On the left as presented by \cite{resnet}. The improved version by \cite{resnetimp} is on the right. Source: \cite{resnetimp}}
+    \label{fig:resnet_schema}
+\end{figure}
+
+The rationale behind this change is that by adding layers that perform identity function, we can not worsen (or change at all for that matter) the network's output. Therefore, if we take a shallow network and increase its complexity by adding new layers, the (training) error should not decrease if the learning to approximate identity function is easily achieved. However, as the training error increases in traditional design, it can be argued that learning identity function is quite hard using gradient descent algorithm. By adding the residual connection, the problem of learning to approximate identity function became just a task of driving the weights of the connection to zero, which should be easier than to learn the identity function directly. As already mentioned, this rationale was successfully empirically tested on several tasks.
+
+The original authors further improved this design in \cite{resnetimp} by reorganizing the layers in the network. They removed the activation function from the residual connection (or, more precisely, they moved it to the ``skipped'' part of the \gls{nn}). This way, they simplified the shortcut even more (see \autoref{fig:resnet_schema}). They further support this change by thorough empirical testing. Since then the ResNets and their derivates became an iconic break-though in deep learning.
 
 \subsection{MobileNets}
 
 \label{ssec:mobilenet}
 
-Other notable architectures are MobileNets by \cite{mobilenets}. In these
-architectures authors successfully created models with a relatively low latency while
-maintaining high level of accuracy. The motivation behind such architecture is
-to provide suitable models for usage in mobile vision application. They
-achieved the lowered latency of inference by simplifying some operation in the \gls{nn}.
+Other notable architectures are MobileNets by \cite{mobilenets}. In these architectures, authors successfully created models with relatively low latency while maintaining a high accuracy level. The motivation behind such architecture is to provide suitable models for usage in mobile vision applications. They achieved the lowered latency of inference by simplifying some operation in the \gls{nn}.
 
-Most notable change is the replacement of the standard convolution layers as
-described in \autoref{sec:conv} by a pair of layers -- depthwise convolutional
-filter and pointwise convolution filter.
+The most notable change is the replacement of the standard convolution layers as described in \autoref{sec:conv} by a pair of layers -- depthwise convolutional filter and pointwise convolution filter.
 
-In the first of these layers -- depthwise convolutional filter -- the
-convolution is applied on each input channel separately:
-$$y_{i, j, r} = \sum_{k, l} x_{i+k, j+l, r} c_{i, j, r}$$
-The latter of these two layers -- pointwise convolution filter -- is just simple
-convolution with kernel of size $1 \times 1$.
+In the first of these layers -- depthwise convolutional filter -- the convolution is applied on each input channel separately:
 
-This replacement of the convolutional layer by two simpler layers significantly
-decreases the computation cost of inference, as well
-as the time required for training such network. Furthermore the accuracy of
-resulting \glspl{nn} was verified on the ImageNet task.
+$$y_{i, j, r} = \sum_{k, l} x_{i+k, j+l, r} c_{k, l, r}$$
+The latter of these two layers -- pointwise convolution filter -- is just simple convolution with kernel of size $1 \times 1$.
 
-This architecture was then further improved by \cite{mobilenetv2} by
-introduction of inverted residuals and linear bottlenecks. As these concepts
-are quite complex we refer the reader to the original article for more
-information.
+This replacement of the convolutional layer by two simpler layers significantly decreases the computation cost of inference and the time required for training such a network. Furthermore, the accuracy of the resulting \glspl{nn} was verified on the ImageNet task. \todo[color=cyan]{vysledky?}
 
-\todo[inline]{niekde by som asi este spomenula imagenet v tejto kategorii, lebo pracujes so sietami trenovanymi na nom}
+This architecture was then further improved by \cite{mobilenetv2} by introducing inverted residuals and linear bottlenecks. As these concepts are quite complex, we refer the reader to the original article for more information.
+
+\todo[color=cyan]{niekde by som asi este spomenula imagenet v tejto kategorii, lebo pracujes so sietami trenovanymi na nom}
+
+\section{Object Detection}
+
+In this thesis, we focus on actual \reid{} within the stream. Prior to the \reid{} the object must be located within the stream itself. For this purpose, we use a third-party neural network. In particular, we use the network designed by \cite{dobransky2019}. The network is based on the ResNet architecture adjusted for low latency to allow real-time video stream processing. As object detection is not a topic of our work, we shall refer the reader to the original work for more details.

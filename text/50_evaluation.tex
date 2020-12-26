@@ -2,6 +2,8 @@
 
 %123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
 
+\label{ch:evaluation}
+
 In this chapter we aim to empirically evaluate the approaches we have described
 in previous chapters of this work.
 
@@ -21,8 +23,8 @@ this \gls{ses} and extracted \glspl{det} can be seen in
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.48\textwidth]{img/frame_single_session.png}
-    \includegraphics[width=0.48\textwidth]{img/frame_single_session_det.png}
+    \includegraphics[width=0.48\textwidth]{img/frame_single_session_smaller.png}
+    \includegraphics[width=0.48\textwidth]{img/frame_single_session_det_smaller.png}
     \caption{Frame from first session and extracted detections}
     \label{fig:single_session}
 \end{figure}
@@ -37,8 +39,8 @@ this \gls{ses} is in \autoref{fig:double_session}.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.48\textwidth]{img/frame_double_session_1.png}
-    \includegraphics[width=0.48\textwidth]{img/frame_double_session_2.png}
+    \includegraphics[width=0.48\textwidth]{img/frame_double_session_1_smaller.png}
+    \includegraphics[width=0.48\textwidth]{img/frame_double_session_2_smaller.png}
     \caption{Frames from second session}
     \label{fig:double_session}
 \end{figure}
@@ -260,4 +262,31 @@ contain enough of information to classify the original image. Therefore,
 we experiment whether such information is enough for our purposes.
 
 As we already stated, we mainly use ResNet and MobileNet architectures
-pre-trained on the ImageNet dataset. Each of these 
+pre-trained on the ImageNet dataset. These archtecture, as is common,
+requires the input of the fixed size. That means we need to rescale all the
+input images. As the sizes of original bounding boxes are diverse (see
+\autoref{fig:size_dist}, we can not avoid distorting the original images.
+Therefore, we evaluate performance of the network with various input sizes.
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{img/size_distribution.pdf_tex}
+    \caption{Distribution of heights and widths of detections}
+    \label{fig:size_dist}
+\end{figure}
+
+The \gls{roc} curves (with the same setting as in previous subsection) of the
+annotation with the pre-trained models in \autoref{fig:pretrained_nn_roc}.
+We have evaluated various input sizes. In case of MobileNet we have tested
+all the input sizes that are available for the architecture. As for the 
+ResNet we have tested lower number of smaller sizes, mainly for its higher
+complexity and poorer performace compared to the MobileNet.
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{img/pretrained_nn_roc.pdf_tex}
+    \caption{ROC curves of pre-trained model}
+    \label{fig:pretrained_nn_roc}
+\end{figure}
