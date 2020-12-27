@@ -154,6 +154,7 @@ In this section, we describe the general workflow of our re-identification algor
     \caption[General workflow of our re-identification algorithm]{General workflow of our re-identification algorithm. Solid lines represent primary, intended dependencies.
     Dashed lines mark secondary, optimal dependencies, that some algorithms may use.}
     \label{fig:workflow}
+    \todo[inline=true]{Remove the word ``Spatial'' from the image}
 \end{figure}
 
 Firstly, we shall extract the feature vectors from the images of the \glspl{det}. Such a feature vector should sufficiently describe the image as we shall not use the images directly further in the pipeline. There are several advantages of such representation. They primarily stem from the fact that once the feature vectors are extracted, the original images can be discarded. For one thing, we can lower the memory consumption for storing the data if the extracted feature vectors are smaller than the original cropped images. Another advantage is --- assuming that the feature extraction is an irreversible operation --- that it produces a layer of anonymization, which may be crucial for our task as we work with potentially sensitive data.

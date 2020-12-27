@@ -9,6 +9,8 @@ in previous chapters of this work.
 
 \section{Datasets}
 
+\label{sec:datasets}
+
 In this thesis we work with two distinct \glspl{ses}.
 
 The first \gls{ses} comes from processing recording from single camera which
@@ -283,10 +285,56 @@ all the input sizes that are available for the architecture. As for the
 ResNet we have tested lower number of smaller sizes, mainly for its higher
 complexity and poorer performace compared to the MobileNet.
 
+As we can see directly from the \gls{roc} curves, the decidedly best setting for this type of the \gls{nn} annotation is MobileNet with input resized to $128 \times 128$. 
+
 \begin{figure}
     \centering
     \def\svgwidth{\columnwidth}
     \input{img/pretrained_nn_roc.pdf_tex}
     \caption{ROC curves of pre-trained model}
     \label{fig:pretrained_nn_roc}
+\end{figure}
+
+We have also experimented with different distance functions. As you cam in \autoref{fig:basic_nn_roc_dist} the effect of different distance functions are rather small. Especially between Euclidean and Manhattan distance. In further use Manhattan distance mainly for easy comparison with the histogram approach.
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{img/basic_nn_roc_dist.pdf_tex}
+    \caption{Comparison of effect of different distance functions on MobileNet with shape 128}
+    \label{fig:basic_nn_roc_dist}
+\end{figure}
+
+\subsubsection{Fine-tuning the Pre-trained Models}
+
+As we showed we achieved somewhat useful results with just using as-is pre-trained models. However such models were trained for classification tasks and therefore there should be a room for improvement when trained specifically on \reid{} task. For this reason we aim to train the networks (with weights initialized as trained on classification task) on our dataset.
+
+For the first experiment in this regard we do not change the architecture at all. We just use the architecture as-is and train in on our dataset using Triplet Loss (\autoref{sec:triplet_loss}).
+
+As we can see from the log (ref\todo{ref}) we significantly reduce the training error by this approach. However when we tried to apply the resulting \gls{nn} on our testing \gls{ses} (see \gls{roc} curve in \autoref{fig:basic_nn_overfit_roc}), we see that the performance of the network significantly decreased. Furthermore, we can see that the performance worsen even after the single epoch of training. The weights are being altered too much even in single epoch as the original capabilities of the network is lost.
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{img/basic_nn_overfit_roc.pdf_tex}
+    \caption{Performance of the network after training for several epochs}
+    \label{fig:basic_nn_overfit_roc}
+\end{figure}
+
+We therefore lowered the learning rate to try to preserve the original information within the network. This proved to be the correct approach as we manage to significantly increase the performance of the network as you can see in \autoref{fig:basic_nn_lr1_roc} and \autoref{fig:basic_nn_lr2_roc}.
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{img/basic_nn_lr1_roc.pdf_tex}
+    \caption{Performance of the network after training with learning rate 0.0001}
+    \label{fig:basic_nn_lr1_roc}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{img/basic_nn_lr2_roc.pdf_tex}
+    \caption{Performance of the network after training with learning rate 0.00002}
+    \label{fig:basic_nn_lr2_roc}
 \end{figure}

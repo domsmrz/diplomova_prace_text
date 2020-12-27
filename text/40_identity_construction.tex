@@ -2,7 +2,7 @@
 
 %123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
 
-In this chapter we focus on actual techniques how to group detections into
+In this chapter we discuss actual techniques to grouping \glspl{det} into
 desired clusters, i.e. creating \glspl{iden} as per \autoref{ssec:task}.
 We show how we combine visual information of the image
 (\autoref{ch:features}) with metadata to provide \glspl{iden}.
@@ -17,7 +17,7 @@ physically close together.
 
 The reason for this step is to group the \glspl{det} together in cases
 where the visual information --- which processing may be complicated --- is not
-needed. They then further serve as a ``building blocks'' for subsequent
+needed. The trajectories then serve as a ``building blocks'' for subsequent
 processes.
 
 
@@ -34,24 +34,28 @@ Let us briefly recall available metadata for each \gls{det} as introduced in
 
 \begin{itemize}
     \item $(x_0, x_1, y_0, y_1)$ -- Position of the bounding box of the detection given by $x$-coordinate of the left and the right edge and the $y$-coordinate of top and bottom edge respectively.
-    \item $v$ -- Class of the detection, e.g. person, car or truck
-    \item $c$ -- Identificator of a the camera
-    \item $t$ -- Timestamp
+    \item Class of the \gls{det}, e.g. person, car or truck
+    \item Identificator of a the camera
+    \item Timestamp
 \end{itemize}
 
+\todo[inline=true]{\LaTeX{} Globalne zmensit mezery mezi ``items'' v ``itemize'' na neco lepsiho}
 
-Let us start with a simplification. We consider metadata of just two
-\glspl{det} at hand, and we explore if we can find out whether the \glspl{det}
-display the same object. We discuss this \gls{iden} correspondence for each part
-of the metadata separately.
+Let us start with a simplification. We consider metadata of just two \glspl{det} at hand, and we explore if we can find out whether the \glspl{det} display the same object (i.e. in this context whether belong to the same trajectory). We discuss this \gls{iden} correspondence for each part of the metadata separately.
+
+For each part of the metadata we use a separate condition or set of conditions. We conclude that the \glspl{det} show the same object if all the condition are passed. In some cases we show the simple condition in enough (\autoref{ssec:nonspatial_merging}). In other cases we derive additional values and then each of these values we compare with suitable threshold that needs to be find via experimenting (we discuss this topic further in \autoref{ssec:spatial_merging}).
+
+Note that, even if some of the conditions for given pair is not fulfilled we can assign the \glspl{det} to the same trajectory due to transitive property. We elaborate further on this topic in \autoref{ssec:trajectory_generation}.
 
 \subsection{Processing of simple metadata information}
 
-Let us start with the metadata regarding the class of the object. The class
+\label{ssec:nonspatial_merging}
+
+Let us start with the class of the \gls{det}. The class
 gives us the most straight-forward conclusion.
 If the two \glspl{det} at hand are of different classes we know for sure
-that they can not be of the same \gls{iden} (i.e. displaying the same
-object).\footnote{There is quite
+that they can not display the same
+object.\footnote{There is quite
 odd case where this seemingly obvious conclusion can be argued against. That
 is, for example, when a person enters a car. Based on the actual definition of
 the \gls{iden} we may consider it the same displayed object. As these cases
@@ -60,14 +64,14 @@ consider person entering the vehicle and the vehicle itself as different
 \glspl{iden} and we leave further research in this topic to
 future work.} As a corollary, we therefore assume that the two \glspl{det} are
 of the same class while investigating the rest of the metadata (as in the
-opposite case we reject that they are of same object).
+opposite case we reject that they are of same object straight away).
 
 We can incorporate identificator of the camera just as easily. If the two
 \glspl{det} are from different cameras, we do not explore the remaining
 metadata, as they do not hold any useful information in such
 case.\footnote{There
 are approaches that assume that the two given cameras capture largely the same
-camera and are calibrated (for example \cite{hu2006principal}). However, we
+area and are calibrated (for example \cite{hu2006principal}). However, we
 assume no prior calibration and therefore we leave similar approaches to other
 work} For example even if there is one detection in top left corner of one
 camera, and in exact same time there is another detection in top left corner
@@ -77,24 +81,17 @@ because we do not know if the area within top left corner is the same as the
 area in the top left corner of the second camera. In such case we have to use
 a priori assumption and assign them to two different
 trajectories.\footnote{Unless we have any additional information the a priori
-assumption that two detections belong to the same golnden \gls{iden} is more
-likely to be true than the opposite if there is no
-golden trajectory that would be represented by more than a half of the
-\glspl{det} within given \gls{ses}, which seems like a reasonable assumption to
-have}
+assumption that two \glspl{det} belong to different golden \glspl{iden} (and thus also trajectory) is more
+likely to be true than the opposite. This holds at least under the assumption that there is no
+golden \gls{det} that would be represented by more than a half of the
+\glspl{det} within given \gls{ses}.}
 
 For assignment into the same trajectory we therefore consider only \glspl{det}
-from the same camera. Therefore we only elaborate on such cases in the remainder
+from the same camera. We only elaborate on such cases in the remainder
 of this subsection. We regard cases how to discover the same object across
 different cameras later in this chapter (\autoref{sec:generating_identities}).
 
-% Nevertheless, it still may be true that the \glspl{det} display the same
-% object and we may discover it by processes described later in this chapter.
-% However, for the purpose of generating trajectories we process the information
-% about camera as described and for the remainder of this section we assume the
-% case where the \glspl{det} are from the same camera.
-
-Lastly, us consider additional information that we gain by using the timestamp.
+Lastly, let us consider additional information that we gain by using the timestamp.
 With combination with the spatial data the timestamp can be helpful. However as
 we mentioned in the intro of this section
 we are now interested in creating short trajectories (i.e. clusters of
@@ -109,105 +106,113 @@ information.
 
 \label{ssec:spatial_merging}
 
-Let us derive a couple of quantities that may be useful for us when deciding
-if we should assign given \glspl{det} to same trajectory. Deciding if we should
-assign them to the same trajectory is then just a matter of comparing one or
-more of the following quantities with pre-selected threshold. If we find pair
-of detection where all the considered quantities are less than corresponding
-threshold, we shall merge the trajectories together.
+Now, let us process the position of the bounding box within the frame. While processing the other metadata resulted in straight-forward conditions, the processing of the position is a little more complex.
+
+In order to sufficiently capture the information regarding the position let us first derive a few auxiliary quantities. In processing this spatial information we compare the selected auxiliary quantities with suitable threshold. Based on this comparison we decide whether we assign the two \glspl{det} to the same trajectory. We find suitable subset of auxiliary quantities and threshold by empirical testing in \autoref{ch:evaluation}.
 
 For brevity in the following lines we shall use height ($h = y_1 - y_0$) and
-width ($w = x_1 - x_0$) of a detection.
+width ($w = x_1 - x_0$) of a \gls{det}'s bounding box.
 
-\subsubsection{Displacement}
+\subsubsection{Displacement of Detections}
 
-One of the obvious quantities to consider when comparing two \glspl{det} is
+One of the quantities to consider when comparing two \glspl{det} is
 their displacement. We shall compute the displacement with respect to centers
 of the \glspl{det}. Formally we can compute a displacement as follows
-(superscripts represent which \gls{det} the values are from)
+(superscripts represent which \gls{det} --- (A) or (B) --- the values are from):
 
 \begin{align*}
-    c^{(A)} &= \left(\frac{x_0^{(A)} + x_1^{(A)}}{2}, \frac{y_0^{(A)} + y_1^{(A)}}{2}\right) \\
-    c^{(B)} &= \left(\frac{x_0^{(B)} + x_1^{(B)}}{2}, \frac{y_0^{(B)} + y_1^{(B)}}{2}\right) \\
-    d &= \delta_{euclid}(c^{(A)}, c^{(B)})
+    c^{(A)} &= \left(\frac{x_0^{(A)} + x_1^{(A)}}{2}, \frac{y_0^{(A)} + y_1^{(A)}}{2}\right) &\vspace{1cm}&\text{center of detection }(A)\\
+    c^{(B)} &= \left(\frac{x_0^{(B)} + x_1^{(B)}}{2}, \frac{y_0^{(B)} + y_1^{(B)}}{2}\right) &\vspace{1cm}&\text{center of detection }(B)\\
+    d &= \delta_{euclid}(c^{(A)}, c^{(B)})&\vspace{1cm}&\text{displacement of the detections}
 \end{align*}
 
 \subsubsection{Relative Displacement}
 
-However, such simple displacement only express the displacement within the
-screen of the camera. If an object close to the camera moves, this movement
-will translate to large movement within the screen of the camrea, but if we
-perceive the same movement by an object further from the camera, the percieved
-movement will be much greater. Luckily, we can estimate the ``closeness'' to the
-camera without the prior calibration. Simply by considering the size of the
-bounding box of the detection (i.e. bigger the bounding box, more likely it is
-that the object is closer to the camera). This works especially if the project
-are usually of the same size (i.e. all people). While this estimation is qutie
-vague, it has other advantages. For example it also ``expects'' smaller objects
-(i.e. kids) to make smaller movements than bigger ones. Nevertheless, this leads
-us to the definition of relative displacement where we divide the displacements
-by average edge length of the bounding boxes:
+However, such simple displacement only express the displacement within the screen of the camera. Now, we would like to take into the account the perspective.
+
+If an object close to the camera moves, this movement translates to larger displacement compared to the displacement caused by the object further from the camera. We propose to estimate the ``closeness'' to the camera without the prior calibration. We use the size of the bounding box of the detection to obtain approximation for distance from the camera (i.e. bigger the bounding box, more likely it is that the object is closer to the camera). This works well under the assumption that the objects are of similar sizes (i.e. all are people).
+
+While this estimation is quite vague, it has additional advantages. For example it penalizes more the displacement of smaller objects. This means that we see the big movements of an adult (with big bounding box) more likely than the same movement of a child (with small bounding box).
+
+Overall, this leads us to the definition of relative displacement where we divide the displacement by an average edge length of the bounding boxes:
 
 $$\frac{d}{\left(h^{(A)} + w^{(A)} + h^{(B)} + w^{(B)}\right) / 4}$$
 
 \subsubsection{Intersection over Union}
 
-The last quantity we shall consider when merging \glspl{det} to trajectories is 
-so-called intersection over union. It is simply area covered by both boundign
-boxes (i.e. union) divided by area covered by both bounding boxes (i.e.
-intersection). For visual interpretation see \autoref{fig:iou}. Formally we can
-define the quantity for our rectangular bounding boxes as:
+The last quantity we shall consider is so-called \gls{iou}. \Gls{iou} represents the ratio of the area covered by both bounding boxes (intersection) and the area covered by either of the bounding boxes (union). For visual interpretation see \autoref{fig:iou}. Formally we can define the quantity for our rectangular bounding boxes as:
 
 \begin{align*}
     \text{InterWidth} &= \min\left(x_1^{(A)}, x_1^{(B)}\right) - \max\left(x_0^{(A)}, x_0^{(B)}\right) \\
     \text{InterHeight} &= \min\left(y_1^{(A)}, y_1^{(B)}\right) - \max\left(y_0^{(A)}, y_0^{(B)}\right) \\
     \text{Intersection} &= \begin{cases}\text{InterWidth} \cdot \text{InterHeight} & \text{if InterWidth} > 0 \land \text{InterHeight} > 0 \\ 0 & \text{else}\end{cases} \\
-    \text{Union} &= w^{(A)} h^{(A)} + w^{(B)} h^{(B)} - \text{Inter} \\
+    \text{Union} &= w^{(A)} h^{(A)} + w^{(B)} h^{(B)} - \text{Intersection} \\
     \text{IoU} &= \frac{\text{Intersection}}{\text{Union}}
 \end{align*}
 
 \begin{figure}
     \centering
     \includegraphics[width=6cm]{img/Intersection_over_Union_-_visual_equation.png}
-    \caption[Visualization of intersection over union]{Visualization of intersection over union\\Source: Intersection over Union -- visual equation\footnote{\url{https://commons.wikimedia.org/wiki/File:Intersection_over_Union_-_visual_equation.png}} by Adrian Rosebrock, CC BY-SA 4.0\footnote{\url{https://creativecommons.org/licenses/by-sa/4.0}}, via Wikimedia Commons}
+    \caption[Visualization of Intersection over Union]{Visualization of Intersection over Union\\Source: Intersection over Union -- visual equation\protect\footnotemark{} by Adrian Rosebrock, CC BY-SA 4.0,\footnotemark{} via Wikimedia Commons}
     \label{fig:iou}
 \end{figure}
+\addtocounter{footnote}{-2}
+\stepcounter{footnote}\footnotetext{\url{https://commons.wikimedia.org/wiki/File:Intersection_over_Union_-_visual_equation.png}}
+\stepcounter{footnote}\footnotetext{\url{https://creativecommons.org/licenses/by-sa/4.0}}
+
 
 \subsection{Trajectory generation}
 
 \label{ssec:trajectory_generation}
 
-In this section we show how we generate local trajectories based on
-the information overviewed in previous section. Comparing every \gls{det} with
-every other \gls{det} takes quadratic time with respect to number of detection
-and for hundredths of thousands of \glspl{det} is unfeasible to compute on
-standard hardware. Therefore, we need to lower the number of comparison.
+So far we worked with only two \glspl{det} at the same time. In this section we aim make a use of a context of the whole \gls{ses}. We further show how we generate the actual trajectories based on the approaches shown in previous subsections.
 
-We leverage the way we incorporated timestamp into trajectory generation
-we described in previous subsection. By considering only
-\glspl{det} under given threshold allows us to compare only \glspl{det} by using
-sliding window. We shall process the \glspl{det} in order of their timestamp.
-When we process a new \gls{det} we add it to the sliding window. At the same
-time we remove all the \glspl{det} from the window that are older than the
-timestamp of the new detection minus the threshold. Then we compare the new
-\gls{det} with all the \glspl{det} within the window. This dramatically decrease
-the number of comparison compared to approach where we compare all the
-\glspl{det} with every other \gls{det}.
+Firstly, let us note that we practically can not apply the conditions from \autoref{ssec:nonspatial_merging} and \autoref{ssec:spatial_merging} to every pair of \glspl{det}. Comparing every \gls{det} with every other \gls{det} takes quadratic time with respect to number of \glspl{det} and for hundreds of thousands of \glspl{det} is unfeasible to compute on standard hardware. Therefore, we need to lower the number of comparisons.
 
-However, this approach does not mean that the length of the trajectories is
-bounded by the given time threshold. We use ``transitive'' information about
-the trajectory. Namely, we know it a \gls{det} (A) belongs to the same
-trajectory as \gls{det} (B) and \gls{det} (B) belongs to same trajectory as 
-\gls{det} (C), we can conclude that the \gls{det} (A) and \gls{det} (C) is of
-same trajectory. We shall use standard union-find (originally described by
-\cite{galler1964improved}) architecture which allows us to track which \glspl{det} belongs to which trajectory and merge them in almost
-constant\footnote{The actual complexity of the operation is inverse
-Ackermann function of the size of the structure per query (amortized) as were
-proved by \cite{tarjan1984worst}. For the details of the structure please refer
-to the attached code or the original research.} time per request.
-Furthermore, such approach allows us
-to set the threshold to stricter values and still capture via ``transitive''
-property the full length of the trajectory.
+In order to do so we leverage the way we use timestamp as described in \autoref{ssec:nonspatial_merging}. We consider only \glspl{det} whose difference in timestamps are below selected threshold. This means that we need to compare only pairs of \glspl{det} that fit within selected ``sliding window''. We shall process the \glspl{det} in order of their timestamp.
+
+When we process a new \gls{det} we add it to the sliding window. At the same time we remove all the \glspl{det} from the sliding window that are older than the timestamp of the new detection minus the threshold. Then we compare the new \gls{det} with all the \glspl{det} within the window. Using sliding window dramatically decrease the number of comparison needed.
+
+However, this approach does not limit the length of the single trajectory by selected threshold. We use ``transitive'' information aboutthe trajectory. Namely, if a \gls{det} ($A$) belongs to the same trajectory as \gls{det} ($B$) and \gls{det} ($B$) belongs to same trajectory as \gls{det} ($C$), we can conclude that the \gls{det} ($A$) and \gls{det} ($C$) is of the same trajectory.
+
+This process of finding if there is a transitive link between two \glspl{det} may also pose a limitation on the number of \glspl{det} we can process effectively. To improve the performance in this regard we use standard Union-find architecture originally described by \cite{galler1964improved}. The architecture allows us to track which \glspl{det} belongs to which trajectory and merge them in almost constant\footnote{The actual complexity of the operation is inverse Ackermann function of the size of the structure per query (amortized) as were proved by \cite{tarjan1984worst}. For the details of the structure please refer to the attached code or the original research.} time per request.
+
+Finally let us note this approach of using transitive link is not only efficient but also have additional advantage. Let us consider a case where a person crosses entire view of a camera. Without this transitive connection we would need to set huge thresholds to match the first and last \gls{det} of this person (which would produce trajectories of poor quality). However, by using transitivity over other \glspl{det} we can match the first a last \gls{det} together ``through'' the \glspl{det} of the same person on the frame in between while keeping the thresholds low.
+
+The overall approach for trajectory generation described in this subsection is summarized in \autoref{alg:trajectory_generation}.
+
+\begin{algorithm}
+ \SetKwData{Traj}{Trajectories}
+ \SetKwData{Win}{SlidingWindow}
+ \SetKwData{Det}{Detection}
+ \SetKwData{ProcDet}{ProcessedDetection}
+ \SetKwFunction{UnionFind}{UnionFind}
+ \SetKwFunction{Queue}{Queue}
+ \SetKwFunction{Top}{Top}
+ \SetKwFunction{Ts}{Timestamp}
+ \SetKwFunction{Pop}{Pop}
+ \SetKwInOut{Input}{input}
+ \SetKwInOut{Output}{output}
+
+ \Input{List $X$ of detections sorted by timestamp, threshold $t$}
+ \Output{List of generated trajectories (each trajectory as list of detections)}
+ 
+ \BlankLine
+ \Traj $\leftarrow$ \UnionFind{ }\;
+ \Win $\leftarrow$ \Queue{ }\;
+ \For{\Det $\in X$}{
+  \While{\Det.\Ts $-$ \Win.\Top.\Ts $> t$} {
+   \Win.\Pop{}\;
+  }
+  
+ }
+%  \For{$D$ \in $X$}{
+%   $D_{top} \leftarrow $window\;
+%  }
+% \Return $R$
+ \caption{Trajectory generation}
+ \label{alg:trajectory_generation}
+\end{algorithm}
 
 \section{Identities}
 

@@ -1,6 +1,6 @@
 %% Creator: Inkscape 1.0.1 (0767f8302a, 2020-10-17), www.inkscape.org
 %% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
-%% Accompanies image file 'img/pretrained_nn_roc.pdf' (pdf, eps, ps)
+%% Accompanies image file 'img/basic_nn_lr1_roc.pdf' (pdf, eps, ps)
 %%
 %% To include the image in your LaTeX document, write
 %%   \input{<filename>.pdf_tex}
@@ -53,7 +53,7 @@
   \begin{picture}(1,1)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
-    \put(0,0){\includegraphics[width=\unitlength,page=1]{img/pretrained_nn_roc.pdf}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{img/basic_nn_lr1_roc.pdf}}%
     \put(0.12307692,0.10307692){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0\end{tabular}}}}%
     \put(0.27384615,0.10307692){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.2\end{tabular}}}}%
     \put(0.42461538,0.10307692){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.4\end{tabular}}}}%
@@ -66,24 +66,16 @@
     \put(0.12153846,0.55046154){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.6\end{tabular}}}}%
     \put(0.12153846,0.69507692){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.8\end{tabular}}}}%
     \put(0.12153846,0.83969231){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=2]{img/pretrained_nn_roc.pdf}}%
-    \put(0.56153846,0.38649231){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}resnet, shape: 48\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=3]{img/pretrained_nn_roc.pdf}}%
-    \put(0.56153846,0.35726154){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}resnet, shape: 96\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=4]{img/pretrained_nn_roc.pdf}}%
-    \put(0.56153846,0.32803077){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}resnet, shape: 128\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=5]{img/pretrained_nn_roc.pdf}}%
-    \put(0.56153846,0.2988){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}resnet, shape: 160\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=6]{img/pretrained_nn_roc.pdf}}%
-    \put(0.56153846,0.26956923){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}mobilenet, shape: 96\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=7]{img/pretrained_nn_roc.pdf}}%
-    \put(0.56153846,0.24033846){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}mobilenet, shape: 128\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=8]{img/pretrained_nn_roc.pdf}}%
-    \put(0.56153846,0.21110769){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}mobilenet, shape: 160\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=9]{img/pretrained_nn_roc.pdf}}%
-    \put(0.56153846,0.18187692){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}mobilenet, shape: 192\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=10]{img/pretrained_nn_roc.pdf}}%
-    \put(0.56153846,0.15264615){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}mobilenet, shape: 224\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=11]{img/pretrained_nn_roc.pdf}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{img/basic_nn_lr1_roc.pdf}}%
+    \put(0.41076923,0.24033846){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}before training\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{img/basic_nn_lr1_roc.pdf}}%
+    \put(0.41076923,0.21110769){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}learning rate: $10^{-4}$, epochs: 1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{img/basic_nn_lr1_roc.pdf}}%
+    \put(0.41076923,0.18187692){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}learning rate: $10^{-4}$, epochs: 2\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{img/basic_nn_lr1_roc.pdf}}%
+    \put(0.41076923,0.15264615){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}learning rate: $10^{-4}$, epochs: 3\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{img/basic_nn_lr1_roc.pdf}}%
+    \put(0.5,0.06030771){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}FPR\end{tabular}}}}%
+    \put(0.05617308,0.48461539){\color[rgb]{0.16470588,0.24705882,0.37254902}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}TPR\end{tabular}}}}}%
   \end{picture}%
 \endgroup%
