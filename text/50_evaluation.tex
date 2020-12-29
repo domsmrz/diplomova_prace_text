@@ -57,7 +57,7 @@ to feature work.
 
 \section{Feature vectors}
 
-As the first step of actual evaluation of our approaches is to evaluate the
+As the first step of actual evaluation of our approaches we evaluate the
 quality of feature vectors as described in \autoref{ch:features}. We shall
 evaluate this part purely based on how well the resulting feature vectors
 separate the golden \glspl{iden} from each other. We recognize there is some
@@ -70,39 +70,18 @@ stages.
 
 \subsection{Measures of Quality}
 
-Furthermore, this preliminary testing offer simpler statistics for evaluation.
-The scenario we evaluate in this section is just ``how far away (in terms of
-the corresponding feature vectors) are the \glspl{det} of the same golden
-\gls{iden} and how far are golden \glspl{det} of different \glspl{iden}''. We
-can add a threshold and consider \glspl{det} closet that the threshold to be
-of the same \gls{iden} and \glspl{det} more distant than the threshold to be
-of different \glspl{iden}.
+This preliminary testing offer simpler statistics for evaluation. In this scenario we need to just look into distances between \glspl{det} of the same golden \gls{iden} and the distances between \glspl{det} of distinct golden \glspl{iden}. We can further associate each approach with a threshold. The ideal scenario would be that the maximal distance between \glspl{det} from the same \gls{iden} would be at most this threshold and all the distances between \glspl{det} from distinct \glspl{iden} would be greater than the threshold. However, in most cases we do not have such ideal classifier. Thus we often need to deal with misclassified samples.
 
-This simple approach allows us to sort pairs of \glspl{det} into four standard
-categories. First two are \glspl{tp} and \glspl{tn}, they represent
-correct classification. In our context they represent pairs that were indeed
-of the same \gls{iden} and we classified them as such and pairs that were of
-different \glspl{iden} and our algorithm assign them to different \glspl{iden}.
-The other categories are \glspl{fp} -- pairs that are of different
-\glspl{iden} and we assign them to be of same \gls{iden} -- and \glspl{fn},
-that are pairs that are from the same \glspl{iden} but were assigned different
-\glspl{iden}.
+Overall we can assign every pair of detection in on of four standard categories. First two are \glspl{tp} and \glspl{tn} they represent correct classification -- pair of \glspl{det} from the same \gls{iden} with distance between them below selected threshold and pair of \glspl{det} from distinct \glspl{iden} with distance over the threshold respectively. The other categories are \glspl{fp} -- pairs that are of different \glspl{iden} but with distance below the threshold -- and \glspl{fn}, that are pairs of \glspl{det} from the same \gls{iden} but with the distance over the threshold.
 
-This allows us to introduce two standard derived quantities --- \gls{tpr} and
-\gls{fpr}:
+This notation allows us to introduce two standard derived quantities --- \gls{tpr} and \gls{fpr}:
 
 \begin{align*}
     \mathrm{TPR} &= \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FN}} \\
     \mathrm{FPR} &= \frac{\mathrm{FP}}{\mathrm{FP} + \mathrm{TN}}
 \end{align*}
 
-Let us note that when we increase the threshold, we consider more and more
-pairs to be of same \gls{iden}. That means that number of \glspl{tp} and
-\glspl{fp} increases and number of \glspl{tn} and \glspl{fn} decreases.
-In terms of rates, that means that both \gls{tpr} and \gls{fpr} increases.
-This allows us to draw a plot of how \gls{tpr} depends on \gls{fpr}. That
-is a quite common way to elaborate on the quality of \gls{ml} algorithm.
-The resulting plot is often called \gls{roc} curve.
+Notice that when we increase the threshold, increase the number \glspl{tp} and \glspl{fp} and decrease number of \glspl{tn} and \glspl{fn}. In terms of rates, that means that both \gls{tpr} and \gls{fpr} increases. This allows us to draw a plot of how \gls{tpr} depends on \gls{fpr}. That is a quite common way to elaborate on the quality of \gls{ml} algorithm. The resulting plot is often called \gls{roc} curve.
 
 Ideal classifiers would have a \gls{roc} curve going through a point
 (0, 1). Such classifier with corresponding threshold would correctly
@@ -120,8 +99,10 @@ selected approach, it is often useful to express the quality of the
 approach as a single number. Some information will be lost this way,
 on the other hand it offers very straight-forward way to compare different
 classifiers. For this evaluation we leverage also leverage the \gls{roc} curve.
-In particular we compute the area under the curve. Generally, the greated
+In particular we compute the area under the curve. Generally, the greater
 the area the better classifier we have.
+
+Finally, let us note that we want to get feature vectors that help us to find the same object in physically distant \glspl{det}. Therefore, we are not really interested in the distance between \glspl{det} of the same \gls{iden} from subsequent frames (as they would be matched by metadata anyways without the visual information). Therefore, for this preliminary evaluation (and drawn \gls{roc} curves) out of all ``positive'' pairs (i.e. pairs of \glspl{det} from the same \gls{iden}) only those which are either from different cameras or are at least 2 seconds apart.
 
 \subsection{Evaluation of Color Histograms}
 
@@ -161,9 +142,18 @@ these parameters. The main value we use for comparison is the size of the
 area under the \gls{roc} curve. However, we still explore some of the
 \gls{roc} curves directly.
 
-As we can see from the measurements \todo{add link to results} any method
-of background filtering significantly improved the quality of the feature
-vectors. We note that we achieved the best performance with cropping when we 
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \Large
+    \scalebox{0.6}{\input{img/aoc_crop_30.pdf_tex}}
+    \scalebox{0.6}{\input{img/aoc_crop_20.pdf_tex}}
+    \scalebox{0.6}{\input{img/aoc_crop_40.pdf_tex}}
+    \caption{Area under the ROC curve for various copping setting}
+    \label{fig:aoc_crop}
+\end{figure}
+
+As we can see from the measurements in \autoref{fig:aoc_crop} any method of background filtering significantly improved the quality of the feature vectors. We note that we achieved the best performance with cropping when we 
 cropped 30\% image from the left and right side, 20\% from the top and 30\%
 from the bottom (although variant with 20\% achieved almost as good results). An example of such cropping can be seen in
 \autoref{fig:best_cropping}.
@@ -176,11 +166,20 @@ from the bottom (although variant with 20\% achieved almost as good results). An
     \label{fig:best_cropping}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \Large
+    \scalebox{0.6}{\input{img/aoc_gauss.pdf_tex}}
+    \caption{Area under the ROC curve for various setting of Gaussian weighting}
+    \label{fig:aoc_gauss}
+\end{figure}
+
 In terms of weighting with Gaussian, we have achieved the best results
 by offsetting the Gaussian slightly above the center of the image, to 40\%
 of the height of the image to be precise. The best setting for the scale
-of the Gaussian seems 0.2 of the dimensions of the image. For detailed results
-of the grid search see \todo{ref}.
+of the Gaussian seems to be 0.2 or 0.1 of the dimensions of the image. For detailed results
+of the grid search see \autoref{fig:aoc_gauss}.
 
 As we can see in \autoref{fig:roc_background} all the selected approaches
 with background filtering gives almost identical results.
@@ -205,7 +204,7 @@ After all, Manhattan distance has quite straigh-forward explanation in context
 of histograms -- it is simple the amount each bin needs to decrease or increase
 in order to achieve the second histogram.
 
-\begin{figure}[tb]
+\begin{figure}
     \centering
     \def\svgwidth{\columnwidth}
     \input{img/roc_distances.pdf_tex}
@@ -224,11 +223,20 @@ and number of bins per histogram. We explore several color models:
     \item YUV model (we select UV components)
 \end{itemize}
 
-For each model we explore various numbers of bins. Contrary to our original
-assumption the results gives usage of the raw RGB channels.
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \Large
+    \scalebox{0.7}{\input{img/model_bins.pdf_tex}}
+    \caption[Area under the ROC curve for various color models and number of bins]{Area under the \gls{roc} curve for various color models and number of bins. Number of bins are displayer per channel. Total number of bins for HS and UV is number of bins per channel squared and for RGB it is number of bins per channel cubed. For some combinations were not explored as a total number of bins for these combination requires too much memory stored per each feature vector.}
+    \label{fig:model_bins}
+\end{figure}
+
+For each model we explore various numbers of bins. The sizes of areas under the corresponding \gls{roc} curves is displayed in \autoref{fig:model_bins}. Contrary to our original
+assumption the results gives usage of the raw RGB channels. The best variation in particular was with 4 bins per channel (i.e. 64 bins total).
 
 This can be explained by various phenomena For one the varying lightning
-conditions are note as common in our dataset as we expected. The other aspect
+conditions are not as common in our dataset as we expected. The other aspect
 is that as we notice large quantity of the images are of people with black or
 dark clothing. The downside of using hue as a component in histograms is that
 hue can change very significantly case of black and white colors even in small
@@ -244,9 +252,16 @@ changes in actual color. See \autoref{fig:bad_hue} for the visualization.
 
 We aim to support this reasoning by considering pixels with low ($< 0.2$)
 value as black and non-black pixels with low saturation ($< 0.2$) as white and
-assign them to separate bins. As we can see in \todo{ref} this indeed
-significantly improved the feature vector. However is still seems best to
-use basic RGB decomposition.
+assign them to separate bins. As we can see in \autoref{fig:black_white_roc} this indeed
+significantly improved the feature vector. However it still seems best to use basic RGB decomposition.
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{img/black_white_roc.pdf_tex}
+    \caption[Effect of adding black and white bins to hue histograms]{Effect of adding black and white bins to hue histograms. The figure shows \gls{roc} curves of histogram based approaches of with RGB, hue \& saturation and only hue decomposition with the best performing number of bins in each category. The plot shows improved performance obtained by adding black and white bins to the latter two categories.}
+    \label{fig:black_white_roc}
+\end{figure}
 
 \subsection{Evaluation of Deep Learning Approaches}
 
@@ -255,7 +270,7 @@ histograms. Now, we explore the approaches involving \glspl{nn}. In this
 section we make use of pre-trained model in Tensorflow framework
 (\cite{tensorflow}) and described in \autoref{sec:existing_architectures}.
 
-\subsubsection{Straing-forward Use of Pre-trained Models}
+\subsubsection{Direct Use of Pre-trained Models}
 
 Perhaps the simplest usage of pre-trained models is to use them directly
 wihtout any additional training. The potential in such usage is that the
@@ -295,7 +310,7 @@ As we can see directly from the \gls{roc} curves, the decidedly best setting for
     \label{fig:pretrained_nn_roc}
 \end{figure}
 
-We have also experimented with different distance functions. As you cam in \autoref{fig:basic_nn_roc_dist} the effect of different distance functions are rather small. Especially between Euclidean and Manhattan distance. In further use Manhattan distance mainly for easy comparison with the histogram approach.
+We have also experimented with different distance functions. As you can in \autoref{fig:basic_nn_roc_dist} the effect of different distance functions are rather small. Especially between Euclidean and Manhattan distance.
 
 \begin{figure}
     \centering
@@ -311,7 +326,16 @@ As we showed we achieved somewhat useful results with just using as-is pre-train
 
 For the first experiment in this regard we do not change the architecture at all. We just use the architecture as-is and train in on our dataset using Triplet Loss (\autoref{sec:triplet_loss}).
 
-As we can see from the log (ref\todo{ref}) we significantly reduce the training error by this approach. However when we tried to apply the resulting \gls{nn} on our testing \gls{ses} (see \gls{roc} curve in \autoref{fig:basic_nn_overfit_roc}), we see that the performance of the network significantly decreased. Furthermore, we can see that the performance worsen even after the single epoch of training. The weights are being altered too much even in single epoch as the original capabilities of the network is lost.
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \large
+    \scalebox{0.8}{\input{img/training_loss.pdf_tex}}
+    \caption{Training loss during training}
+    \label{fig:training_loss}
+\end{figure}
+
+As we can see from the log in \autoref{fig:training_loss} we significantly reduce the training error by this approach. However when we tried to apply the resulting \gls{nn} on our testing \gls{ses} (see \gls{roc} curve in \autoref{fig:basic_nn_overfit_roc}), we see that the performance of the network significantly decreased. Furthermore, we can see that the performance worsen even after the single epoch of training. The weights are being altered too much even in single epoch as the original capabilities of the network is lost.
 
 \begin{figure}
     \centering
@@ -338,3 +362,8 @@ We therefore lowered the learning rate to try to preserve the original informati
     \caption{Performance of the network after training with learning rate 0.00002}
     \label{fig:basic_nn_lr2_roc}
 \end{figure}
+
+Now, we proceed evaluate effect of different distance functions. This also means to train a new \gls{nn} as used loss function (Triplet Loss -- \autoref{eq:triplet}) depends on the choice of the distance function. In other related work we see the Triplet Loss used either with Euclidean distance or Cosine distance (or alternatively squared Euclidean distance\footnote{As the final layer of our \glspl{nn} is normalizing layer, the square Euclidean distance and cosine distance are proportional to each other: $\delta_{euclid}(\vec{x}, \vec{y}) = 2 - 2\vec{x}^T\vec{y} = 2 - 2 \cos(\vec{x}, \vec{y})$ (as the norms of input vectors are 1).}). However, we also aim to verify usefulness of Manhattan distance, as it works well with the histogram approach.
+
+As you can see in \todo{ref}, the with different distance functions (both cosine and Manhattan) we achieved better results. As we can see in detailed 
+

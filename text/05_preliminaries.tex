@@ -181,10 +181,10 @@ It can be easily seen that the minimal value of the Triplet Loss is zero. In ord
 
 \subsection{Triplet Selection}
 
-An additional challenge for using Triplet Loss is to select suitable triplets. Usually, each point in the dataset (or more precisely in a subset of the dataset, called a batch) is once selected as an anchor point. Then the task is then to find the appropriate positive and negative sample for each anchor point.
+An additional challenge for using Triplet Loss is to select suitable triplets. Usually, each point in the dataset (or more precisely in a subset of the dataset called a batch) is once selected as an anchor point. Then the task is then to find the appropriate positive and negative sample for each anchor point.
 
 The related terminology is somewhat ambiguous. For practical purposes, we chose to use the terminology corresponding to the implementation in the Tensorflow framework (\cite{tensorflow}). They operate with two strategies: Hard and Semi-Hard Triplet Loss.
 
 In the case of Hard Loss, the positive and negative samples are selected ``as hard as possible'', which means that the positive sample is the furthest (from the anchor point) out of all considered samples of the same cluster. On the other hand, the negative sample is the closest sample out of all samples from samples that are not of the same cluster as the anchor point.
 
-The Semi Hard approach selects a pair of positive and negative sample that the negative sample is further away from the anchor point than the positive one, but not by the required margin. In terms of \autoref{eq:triplet} it means that $\delta(f(A), f(P)) < \delta(f(A), f(N))$ and $\delta(f(A), f(N)) - \delta(f(A), f(P)) < \alpha$.
+The Semi-Hard approach selects such a pair of positive and negative samples that the negative sample is further away from the anchor point than the positive one, but not by the required margin. In terms of \autoref{eq:triplet} it means that $\delta(f(A), f(P)) < \delta(f(A), f(N))$ and $\delta(f(A), f(N)) - \delta(f(A), f(P)) < \alpha$.

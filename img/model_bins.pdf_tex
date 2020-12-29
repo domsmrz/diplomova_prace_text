@@ -1,0 +1,105 @@
+%% Creator: Inkscape 1.0.1 (0767f8302a, 2020-10-17), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'img/model_bins.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{475.95517624bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.66141381)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{img/model_bins.pdf}}%
+    \put(0.22119415,0.63032172){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{img/model_bins.pdf}}%
+    \put(0.36004475,0.63032172){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}4\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{img/model_bins.pdf}}%
+    \put(0.49889537,0.63032172){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}8\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{img/model_bins.pdf}}%
+    \put(0.63774596,0.63032172){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}16\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{img/model_bins.pdf}}%
+    \put(0.77659658,0.63032172){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}32\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{img/model_bins.pdf}}%
+    \put(0.91544721,0.63032172){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}64\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{img/model_bins.pdf}}%
+    \put(0.56832068,0.00437032){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Bins per channel\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{img/model_bins.pdf}}%
+    \put(0.13706157,0.53383734){\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}Hue\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{img/model_bins.pdf}}%
+    \put(0.13706157,0.39498673){\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}HS\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{img/model_bins.pdf}}%
+    \put(0.13706157,0.25613611){\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}RGB\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{img/model_bins.pdf}}%
+    \put(0.13706157,0.11728548){\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}UV\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{img/model_bins.pdf}}%
+    \put(0.01596297,0.33354372){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Color Model\end{tabular}}}}}%
+    \put(0.22119415,0.53602209){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.6192\end{tabular}}}}%
+    \put(0.36004475,0.53602209){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.6779\end{tabular}}}}%
+    \put(0.49889537,0.53602209){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.6989\end{tabular}}}}%
+    \put(0.63774596,0.53602209){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.7124\end{tabular}}}}%
+    \put(0.77659658,0.53602209){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.7019\end{tabular}}}}%
+    \put(0.91544721,0.53602209){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.7061\end{tabular}}}}%
+    \put(0.22119415,0.39717147){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.6869\end{tabular}}}}%
+    \put(0.36004475,0.39717147){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.7431\end{tabular}}}}%
+    \put(0.49889537,0.39717147){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.7556\end{tabular}}}}%
+    \put(0.63774596,0.39717147){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.7498\end{tabular}}}}%
+    \put(0.77659658,0.39717147){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.7379\end{tabular}}}}%
+    \put(0.91544721,0.39717147){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}--\end{tabular}}}}%
+    \put(0.22119415,0.25832085){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.7847\end{tabular}}}}%
+    \put(0.36004475,0.25832085){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8387\end{tabular}}}}%
+    \put(0.49889537,0.25832085){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8199\end{tabular}}}}%
+    \put(0.63774596,0.25832085){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8112\end{tabular}}}}%
+    \put(0.77659658,0.25832085){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}--\end{tabular}}}}%
+    \put(0.91544721,0.25832085){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}--\end{tabular}}}}%
+    \put(0.22119415,0.11947026){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.6742\end{tabular}}}}%
+    \put(0.36004475,0.11947026){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.6865\end{tabular}}}}%
+    \put(0.49889537,0.11947026){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.6994\end{tabular}}}}%
+    \put(0.63774596,0.11947026){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.7023\end{tabular}}}}%
+    \put(0.77659658,0.11947026){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.6979\end{tabular}}}}%
+    \put(0.91544721,0.11947026){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}--\end{tabular}}}}%
+  \end{picture}%
+\endgroup%

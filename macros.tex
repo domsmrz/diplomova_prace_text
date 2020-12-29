@@ -94,3 +94,6 @@
 
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\let\origitemize\itemize
+\renewcommand\itemize{\origitemize\addtolength{\itemsep}{-6pt}}
