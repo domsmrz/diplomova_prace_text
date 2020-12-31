@@ -1,0 +1,93 @@
+%% Creator: Inkscape 1.0.1 (0767f8302a, 2020-10-17), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'img/lr_heatmap_manhattan.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{467.90622304bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.62091867)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{img/lr_heatmap_manhattan.pdf}}%
+    \put(0.26248898,0.55698158){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{img/lr_heatmap_manhattan.pdf}}%
+    \put(0.42296084,0.55698158){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{img/lr_heatmap_manhattan.pdf}}%
+    \put(0.58343268,0.55698158){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}3\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{img/lr_heatmap_manhattan.pdf}}%
+    \put(0.74390454,0.55698158){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{img/lr_heatmap_manhattan.pdf}}%
+    \put(0.90437641,0.55698158){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}10\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{img/lr_heatmap_manhattan.pdf}}%
+    \put(0.58343268,0.01983238){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Epoch\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{img/lr_heatmap_manhattan.pdf}}%
+    \put(0.0452598,0.44922111){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$5\times{}10^{-6}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{img/lr_heatmap_manhattan.pdf}}%
+    \put(0.0452598,0.28874927){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$2\times{}10^{-5}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{img/lr_heatmap_manhattan.pdf}}%
+    \put(0.08501135,0.12827741){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$10^{-4}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{img/lr_heatmap_manhattan.pdf}}%
+    \put(0.01623756,0.29686886){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Learning rate\end{tabular}}}}}%
+    \put(0.26248898,0.45144344){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8098\end{tabular}}}}%
+    \put(0.42296084,0.45144344){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8457\end{tabular}}}}%
+    \put(0.58343268,0.45144344){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8406\end{tabular}}}}%
+    \put(0.74390454,0.45144344){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8405\end{tabular}}}}%
+    \put(0.90437641,0.45144344){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8497\end{tabular}}}}%
+    \put(0.26248898,0.29097159){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8523\end{tabular}}}}%
+    \put(0.42296084,0.29097159){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8638\end{tabular}}}}%
+    \put(0.58343268,0.29097159){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8612\end{tabular}}}}%
+    \put(0.74390454,0.29097159){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8531\end{tabular}}}}%
+    \put(0.90437641,0.29097159){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8757\end{tabular}}}}%
+    \put(0.26248898,0.13049976){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8851\end{tabular}}}}%
+    \put(0.42296084,0.13049976){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8747\end{tabular}}}}%
+    \put(0.58343268,0.13049976){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8718\end{tabular}}}}%
+    \put(0.74390454,0.13049976){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8832\end{tabular}}}}%
+    \put(0.90437641,0.13049976){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8741\end{tabular}}}}%
+    \put(0.58343268,0.58604389){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Manhattan distance\end{tabular}}}}%
+  \end{picture}%
+\endgroup%

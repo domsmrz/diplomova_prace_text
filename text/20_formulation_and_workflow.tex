@@ -5,6 +5,8 @@ Here we present a formal description of our task and the basic overview of the p
 
 \section{Videolytics}
 
+\label{sec:vl}
+
 Our work is designed to fit into \gls{VL} \todo{by ??} -- an analytical system for video processing and advanced analytics. The goal of the system is to offer an effective way to produce an answer for various queries. Such requests may range from showing an advanced user interface for a live stream to retrieving statistical data from videos stored for offline processing. In order to compute all needed information, the system utilizes various \gls{ml} models. The system may be used to enhance the basic capabilities of security cameras and provide better data that can be utilized in various areas of city planning.
 
 \Gls{VL} is designed as a modular system. This modularity is achieved by using a database as a core component of the system. Modules use the database as the only means of exchanging information. Such a solution makes it easier to add new modules, as their implementations are independent (aside from the \gls{api} defined by the database tables). An additional advantage of this approach is that it makes the data persistent and, therefore, it possible to re-evaluate any experiments.

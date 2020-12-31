@@ -91,7 +91,7 @@ where $S_C$ is cosine similarity.
 
 One of the most popular \gls{ml} models in recent years is artificial \glspl{nn}. The general idea of a mathematical model inspired by a biological brain's function is nothing new (\cite{first_nn}). The discovery of an effective learning algorithm (\cite{backprop}) somewhat established the ``standard'' structure of so-called feed-forward \glspl{nn}.
 
-These feed-forward \glspl{nn} can be viewed as a sequence of layers, where each layer represents a function $f_i$. The whole \gls{nn} is then a composition of all the layers in order, i.e. $f_n(f_{n-1}(\ldots f_1(\vec{x})\ldots))$. A function associated with each layer is most commonly a linear combination of the input values with offset (bias) which is then transformed using non-linear differentiable activation function (for example rectified linear unit abbreviated as ReLU\footnote{$f(x) = x$ for $x > 0$ and $f(x) = 0$ otherwise}):
+These feed-forward \glspl{nn} can be viewed as a sequence of layers, where each layer represents a function $f_i$. The whole \gls{nn} is then a composition of all the layers in order, i.e. $f_n(f_{n-1}(\ldots f_1(\vec{x})\ldots))$. A function associated with each layer is most commonly a linear combination of the input values with offset (bias) which is then transformed using non-linear differentiable activation function (for example rectified linear unit abbreviated as ReLU\footnote{$\mathrm{ReLU}(x) = x$ for $x > 0$ and $\mathrm{ReLU}(x) = 0$ otherwise}):
 
 \begin{equation}
     \label{eq:dense}

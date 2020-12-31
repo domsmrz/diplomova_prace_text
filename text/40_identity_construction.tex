@@ -35,8 +35,6 @@ Let us briefly recall available metadata for each \gls{det} as introduced in
     \item Timestamp
 \end{itemize}
 
-\todo[inline=true]{\LaTeX{} Globalne zmensit mezery mezi ``items'' v ``itemize'' na neco lepsiho}
-
 Let us start with a simplification. For now, we consider metadata of just two \glspl{det} at hand, and we explore if we can find out whether the \glspl{det} display the same object (i.e. in this context whether they belong to the same trajectory). We discuss each part of the metadata separately.
 
 For each metadata we use a separate condition or set of conditions. We conclude that the \glspl{det} show the same object if all the condition are true. In some cases we show the simple condition in enough (\autoref{ssec:nonspatial_merging}). In other cases we derive additional values and then each of these values we compare with suitable threshold that needs to be find by experimenting with various settings (we discuss this topic further in \autoref{ssec:spatial_merging}).
@@ -329,7 +327,7 @@ Let:
     \item $T$ partitioning of $D$ such that $(\forall t \in T) (\exists a \in A) (t \subseteq a)$ (this represents input ``clean'' trajectories)
     \item $\Delta_{rep}, \Delta_{mrg} \in \R^+$ such that $\Delta_{rep} < \Delta_{mrg}$
     \item $\delta$ be an metric function over $D$
-    \item $r$ be a function $r: \Pt{D} \goto \Pt{D}$ such that $(\forall c \subseteq D) (\forall b \in c) (\exists b' \in r(c)) (\delta(b, b') \leq \Delta_{rep})))$ (this represents selection of representants obtained for example via \autoref{alg:representants})
+    \item $r$ be a function $r: \Pt{D} \goto \Pt{D}$ such that $(\forall c \subseteq D)((r(c) \subseteq c) \land (\forall b \in c) (\exists b' \in r(c)) (\delta(b, b') \leq \Delta_{rep}))$ (this represents selection of representants obtained for example via \autoref{alg:representants})
     \item $\circ$ be a relation over $T$ such that $t\circ t' \Leftrightarrow (\exists d \in r(t)) (\exists d' \in r(t')) (\delta(d, d') \leq \Delta_{mrg})$ (two trajectories are in relation $\circ$ if we can merge them together)
     \item $\bullet$ be a transitive closure of $\circ$ (i.e. $t \bullet t' \Leftrightarrow (\exists n \in \N) (\exists (t_1, \ldots, t_n) \in T^n) (t = t_1 \land t' = t_n \land (\forall i) (t_i\circ t_{i+1}))$ (this relation is equivalence that represents final \glspl{iden} -- two trajectories are in relation $\bullet$ if and only if they were merged together)
 \end{itemize}

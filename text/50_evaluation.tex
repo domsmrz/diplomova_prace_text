@@ -11,17 +11,9 @@ in previous chapters of this work.
 
 \label{sec:datasets}
 
-In this thesis we work with two distinct \glspl{ses}.
+In this thesis we work with two distinct \glspl{ses}. In particular work with the \glspl{det} of people only as they are the main focus of this work and other classes are not well represented in our dataset.
 
-The first \gls{ses} comes from processing recording from single camera which
-capture a busy square. The original recording is about 5 minutes long. The total
-number of \glspl{det} extracted from the recording is 181,792. We manually sorted
-these \glspl{det} into 274 different \glspl{iden}. The main usage of this
-\gls{det} is to be a training dataset for training neural network based
-approaches to extract feature vectors from the images of \glspl{det}. The
-manual annotation serves as a golden truth for this training. A frame from
-this \gls{ses} and extracted \glspl{det} can be seen in
-\autoref{fig:single_session}.
+The first \gls{ses} comes from processing recording of single camera which captured a public square. The original recording is about 5 minutes long. The total number of \glspl{det} extracted from the recording is 181,792. We only keep \glspl{det} of people, furthermore we discarded all the ``faulty'' \glspl{det} such as \glspl{det} of shadows, trees, or when there were multiple \glspl{det} of the same person in a single frame. Overall we have left in this \gls{ses} 71,732 \glspl{det}, which we manually sorted into 274 different \glspl{det}. The main usage of this \gls{det} is to be a training dataset for training neural network based approaches to extract feature vectors from the images of \glspl{det}. The manual annotation serves as a golden truth for this training. A frame from this \gls{ses} and extracted \glspl{det} can be seen in \autoref{fig:single_session}.
 
 \begin{figure}
     \centering
@@ -31,13 +23,7 @@ this \gls{ses} and extracted \glspl{det} can be seen in
     \label{fig:single_session}
 \end{figure}
 
-We use the second \gls{ses} for actual evaluation. This second session is
-constructed from the recording of two simultaneously recording camera. The
-recording is over two minutes long. The view of the cameras partially overlap.
-In this session total of 147,681 \glspl{det} were extracted. We sorted these
-\glspl{det} into 52 unique \glspl{iden}. These \glspl{iden} were used as a
-ground truth for actual evaluation of our approach. Examples of frames from
-this \gls{ses} is in \autoref{fig:double_session}.
+We use the second \gls{ses} for actual evaluation of tested approaches. This second session is constructed from the recording of two simultaneously recording camera. The recording is over two minutes long. The view of the cameras partially overlap. In this session total of 147,681 \glspl{det} were extracted. Just as in case of the previous \gls{ses}, we filter some \glspl{det} out as not usable. There are 15,757 \glspl{det} remaining. The lower ratio of usable \glspl{det} compared to the previous case was cased mainly by many ``faulty'' \glspl{det} of statues and lamps which were not presented in the view for the first \gls{ses}. We sorted these \glspl{det} into 52 unique \glspl{iden}. These \glspl{iden} were used as a ground truth for actual evaluation of our approach. Examples of frames from this \gls{ses} is in \autoref{fig:double_session}.
 
 \begin{figure}
     \centering
@@ -88,7 +74,7 @@ Ideal classifiers would have a \gls{roc} curve going through a point
 classify every input, positive or negative. We usually do not
 have access to ideal classifiers. In such case we are, broadly speaking,
 want to come up with classifier that have \gls{roc} curve as close to
-point (0,1) as possible.
+point (0, 1) as possible.
 
 However, \gls{roc} curves gives us more in-depth view into the classifier.
 The curve shows which trade-offs between \glspl{fp} and \glspl{fn} (or in terms
@@ -273,7 +259,7 @@ section we make use of pre-trained model in Tensorflow framework
 \subsubsection{Direct Use of Pre-trained Models}
 
 Perhaps the simplest usage of pre-trained models is to use them directly
-wihtout any additional training. The potential in such usage is that the
+without any additional training. The potential in such usage is that the
 second to last layer (i.e. prior actual ``classification'' layer) has to
 contain enough of information to classify the original image. Therefore,
 we experiment whether such information is enough for our purposes.
@@ -345,7 +331,7 @@ As we can see from the log in \autoref{fig:training_loss} we significantly reduc
     \label{fig:basic_nn_overfit_roc}
 \end{figure}
 
-We therefore lowered the learning rate to try to preserve the original information within the network. This proved to be the correct approach as we manage to significantly increase the performance of the network as you can see in \autoref{fig:basic_nn_lr1_roc} and \autoref{fig:basic_nn_lr2_roc}.
+We therefore lowered the learning rate to try to preserve the original information within the network. This proved to be the correct approach as we managed to significantly increase the performance of the network as you can see in \autoref{fig:basic_nn_lr1_roc} and \autoref{fig:basic_nn_lr2_roc}.
 
 \begin{figure}
     \centering
@@ -365,5 +351,86 @@ We therefore lowered the learning rate to try to preserve the original informati
 
 Now, we proceed evaluate effect of different distance functions. This also means to train a new \gls{nn} as used loss function (Triplet Loss -- \autoref{eq:triplet}) depends on the choice of the distance function. In other related work we see the Triplet Loss used either with Euclidean distance or Cosine distance (or alternatively squared Euclidean distance\footnote{As the final layer of our \glspl{nn} is normalizing layer, the square Euclidean distance and cosine distance are proportional to each other: $\delta_{euclid}(\vec{x}, \vec{y}) = 2 - 2\vec{x}^T\vec{y} = 2 - 2 \cos(\vec{x}, \vec{y})$ (as the norms of input vectors are 1).}). However, we also aim to verify usefulness of Manhattan distance, as it works well with the histogram approach.
 
-As you can see in \todo{ref}, the with different distance functions (both cosine and Manhattan) we achieved better results. As we can see in detailed 
+\begin{figure}
+    \centering
+    \large
+    \def\svgwidth{\columnwidth}
+    \scalebox{0.8}{\input{img/lr_heatmap_cosine.pdf_tex}}
+    \vspace{1cm}
+    
+    \def\svgwidth{\columnwidth}
+    \scalebox{0.8}{\input{img/lr_heatmap_manhattan.pdf_tex}}
+    \caption{Area under the ROC curve for various learning rates and distances}
+    \label{fig:lr_heatmap}
+\end{figure}
 
+As you can see in \autoref{fig:lr_heatmap}, the with different distance functions (both cosine and Manhattan) we achieved better results. However we can notice that even with lowered learning rate the best results on terms of area under the \gls{roc} curve are achieved by network trained only for single epoch. Therefore, we split each epoch and instead of using all 71,732 \glspl{det} in each epoch, we use only 640 \glspl{det} split among 32 batches per epoch.
+
+As we can see the area under the \gls{roc} curve increases during the several initial epochs. In case of cosine distance, it reaches maximum around the 40\textsuperscript{th} epoch with value 0.9145. See the plot in \autoref{fig:mini_epoch_cos}. With Manhattan distance the maximum was reached very early and probably could be improved by further testing. However, since we achieve better results with cosine distance, we do not evaluate the Manhattan distance approach any further.
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{img/mini_epoch_cos.pdf_tex}
+    \caption{Area under the ROC curve with smaller epoch}
+    \label{fig:mini_epoch_cos}
+\end{figure}
+
+We also explored the effect of using Semihard instead of Hard Triplet Loss. The model trained slightly faster with the Semihard Loss. It achieved the best performance so far. However, compared the Hard loss, this increase in performance is barely noticeable. The best value of area under the curve is 0.9161. You can see the comparison during the training in \autoref{fig:semi_hard_loss}.
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{img/semi_hard_loss.pdf_tex}
+    \caption{Area under the ROC curve while using Hard and Semihard loss}
+    \label{fig:semi_hard_loss}
+\end{figure}
+
+\subsubsection{Altering the architecture}
+
+So far we focused on finding suitable hyperparameters but we do not change the structure of the MobileNet itself, aside from the removal of last ``classification'' layer. Now, we briefly investigate if we can improve our model by if slightly altering the architecture could improve the performance of the network. Based on findings in the this section so far we use the semihard loss with cosine distance.
+
+The alteration we use is to add a dense layer at the end of the network. This is motivated by the fact that we removed the last layer (originally trained by softmax). By this removal the network could lose some of its capabilities. By adding another similar layer the netwourk could retrieve some if its potentially lost ability. 
+
+To keep things simple, we keep the size of the new layer same as the layer before it, that is 1280 neurons. We also experiment if ``freezing'' (i.e. not changing the weights of the original MobileNet weights during training) helps.
+
+As it turned out, the setting where we trained the MobileNet with added dense layer without freezing indeed produced the best model so far. That being said the difference in the area under the \gls{roc} is negligible -- we achieved area of 0.9192. You can compare the actual \gls{roc} curve of this model and two models without dense layer in \autoref{fig:final_roc}. As you can see in the plot, the performance of the network with the dense layer is worse in very low level of \gls{fpr} (approx. below 0.1), while noticeably better for higher values of \gls{fpr}. We evaluate both networks (with and without added dense layer) in the next step of creating \glspl{iden}.
+
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{img/final_roc.pdf_tex}
+    \caption{ROC curves of final approaches for feature extraction}
+    \label{fig:final_roc}
+\end{figure}
+
+These results were achieved by using MobileNet as pre-trained on ImageNet dataset with replaced last layer. We also experimented with using weights that we learned during the training without the added dense layer. We added the dense layer to the network and continue with the trainig with the added layer. However we did not manage to produce improved results. 
+
+\section{Trajectory Construction}
+
+We now briefly remind the reader of the next step which is trajectory construction. Unlike in case of feature vectors we do not conduct thorough evaluation of various approaches, as the desired result of this step is strongly influenced by the next step which is actual \gls{iden} construction.
+
+Nevertheless, we at least suggest some useful threshold for the suggested quantities as described in \autoref{ssec:spatial_merging} -- displacement, relative displacement and Intersection over Union. We can draw suitable thresholds directly from the training set. Note that the threshold should be set in a such manner that each resulting trajectory should contain \glspl{det} only from one \gls{iden}, as we merge the trajectories but never split them afterwards. If we have a trajectory which contains \glspl{det} from two or more different golden \glspl{iden} we can never fix this ``impurity''.
+
+This leads us to simple way to suggest suitable thresholds. For now let us consider simple displacement. We analyzed the training dataset. In the dataset we looked into each pair of the \glspl{det} which are no more than 0.2 seconds from each other and they are from different golden \glspl{iden}. For each such pair we recorded the displacement and consider the value as ``negative sample''. To obtain ``positive samples'' we processed all the \glspl{iden} in order of their timestamps. For any subsequent pair of \glspl{det} in each trajectory, if the pair is less the 0.2 seconds apart, we consider the corresponding value of displacement as ``positive sample''.
+
+Then we computed the minimum over the negative samples (which gives us suitable starting point of which value to use on the testing dataset). Furthermore we counted how many positive samples are greater than the computed minimum (which gave us rough estimation of how quality the quantity is).
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{c|r|r}
+         Quantity & Threshold & False over threshold  \\ \hline
+         Displacement & 5.385 & 1.2938\% \\
+         Relative Displacement & 0.037 & 0.4959\% \\
+         Intersection over Union & 0.733 & 0.4636\%
+    \end{tabular}
+    \caption{Comparison of metadata quantities on training session}
+    \label{tab:metadata_comparison}
+\end{table}
+
+We did this analysis for each of the considered quantities. The results are recorded in \autoref{tab:metadata_comparison}. As we can see the basic displacement has relatively low usefulness as the ratio of the positive samples above the threshold is relatively low. We shall consider the remaining two -- relative displacement and Intersection over Union in further steps.
+
+\section{Identity Construction}
+
+In this section we review the final results of our algorithm. 

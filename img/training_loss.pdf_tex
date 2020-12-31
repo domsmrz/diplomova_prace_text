@@ -38,7 +38,7 @@
   \newcommand*\fsize{\dimexpr\f@size pt\relax}%
   \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{414.46375385bp}%
+    \setlength{\unitlength}{450bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -50,65 +50,22 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.75004931)%
+  \begin{picture}(1,0.66666667)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{img/training_loss.pdf}}%
-    \put(0.12098464,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=2]{img/training_loss.pdf}}%
-    \put(0.16211321,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=3]{img/training_loss.pdf}}%
-    \put(0.20324178,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=4]{img/training_loss.pdf}}%
-    \put(0.24437036,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}3\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=5]{img/training_loss.pdf}}%
-    \put(0.28549893,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}4\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=6]{img/training_loss.pdf}}%
-    \put(0.3266275,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=7]{img/training_loss.pdf}}%
-    \put(0.36775606,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}6\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=8]{img/training_loss.pdf}}%
-    \put(0.40888461,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}7\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=9]{img/training_loss.pdf}}%
-    \put(0.4500132,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}8\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=10]{img/training_loss.pdf}}%
-    \put(0.49114176,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}9\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=11]{img/training_loss.pdf}}%
-    \put(0.53227031,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}10\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=12]{img/training_loss.pdf}}%
-    \put(0.57339891,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}11\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=13]{img/training_loss.pdf}}%
-    \put(0.61452746,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}12\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=14]{img/training_loss.pdf}}%
-    \put(0.65565605,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}13\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=15]{img/training_loss.pdf}}%
-    \put(0.69678461,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}14\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=16]{img/training_loss.pdf}}%
-    \put(0.73791316,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}15\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=17]{img/training_loss.pdf}}%
-    \put(0.77904172,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}16\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=18]{img/training_loss.pdf}}%
-    \put(0.82017027,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}17\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=19]{img/training_loss.pdf}}%
-    \put(0.8612989,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}18\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=20]{img/training_loss.pdf}}%
-    \put(0.90242746,0.05539162){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}19\end{tabular}}}}%
-    \put(0.5518064,0.02238963){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Epoch\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=21]{img/training_loss.pdf}}%
-    \put(0.10409535,0.15351201){\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.05\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=22]{img/training_loss.pdf}}%
-    \put(0.10409535,0.24021521){\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.10\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=23]{img/training_loss.pdf}}%
-    \put(0.10409535,0.32691841){\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.15\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=24]{img/training_loss.pdf}}%
-    \put(0.10409535,0.41362161){\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.20\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=25]{img/training_loss.pdf}}%
-    \put(0.10409535,0.50032482){\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.25\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=26]{img/training_loss.pdf}}%
-    \put(0.10409535,0.58702802){\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.30\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=27]{img/training_loss.pdf}}%
-    \put(0.10409535,0.67373122){\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.35\end{tabular}}}}%
-    \put(0.03570502,0.41164577){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Loss\end{tabular}}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=28]{img/training_loss.pdf}}%
+    \put(0.28771667,0.11166667){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}%
+    \put(0.4807,0.11166667){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}10\end{tabular}}}}%
+    \put(0.67368333,0.11166667){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}15\end{tabular}}}}%
+    \put(0.86666667,0.11166667){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}20\end{tabular}}}}%
+    \put(0.13166667,0.17665){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.05\end{tabular}}}}%
+    \put(0.13166667,0.23458333){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.1\end{tabular}}}}%
+    \put(0.13166667,0.29251667){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.15\end{tabular}}}}%
+    \put(0.13166667,0.35045){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.2\end{tabular}}}}%
+    \put(0.13166667,0.40838333){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.25\end{tabular}}}}%
+    \put(0.13166667,0.4663){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.3\end{tabular}}}}%
+    \put(0.13166667,0.52423333){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.35\end{tabular}}}}%
+    \put(0.5,0.06533335){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Epoch\end{tabular}}}}%
+    \put(0.04973437,0.35){\color[rgb]{0.16470588,0.24705882,0.37254902}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Loss\end{tabular}}}}}%
   \end{picture}%
 \endgroup%
