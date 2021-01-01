@@ -16,12 +16,12 @@ The problem of \reid{} has been an active research area for the past few decades
 
 Many early attempts in tracking and re-identification describe the images using colors and color histograms in particular. For example, work presented by \cite{krumm2000multi} shows the usage of color histograms to perform tracking in the indoor environment.
 
-\todo[color=cyan]{tento paper krum2000multi by som realne rozpisala viac, lebo to je ten zaklad od coho sa clovek odrazi. Akoze co na tu dobu dosiahol a na co sa pozrel}
+% \todo[color=cyan]{tento paper krum2000multi by som realne rozpisala viac, lebo to je ten zaklad od coho sa clovek odrazi. Akoze co na tu dobu dosiahol a na co sa pozrel}
 
 Another interesting research was shown by \cite{orwell1999multi}. Again the authors extract color histograms. These histograms are then matched to identities by using \gls{em} over a set of Gaussians.
 
 Even though the use of color histograms was later somewhat overshadowed by more complex techniques such as deep learning, some researchers still use it to perform \reid{}. For example, \cite{zeng2014person} combines the color histogram with spatial information to obtain better results.
-\todo[color=cyan]{overit ci sa chape spravne}
+% \todo[color=cyan]{overit ci sa chape spravne}
 
 Aside from the color histograms, we can see a variety of new techniques emerging. A technique based on the principal axes is presented by \cite{hu2006principal}. Ability to correctly identify the axes heavily relies on successful filtering out the background. The filtering is especially challenging in the scenarios where the occlusion is present or if people are in a crowded area. The authors propose a special version of the approach to tackle these challenging scenarios. Once the silhouette of a person is established, the principal axis is found. The algorithm then infers the position of the ``ground-point'', i.e., the point where the person touches the ground (this is usually the point where the principal axis intersects the lower bound of the bounding box but it may not be so simple in case of occlusion). Based on these ``ground-points`` and with the use of the Kalman filter, the algorithm then tracks the people. In order to re-identify the person across multiple cameras, the homography is firstly computed using suitable landmarks. Based on this obtained homography, it is straightforward to compute the sets of points in each camera's view corresponding to the same ``ground-point''. A simple algorithm for maximum likelihood is used to establish a suitable matching (\reid{}) of detected peoples.
 
@@ -30,8 +30,8 @@ Aside from the color histograms, we can see a variety of new techniques emerging
 More and more successful models based on the deep learning emerged in the past few years. As well as many other image processing task, this field also came to a new era of proposed approches based on \glspl{nn}.
 
 One such research is presented by \cite{ding2015deep}. The authors propose a relatively simple \gls{nn} consisting only of a few convolutional layers, interwoven with the max-pooling layers. To train the network, they use a Triplet loss (albeit using non-standard terminology). They elaborate more on the selection of the triplets to train on.
-\todo[color=cyan]{chyba tu realne povedat aky vysledok dosiahli, nech uvedies citatela}
-\todo[color=cyan]{chyba to u vsetkych a bolo by to vhodne}
+% \todo[color=cyan]{chyba tu realne povedat aky vysledok dosiahli, nech uvedies citatela}
+% \todo[color=cyan]{chyba to u vsetkych a bolo by to vhodne}
 
 
 A similar approach was explored by \cite{cheng2016person}. The basis of their method is again convolutional \gls{nn} trained by Triplet Loss. However, they presented several notable improvements. Firstly, the architecture they designed after the first convolutional layer ``splits'' the input into four horizontal stripes. Meaning that each of these strips is fed into its own independent part of the \gls{nn}, where each part tries to learn the features of its respective body part. However, the original information is also used (``copied'') into the fifth ``global'' part of the \gls{nn} and trained. At the end of the \gls{nn} pipe-line, the parts' outputs are combined. The loss function used is again the Triplet Loss. The authors also focused on the formulation of Triplet Loss. They propose a slightly different formulation of the Triplet Loss, designed specifically for the \reid{} task.
@@ -40,7 +40,8 @@ Another \gls{nn} design is presented by \cite{li2014deepreid}. Unlike other appr
 
 Additional work that tries to solve this problem with the usage of deep \gls{nn} is presented by \cite{hermans2017defense}. They experiment with the hand-crafted architecture of the neural network, as well as the pre-trained ResNet model, (we review ResNet in \autoref{ssec:resnet}). They further elaborate on the topic of Triplet Loss and suitable triplet selection.
 
-Quite elaborate deep network architecture is offered by \cite{xu2018attention}. Their Attention-Aware Compositional Network can be broken into several parts. Firstly, the network tries to estimate an attention map and a visibility score for each body part (given body parts are setup by researchers prior learning). Based on the visibility, the features are extracted for the given parts. \todo[color=cyan]{tu je myslienkovy skok z toho, ze maju jednotlive casti tela, do spojenia v base network. Neotruzmiem tomu uplne} Finally, the feature vector representing the original image is produced by selected base network.
+Quite elaborate deep network architecture is offered by \cite{xu2018attention}. Their Attention-Aware Compositional Network can be broken into several parts. Firstly, the network tries to estimate an attention map and a visibility score for each body part (given body parts are setup by researchers prior learning). Based on the visibility, the features are extracted for the given parts. %\todo[color=cyan]{tu je myslienkovy skok z toho, ze maju jednotlive casti tela, do spojenia v base network. Neotruzmiem tomu uplne}
+Finally, the feature vector representing the original image is produced by selected base network.
 
 \section{Image Processing Architectures}
 
@@ -84,11 +85,11 @@ In the first of these layers -- depthwise convolutional filter -- the convolutio
 $$y_{i, j, r} = \sum_{k, l} x_{i+k, j+l, r} c_{k, l, r}$$
 The latter of these two layers -- pointwise convolution filter -- is just simple convolution with kernel of size $1 \times 1$.
 
-This replacement of the convolutional layer by two simpler layers significantly decreases the computation cost of inference and the time required for training such a network. Furthermore, the accuracy of the resulting \glspl{nn} was verified on the ImageNet task. \todo[color=cyan]{vysledky?}
+This replacement of the convolutional layer by two simpler layers significantly decreases the computation cost of inference and the time required for training such a network. Furthermore, the accuracy of the resulting \glspl{nn} was verified on the ImageNet task. %\todo[color=cyan]{vysledky?}
 
 This architecture was then further improved by \cite{mobilenetv2} by introducing inverted residuals and linear bottlenecks. As these concepts are quite complex, we refer the reader to the original article for more information.
 
-\todo[color=cyan]{niekde by som asi este spomenula imagenet v tejto kategorii, lebo pracujes so sietami trenovanymi na nom}
+%\todo[color=cyan]{niekde by som asi este spomenula imagenet v tejto kategorii, lebo pracujes so sietami trenovanymi na nom}
 
 \section{Object Detection}
 
