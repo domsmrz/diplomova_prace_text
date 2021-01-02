@@ -4,16 +4,20 @@
 
 \label{ch:evaluation}
 
-In this chapter we aim to empirically evaluate the approaches we have described
-in previous chapters of this work.
+This chapter aims to empirically evaluate the approaches we described
+in the previous chapters of this work. The structure of this chapter is as follows:
+We firstly review the datasets we use for evaluation. Then we present an independent
+evaluation of feature vectors (as of \autoref{ch:features}). Based on this evaluation, 
+we evaluate the best performing models in end-to-end evaluation, presented
+at the end of this chapter. For each of the evaluations, we also provide a description of the analysis we do.
 
 \section{Datasets}
 
 \label{sec:datasets}
 
-In this thesis we work with two distinct \glspl{ses}. In particular work with the \glspl{det} of people only as they are the main focus of this work and other classes are not well represented in our dataset.
+In order to evaluate our proposed approaches, we firstly investigate the dataset we evaluate. We work with two distinct \glspl{ses}. In particular, work with the \glspl{det} of people only as they are the main focus of this work, and other classes are not well represented in our dataset.
 
-The first \gls{ses} comes from processing recording of single camera which captured a public square. The original recording is about 5 minutes long. The total number of \glspl{det} extracted from the recording is 181,792. We only keep \glspl{det} of people, furthermore we discarded all the ``faulty'' \glspl{det} such as \glspl{det} of shadows, trees, or when there were multiple \glspl{det} of the same person in a single frame. Overall we have left in this \gls{ses} 71,732 \glspl{det}, which we manually sorted into 274 different \glspl{det}. The main usage of this \gls{det} is to be a training dataset for training neural network based approaches to extract feature vectors from the images of \glspl{det}. The manual annotation serves as a golden truth for this training. A frame from this \gls{ses} and extracted \glspl{det} can be seen in \autoref{fig:single_session}.
+The first \gls{ses} -- our first dataset -- comes from processing a single camera that captures a public square. The original recording is about 5 minutes long. The total number of \glspl{det} extracted from the recording is 181,792. We only keep \glspl{det} of people. Furthermore, we discard all the ``faulty'' \glspl{det} such as \glspl{det} of shadows, trees, or when there were multiple \glspl{det} capturing the same person in a single frame. Overall we have left 71,732 \glspl{det} in this \gls{ses}, which we manually assigned into 274 different \glspl{det}. The main usage of this \gls{det} is to be a training dataset for training neural network-based approaches to extract feature vectors from the images of \glspl{det}. We manually annotated the data to create the golden truth for this training. An example from this \gls{ses} with extracted \glspl{det} can be seen in \autoref{fig:single_session}.
 
 \begin{figure}
     \centering
@@ -23,7 +27,7 @@ The first \gls{ses} comes from processing recording of single camera which captu
     \label{fig:single_session}
 \end{figure}
 
-We use the second \gls{ses} for actual evaluation of tested approaches. This second session is constructed from the recording of two simultaneously recording camera. The recording is over two minutes long. The view of the cameras partially overlap. In this session total of 147,681 \glspl{det} were extracted. Just as in case of the previous \gls{ses}, we filter some \glspl{det} out as not usable. There are 15,757 \glspl{det} remaining. The lower ratio of usable \glspl{det} compared to the previous case was cased mainly by many ``faulty'' \glspl{det} of statues and lamps which were not presented in the view for the first \gls{ses}. We sorted these \glspl{det} into 52 unique \glspl{iden}. These \glspl{iden} were used as a ground truth for actual evaluation of our approach. Examples of frames from this \gls{ses} is in \autoref{fig:double_session}.
+We use the second \gls{ses} for actual evaluation of tested approaches. This second session is constructed from the recording of two simultaneously recording cameras. The recordings are over two minutes long. The view of the cameras partially overlap. In this session total of 147,681 \glspl{det} were extracted. Just as in the case of the previous \gls{ses}, we filter some \glspl{det} out as not usable. There remain 15,757 \glspl{det}. The worse ratio of usable \glspl{det} compared to the previous case was cased mainly by many ``faulty'' \glspl{det} of statues and lamps which were not presented in the view of the first \gls{ses}. We assigned these \glspl{det} into 52 unique \glspl{iden}. These \glspl{iden} are used as ground truth for evaluation of our approach. Examples of frames from this \gls{ses} are in \autoref{fig:double_session}.
 
 \begin{figure}
     \centering
@@ -33,32 +37,32 @@ We use the second \gls{ses} for actual evaluation of tested approaches. This sec
     \label{fig:double_session}
 \end{figure}
 
-The recordings for those two \glspl{ses} are entirely disconnected -- they
-capture entirely different place and were recorded at different time. That gives
-us unbiased estimation of the quality of our algorithm in terms of
-\autoref{eq:mla}. It would be better to evaluate our algorithm to multiple
-\glspl{ses}, however due to technical difficulty of creating new \gls{ses}
-(especially in terms of annotating the data), we leave more thorough evaluation
+The recordings for those two \glspl{ses} are entirely independent -- they
+capture an entirely different place and were recorded at different time. This gives
+us an unbiased estimation of our algorithm's quality in terms of
+\autoref{eq:mla}. It would be better to evaluate our algorithm on multiple
+\glspl{ses}. However, due to the technical difficulty of creating new \glspl{ses}
+(especially in terms of annotating the data), we leave a more thorough evaluation
 to feature work.
 
-\section{Feature vectors}
+\section{Feature Vectors}
 
-As the first step of actual evaluation of our approaches we evaluate the
-quality of feature vectors as described in \autoref{ch:features}. We shall
-evaluate this part purely based on how well the resulting feature vectors
-separate the golden \glspl{iden} from each other. We recognize there is some
+\label{sec:eval_fv}
+
+As the first step of evaluation, we evaluate the
+quality of the feature vectors as proposed in \autoref{ch:features}. We evaluate this part purely based on how well the resulting feature vectors
+separate the golden \glspl{iden} from each other. We recognize some
 information lost, as we skip the final step in this evaluation -- that is to
 construct actual \glspl{iden} and compare them with the golden \glspl{iden}.
-However, this preliminary evaluation is computationally less expensive and
-therefore we may experiment with broader spectrum of parameters. We shall
-select couple of best performing setting and verify its usefulness in later
-stages.
+However, this preliminary evaluation is computationally less expensive, and
+therefore, we may experiment with a broader spectrum of settings. We select a couple of the best performing settings and verify their usefulness later
+in end-to-end evaluations.
 
 \subsection{Measures of Quality}
 
-This preliminary testing offer simpler statistics for evaluation. In this scenario we need to just look into distances between \glspl{det} of the same golden \gls{iden} and the distances between \glspl{det} of distinct golden \glspl{iden}. We can further associate each approach with a threshold. The ideal scenario would be that the maximal distance between \glspl{det} from the same \gls{iden} would be at most this threshold and all the distances between \glspl{det} from distinct \glspl{iden} would be greater than the threshold. However, in most cases we do not have such ideal classifier. Thus we often need to deal with misclassified samples.
+To obtain comparable results, we propose several measures of quality for feature vector evaluation. In this scenario we need to just look into distances between \glspl{det} of the same golden \gls{iden} and the distances between \glspl{det} of distinct golden \glspl{iden}. We can further associate each approach with a threshold. The ideal scenario would be that the maximal distance between \glspl{det} from the same \gls{iden} would be at most this threshold, and all the distances between \glspl{det} from distinct \glspl{iden} would be greater than the threshold. However, in most cases, we do not have such an ideal classifier. Thus we often need to deal with misclassified samples.
 
-Overall we can assign every pair of detection in on of four standard categories. First two are \glspl{tp} and \glspl{tn} they represent correct classification -- pair of \glspl{det} from the same \gls{iden} with distance between them below selected threshold and pair of \glspl{det} from distinct \glspl{iden} with distance over the threshold respectively. The other categories are \glspl{fp} -- pairs that are of different \glspl{iden} but with distance below the threshold -- and \glspl{fn}, that are pairs of \glspl{det} from the same \gls{iden} but with the distance over the threshold.
+Overall we can assign every pair of detections in one of four standard categories:  \glspl{tp}, \glspl{tn}, \glspl{fp} and \glspl{fn}. \glspl{tp} and \glspl{tn} represent correct classification -- pair of \glspl{det} from the same \gls{iden} with distance between them below selected threshold and pair of \glspl{det} from distinct \glspl{iden} with distance over the threshold respectively. The other two categories are \glspl{fp} -- pairs that are of different \glspl{iden} but with distance below the threshold -- and \glspl{fn}, that are pairs of \glspl{det} from the same \gls{iden} but with the distance over the threshold.
 
 This notation allows us to introduce two standard derived quantities --- \gls{tpr} and \gls{fpr}:
 
@@ -67,7 +71,8 @@ This notation allows us to introduce two standard derived quantities --- \gls{tp
     \mathrm{FPR} &= \frac{\mathrm{FP}}{\mathrm{FP} + \mathrm{TN}}
 \end{align*}
 
-Notice that when we increase the threshold, increase the number \glspl{tp} and \glspl{fp} and decrease number of \glspl{tn} and \glspl{fn}. In terms of rates, that means that both \gls{tpr} and \gls{fpr} increases. This allows us to draw a plot of how \gls{tpr} depends on \gls{fpr}. That is a quite common way to elaborate on the quality of \gls{ml} algorithm. The resulting plot is often called \gls{roc} curve.
+One of the characteristics of the measures is the following observation:
+when we increase the threshold, the number \glspl{tp} and \glspl{fp} increases and  number of \glspl{tn} and \glspl{fn} decreases. In terms of rates, this means that both \gls{tpr} and \gls{fpr} increases. This allows us to plot the relation between \gls{tpr} and \gls{fpr}. That is a quite common way to elaborate on the quality of \gls{ml} classifiers. The resulting plot is often called \gls{roc} curve.
 
 Ideal classifiers would have a \gls{roc} curve going through a point
 (0, 1). Such classifier with corresponding threshold would correctly
@@ -76,25 +81,21 @@ have access to ideal classifiers. In such case we are, broadly speaking,
 want to come up with classifier that have \gls{roc} curve as close to
 point (0, 1) as possible.
 
-However, \gls{roc} curves gives us more in-depth view into the classifier.
+\gls{roc} curves give us a more in-depth view into the classifier.
 The curve shows which trade-offs between \glspl{fp} and \glspl{fn} (or in terms
 of the axis \gls{fpr} and \gls{tpr}) are possible for given classifiers.
 
-While the \gls{roc} curve offers quite useful evaluation of the
-selected approach, it is often useful to express the quality of the
-approach as a single number. Some information will be lost this way,
-on the other hand it offers very straight-forward way to compare different
-classifiers. For this evaluation we leverage also leverage the \gls{roc} curve.
-In particular we compute the area under the curve. Generally, the greater
-the area the better classifier we have.
+While the \gls{roc} curve offers a quite useful evaluation of the
+selected approach, it is often useful to express the approach's quality as a single number. A single number is easier to compare and decide on the best performing model. At the same time, it may not fully capture the information about the tradeoffs. To achieve this simplicity, we leverage the \gls{roc} curve.
+In particular, we compute the area under the curve. Generally speaking, the greater
+the area, the better classifier we have.
 
-Finally, let us note that we want to get feature vectors that help us to find the same object in physically distant \glspl{det}. Therefore, we are not really interested in the distance between \glspl{det} of the same \gls{iden} from subsequent frames (as they would be matched by metadata anyways without the visual information). Therefore, for this preliminary evaluation (and drawn \gls{roc} curves) out of all ``positive'' pairs (i.e. pairs of \glspl{det} from the same \gls{iden}) only those which are either from different cameras or are at least 2 seconds apart.
+Finally, let us note that we want to get feature vectors that help us find the same object in physically distant \glspl{det}. Therefore, we are not really interested in the distance between \glspl{det} of the same \gls{iden} from subsequent frames (as they would be matched by metadata anyways without the visual information). Therefore, for this preliminary evaluation (and drawn \gls{roc} curves) out of all ``positive'' pairs (i.e., pairs of \glspl{det} from the same \gls{iden}) only those which are either from different cameras or are at least 2 seconds apart.
 
 \subsection{Evaluation of Color Histograms}
 
-Firstly, we aim to evaluate various approaches for feature vector generation
-based on the color histograms. To recapitulate there are several basic choices
-for histogram generation we need to evaluate (please refer to
+Firstly, we aim to evaluate the approaches based on the color histograms. To recapitulate, there are several basic choices
+for histogram generation, we need to evaluate (please refer to
 \autoref{sec:histograms} for detailed explanation):
 
 \begin{itemize}
@@ -106,28 +107,25 @@ for histogram generation we need to evaluate (please refer to
 
 \subsubsection{Evaluation of Background Filtering}
 
-As there are too many options per category to evaluate all combinations we
-firstly evaluate which background filtering mechanism works best for us. As we
-aim to decide what section of the crop is important for the re-identification
-the selection of background filtering should be relatively independent of
-the choice of color model and number of bins. For the experiments in this
-subsection we selected a hue and saturation with histogram with 8 bins in
-each component (i.e. 64 bins total).
+In the evaluation of background filtering, we
+aim to decide what section of the crop is important for the re-identification. The selection of background filtering should be relatively independent of
+a color model's choice and its parameters. For the experiments in this
+subsection, we select a hue and saturation with a histogram with 8 bins in
+each component (i.e., 64 bins in total).
 
-Let us recall that we reviewed several approaches to background filtering.
-Each approach allows for fine-tuning via various parameters:
+Let us recall that we reviewed several options for background filtering.
+Each approach allows for fine-tuning via its various parameters:
 
 \begin{itemize}
     \item No background filtering -- no additional parameters
-    \item Filtering using cropping -- total of three parameters: percentage of the image cropped from left and right, percentage of the image cropped from the bottom, and percentage of the image cropped from the top
+    \item Cropping -- total of three parameters: percentage of the image cropped from left and right, percentage of the image cropped from the bottom, and percentage of the image cropped from the top
     \item Weighting by Gaussian -- total of two parameters: center of the Gaussian along $y$-axis and the scale of the Gaussian
 \end{itemize}
 
-For each of these approaches we use grid search to find optimal values of
-these parameters. The main value we use for comparison is the size of the
-area under the \gls{roc} curve. However, we still explore some of the
+For each of these approaches, we use a grid search to find the optimal values of
+these parameters. We compare the size of the
+area under the \gls{roc} curve as our primary metric. Furthermore, we explore some of the
 \gls{roc} curves directly.
-
 \begin{figure}
     \centering
     \def\svgwidth{\columnwidth}
@@ -135,20 +133,31 @@ area under the \gls{roc} curve. However, we still explore some of the
     \scalebox{0.6}{\input{img/aoc_crop_30.pdf_tex}}
     \scalebox{0.6}{\input{img/aoc_crop_20.pdf_tex}}
     \scalebox{0.6}{\input{img/aoc_crop_40.pdf_tex}}
-    \caption{Area under the ROC curve for various copping setting}
+    \caption{Area under the ROC curve for various cropping settings. Crop from sides is fixed in each table to the value given in the title of the plots.}
     \label{fig:aoc_crop}
 \end{figure}
 
-As we can see from the measurements in \autoref{fig:aoc_crop} any method of background filtering significantly improved the quality of the feature vectors. We note that we achieved the best performance with cropping when we 
+As we can see from the measurements in \autoref{fig:aoc_crop}, any background filtering method significantly improves the quality of the feature vectors. We note that we achieved the best performance with cropping when we 
 cropped 30\% image from the left and right side, 20\% from the top and 30\%
 from the bottom (although variant with 20\% achieved almost as good results). An example of such cropping can be seen in
-\autoref{fig:best_cropping}.
+\autoref{fig:best_cropping}. We can see that it successfully removed all the background noise.
 
 \begin{figure}
     \centering
-    \includegraphics{img/0.png} \includegraphics{img/1.png} \\
-    \includegraphics{img/0_crop.png} \includegraphics{img/1_crop.png}
-    \caption{Example of most effective cropping}
+     \begin{subfigure}[b]{0.49\textwidth}
+         \centering
+         \includegraphics[height=2.5cm]{img/0.png}
+         \includegraphics[height=2.5cm]{img/0_crop.png}
+     \end{subfigure}
+     \hfill
+      \begin{subfigure}[b]{0.49\textwidth}
+         \centering
+         \includegraphics[height=2.5cm]{img/1.png}
+         \includegraphics[height=2.5cm]{img/1_crop.png}
+     \end{subfigure}
+%     \includegraphics{img/0.png} \includegraphics{img/1.png} \\
+%     \includegraphics{img/0_crop.png} \includegraphics{img/1_crop.png}
+    \caption{Example of the most effective cropping -- 30\% from sides, 20\% from top and 30\% from bottom}
     \label{fig:best_cropping}
 \end{figure}
 
@@ -157,32 +166,32 @@ from the bottom (although variant with 20\% achieved almost as good results). An
     \def\svgwidth{\columnwidth}
     \Large
     \scalebox{0.6}{\input{img/aoc_gauss.pdf_tex}}
-    \caption{Area under the ROC curve for various setting of Gaussian weighting}
+    \caption{Area under the ROC curve for various settings of weighting by Gaussian for background filtering}
     \label{fig:aoc_gauss}
 \end{figure}
 
 In terms of weighting with Gaussian, we have achieved the best results
 by offsetting the Gaussian slightly above the center of the image, to 40\%
-of the height of the image to be precise. The best setting for the scale
+of the height of the image, to be precise. The best setting for the scale
 of the Gaussian seems to be 0.2 or 0.1 of the dimensions of the image. For detailed results
-of the grid search see \autoref{fig:aoc_gauss}.
+of the grid search, see \autoref{fig:aoc_gauss}.
 
 As we can see in \autoref{fig:roc_background} all the selected approaches
 with background filtering gives almost identical results.
 
-\begin{figure}[tb]
+\begin{figure}
     \centering
     \def\svgwidth{\columnwidth}
     \input{img/background_roc.pdf_tex}
-    \caption{ROC curve of various type of background filtering}
+    \caption{ROC curve of various types of background filtering}
     \label{fig:roc_background}
 \end{figure}
 
-\subsubsection{Choice of distance function}
+\subsubsection{Choice of Distance Function}
 
-Another subject of our experiments is the choice of distance function. In
+Another subject for our experiments is the choice of distance function. In
 \autoref{ssec:used_distances} we introduced three distance functions --
-Euclidean, Manhattan and cosine. As we can see in \autoref{fig:roc_distances}
+Euclidean, Manhattan and Cosine. As we can see in \autoref{fig:roc_distances}
 the choice of distance function have significant effect on the results.
 The worst distance function seems to be Euclidean distance. The best one,
 especially while preserving lower \gls{fpr} seem to be Manhattan distance.
@@ -194,18 +203,18 @@ in order to achieve the second histogram.
     \centering
     \def\svgwidth{\columnwidth}
     \input{img/roc_distances.pdf_tex}
-    \caption{ROC curve of various distance functions}
+    \caption{ROC curve of various distance functions for histogram based models}
     \label{fig:roc_distances}
 \end{figure}
 
 \subsubsection{Selection of Color Model and Number of Bins}
 
-The last parameter we need to appropriately set is the actual color model
-and number of bins per histogram. We explore several color models:
+The last parameter we need to set appropriately is the actual color model
+and the number of bins per histogram. We explore several color models:
 
 \begin{itemize}
     \item RGB model
-    \item HSV model (we select hue component for one histogram and both hue and saturation component for another one)
+    \item HSV model (we select only the hue component for one experiment and both hue and saturation component for another one)
     \item YUV model (we select UV components)
 \end{itemize}
 
@@ -214,130 +223,123 @@ and number of bins per histogram. We explore several color models:
     \def\svgwidth{\columnwidth}
     \Large
     \scalebox{0.7}{\input{img/model_bins.pdf_tex}}
-    \caption[Area under the ROC curve for various color models and number of bins]{Area under the \gls{roc} curve for various color models and number of bins. Number of bins are displayer per channel. Total number of bins for HS and UV is number of bins per channel squared and for RGB it is number of bins per channel cubed. For some combinations were not explored as a total number of bins for these combination requires too much memory stored per each feature vector.}
+    \caption[Area under the ROC curve for various color models and the number of bins]{Area under the \gls{roc} curve for various color models and the number of bins. The number of bins is displayed per channel. The total number of bins for HS and UV is the number of bins per channel squared, and for RGB, it is the number of bins per channel cubed. Some of the combinations were not explored as a total number of bins for these combination requires too much memory stored per each feature vector.}
     \label{fig:model_bins}
 \end{figure}
 
-For each model we explore various numbers of bins. The sizes of areas under the corresponding \gls{roc} curves is displayed in \autoref{fig:model_bins}. Contrary to our original
-assumption the results gives usage of the raw RGB channels. The best variation in particular was with 4 bins per channel (i.e. 64 bins total).
+For each model, we explore various numbers of bins for histograms. The quantities of areas under the corresponding \gls{roc} curves are displayed in \autoref{fig:model_bins}. Contrary to our original
+assumption, the results give usage of the raw RGB channels. The best variation, in particular, was with 4 bins per channel (i.e., 64 bins total).
 
-This can be explained by various phenomena For one the varying lightning
-conditions are not as common in our dataset as we expected. The other aspect
-is that as we notice large quantity of the images are of people with black or
-dark clothing. The downside of using hue as a component in histograms is that
-hue can change very significantly case of black and white colors even in small
-changes in actual color. See \autoref{fig:bad_hue} for the visualization.
+Various phenomena can explain this. For one, the varying lightning
+conditions are not as common in our dataset as we expected. The other aspect is that many of the images are of people with black or dark clothing (i.e., we observed less variety in the clothing than we anticipated). The downside of using hue as a histogram component is that
+hue can change very significantly in the case of black and white colors, even in small
+changes in actual color. See \autoref{fig:bad_hue} for the visualizations.
 
 \begin{figure}
     \centering
     \includegraphics[width=3cm]{img/bad_hue_orig.png}
     \includegraphics[width=3cm]{img/bad_hue_hue.png}
-    \caption[Hue extraction from an image]{Hue extraction from an image. The image on the left is original. The right image was obtained by preserving hue of each pixel but setting saturation and value to the same high level. As we can see, the mono-colored black coat has various hue levels and on the other hand the black coat and the white background is represented by similar hue levels even tough both are of entirely different colors.}
+    \caption[Hue extraction from an image]{Hue extraction from an image. The image on the left is the original. The right image shows each pixel's hue but sets saturation and value to the same high level. As we can see, the mono-colored black coat has various hue levels, and on the other hand, the black coat and the white background are represented by similar hue levels even though both are of entirely different colors.}
     \label{fig:bad_hue}
 \end{figure}
 
-We aim to support this reasoning by considering pixels with low ($< 0.2$)
+To support this reasoning, we consider pixels with low ($< 0.2$)
 value as black and non-black pixels with low saturation ($< 0.2$) as white and
-assign them to separate bins. As we can see in \autoref{fig:black_white_roc} this indeed
-significantly improved the feature vector. However it still seems best to use basic RGB decomposition.
+assign them to separate bins for the HSV model. As we can see in \autoref{fig:black_white_roc}, this
+significantly improved the feature vectors' performance. However, it still seems best to use basic RGB decomposition.
 
 \begin{figure}
     \centering
     \def\svgwidth{\columnwidth}
     \input{img/black_white_roc.pdf_tex}
-    \caption[Effect of adding black and white bins to hue histograms]{Effect of adding black and white bins to hue histograms. The figure shows \gls{roc} curves of histogram based approaches of with RGB, hue \& saturation and only hue decomposition with the best performing number of bins in each category. The plot shows improved performance obtained by adding black and white bins to the latter two categories.}
+    \caption[Effect of adding black and white bins to the hue histograms]{Effect of adding black and white bins to hue histograms. The figure shows \gls{roc} curves of histogram based approaches with RGB, hue, and saturation, and only hue decomposition with the best performing number of bins in each category. The plot shows improved performance obtained by adding black and white bins to the latter two categories.}
     \label{fig:black_white_roc}
 \end{figure}
 
 \subsection{Evaluation of Deep Learning Approaches}
 
-In the previous section we have focused on the feature vectors drawn using
-histograms. Now, we explore the approaches involving \glspl{nn}. In this
-section we make use of pre-trained model in Tensorflow framework
-(\cite{tensorflow}) and described in \autoref{sec:existing_architectures}.
+In the previous section, we focused on the feature vectors based on the color models. Now, we evaluate the approaches based on the \glspl{nn}. We start with the pre-trained networks as-is, as described in \autoref{sec:existing_architectures}.
 
 \subsubsection{Direct Use of Pre-trained Models}
 
-Perhaps the simplest usage of pre-trained models is to use them directly
-without any additional training. The potential in such usage is that the
-second to last layer (i.e. prior actual ``classification'' layer) has to
-contain enough of information to classify the original image. Therefore,
-we experiment whether such information is enough for our purposes.
+% Perhaps the simplest usage of pre-trained models is to use them directly
+% without any additional training. The potential in such usage is that the
+% second to last layer (i.e. prior actual ``classification'' layer) has to
+% contain enough of information to classify the original image. Therefore,
+% we experiment whether such information is enough for our purposes.
 
-As we already stated, we mainly use ResNet and MobileNet architectures
-pre-trained on the ImageNet dataset. These archtecture, as is common,
-requires the input of the fixed size. That means we need to rescale all the
-input images. As the sizes of original bounding boxes are diverse (see
-\autoref{fig:size_dist}, we can not avoid distorting the original images.
-Therefore, we evaluate performance of the network with various input sizes.
+We use ResNet and MobileNet architectures
+pre-trained on the ImageNet dataset. These architectures, as is common,
+require the input of the fixed size. We rescale all the input detections, as described in \ref{} \todo{chyba ref}. As the sizes of original bounding boxes are diverse (see
+\autoref{fig:size_dist}, we can not avoid distorting the original detections' images.
+Therefore, we evaluate the performance of the networks with various input size settings.
 
 \begin{figure}
     \centering
     \def\svgwidth{\columnwidth}
     \input{img/size_distribution.pdf_tex}
-    \caption{Distribution of heights and widths of detections}
+    \caption{Histogram of heights and widths of detections in pixels.}
     \label{fig:size_dist}
 \end{figure}
 
-The \gls{roc} curves (with the same setting as in previous subsection) of the
-annotation with the pre-trained models in \autoref{fig:pretrained_nn_roc}.
-We have evaluated various input sizes. In case of MobileNet we have tested
-all the input sizes that are available for the architecture. As for the 
-ResNet we have tested lower number of smaller sizes, mainly for its higher
-complexity and poorer performace compared to the MobileNet.
+The \gls{roc} curves for the pre-trained models are shown in \autoref{fig:pretrained_nn_roc}.
+We have evaluated various input sizes. In the case of MobileNet, we test
+all the input sizes that are available for the architecture in the Keras package. As for the 
+ResNet we test a lower number of smaller sizes, mainly for its higher
+complexity and poorer performance than the MobileNet.
 
-As we can see directly from the \gls{roc} curves, the decidedly best setting for this type of the \gls{nn} annotation is MobileNet with input resized to $128 \times 128$. 
+As we can see directly from the \gls{roc} curves, the decidedly best setting for this type of the \gls{nn} annotation is MobileNet with input sized equal to $128 \times 128$. 
 
 \begin{figure}
     \centering
     \def\svgwidth{\columnwidth}
     \input{img/pretrained_nn_roc.pdf_tex}
-    \caption{ROC curves of pre-trained model}
+    \caption{ROC curves for pre-trained networks with different input size}
     \label{fig:pretrained_nn_roc}
 \end{figure}
 
-We have also experimented with different distance functions. As you can in \autoref{fig:basic_nn_roc_dist} the effect of different distance functions are rather small. Especially between Euclidean and Manhattan distance.
+We have also experiment with different distance functions. As you can in \autoref{fig:basic_nn_roc_dist} the effect of different distance functions are rather small. Especially between Euclidean and Manhattan distance.
 
 \begin{figure}
     \centering
     \def\svgwidth{\columnwidth}
     \input{img/basic_nn_roc_dist.pdf_tex}
-    \caption{Comparison of effect of different distance functions on MobileNet with shape 128}
+    \caption{Comparison of effect of different distance functions on MobileNet with input shape 128$\times$128}
     \label{fig:basic_nn_roc_dist}
 \end{figure}
 
 \subsubsection{Fine-tuning the Pre-trained Models}
 
-As we showed we achieved somewhat useful results with just using as-is pre-trained models. However such models were trained for classification tasks and therefore there should be a room for improvement when trained specifically on \reid{} task. For this reason we aim to train the networks (with weights initialized as trained on classification task) on our dataset.
+As the pre-trained models' results show, we achieve useful annotations with just using as-is pre-trained models. However, such models were trained for classification tasks, and therefore, there should be room for improvement when trained specifically on \reid{} task. We aim to verify this hypothesis by custom training the networks (with weights initialized as trained on classification task) on our dataset.
 
-For the first experiment in this regard we do not change the architecture at all. We just use the architecture as-is and train in on our dataset using Triplet Loss (\autoref{sec:triplet_loss}).
+For the first experiment in this regard, we do not change the architecture at all. We use the architecture as-is and train it on our dataset using Triplet Loss (\autoref{sec:triplet_loss}).
 
 \begin{figure}
     \centering
     \def\svgwidth{\columnwidth}
     \large
     \scalebox{0.8}{\input{img/training_loss.pdf_tex}}
-    \caption{Training loss during training}
+    \caption{Training loss during the training with Triplet Loss}
     \label{fig:training_loss}
 \end{figure}
 
-As we can see from the log in \autoref{fig:training_loss} we significantly reduce the training error by this approach. However when we tried to apply the resulting \gls{nn} on our testing \gls{ses} (see \gls{roc} curve in \autoref{fig:basic_nn_overfit_roc}), we see that the performance of the network significantly decreased. Furthermore, we can see that the performance worsen even after the single epoch of training. The weights are being altered too much even in single epoch as the original capabilities of the network is lost.
+As we can see from the log in \autoref{fig:training_loss} we significantly reduce the training error by this approach. However when we tried to apply the resulting \gls{nn} on our evaluation \gls{ses} (see \gls{roc} curve in \autoref{fig:basic_nn_overfit_roc}), we see that the performance of the network significantly decreased. Furthermore, we can see that the performance worsens even after the single epoch of training. The weights are being altered too much even in a single epoch as the network's original capabilities are lost.
 
 \begin{figure}
     \centering
     \def\svgwidth{\columnwidth}
     \input{img/basic_nn_overfit_roc.pdf_tex}
-    \caption{Performance of the network after training for several epochs}
+    \caption{Performance of the MobileNet at different stages of the training}
     \label{fig:basic_nn_overfit_roc}
 \end{figure}
 
-We therefore lowered the learning rate to try to preserve the original information within the network. This proved to be the correct approach as we managed to significantly increase the performance of the network as you can see in \autoref{fig:basic_nn_lr1_roc} and \autoref{fig:basic_nn_lr2_roc}.
+We, therefore, lowered the learning rate to try to preserve the original information within the network. This proved to be the better performing approach as we managed to significantly increase the network's performance as you can see in \autoref{fig:basic_nn_lr1_roc} and \autoref{fig:basic_nn_lr2_roc}.
 
 \begin{figure}
     \centering
     \def\svgwidth{\columnwidth}
     \input{img/basic_nn_lr1_roc.pdf_tex}
-    \caption{Performance of the network after training with learning rate 0.0001}
+    \caption{Performance of the MobileNet -- training with learning rate $10^{-4}$}
     \label{fig:basic_nn_lr1_roc}
 \end{figure}
 
@@ -345,11 +347,11 @@ We therefore lowered the learning rate to try to preserve the original informati
     \centering
     \def\svgwidth{\columnwidth}
     \input{img/basic_nn_lr2_roc.pdf_tex}
-    \caption{Performance of the network after training with learning rate 0.00002}
+    \caption{Performance of the MobileNet -- training with learning rate $2 \times 10^{-5}$}
     \label{fig:basic_nn_lr2_roc}
 \end{figure}
 
-Now, we proceed evaluate effect of different distance functions. This also means to train a new \gls{nn} as used loss function (Triplet Loss -- \autoref{eq:triplet}) depends on the choice of the distance function. In other related work we see the Triplet Loss used either with Euclidean distance or Cosine distance (or alternatively squared Euclidean distance\footnote{As the final layer of our \glspl{nn} is normalizing layer, the square Euclidean distance and cosine distance are proportional to each other: $\delta_{euclid}(\vec{x}, \vec{y}) = 2 - 2\vec{x}^T\vec{y} = 2 - 2 \cos(\vec{x}, \vec{y})$ (as the norms of input vectors are 1).}). However, we also aim to verify usefulness of Manhattan distance, as it works well with the histogram approach.
+Now, we proceed to evaluate the effect of different distance functions. This also means to train a new \gls{nn} as used loss function (Triplet Loss -- \autoref{eq:triplet}) depends on the choice of the distance function. In other related work we see the Triplet Loss used either with Euclidean distance or Cosine distance (or alternatively squared Euclidean distance\footnote{As the final layer of our \glspl{nn} is normalizing layer, the square Euclidean distance and cosine distance are proportional to each other: $\delta_{euclid}(\vec{x}, \vec{y}) = 2 - 2\vec{x}^T\vec{y} = 2 - 2 \cos(\vec{x}, \vec{y})$ (as the norms of input vectors are 1).}). However, we also aim to verify the usefulness of Manhattan distance, as it works well with the histogram approach.
 
 \begin{figure}
     \centering
@@ -360,23 +362,24 @@ Now, we proceed evaluate effect of different distance functions. This also means
     
     \def\svgwidth{\columnwidth}
     \scalebox{0.8}{\input{img/lr_heatmap_manhattan.pdf_tex}}
-    \caption{Area under the ROC curve for various learning rates and distances}
+    \caption{Area under the ROC curve for various learning rates, distances and different number of epochs trained for MobileNet}
     \label{fig:lr_heatmap}
 \end{figure}
 
-As you can see in \autoref{fig:lr_heatmap}, the with different distance functions (both cosine and Manhattan) we achieved better results. However we can notice that even with lowered learning rate the best results on terms of area under the \gls{roc} curve are achieved by network trained only for single epoch. Therefore, we split each epoch and instead of using all 71,732 \glspl{det} in each epoch, we use only 640 \glspl{det} split among 32 batches per epoch.
+Based on the \autoref{fig:lr_heatmap}, we achieved different results with different distance functions (both Cosine and Manhattan). However, we can notice that even with a lowered learning rate, the best results in terms of area under the \gls{roc} curve are achieved by network trained only for a single epoch. Therefore, we split each epoch, and instead of using all 71,732 \glspl{det} in each epoch, we use only 640 \glspl{det} split among 32 batches per epoch.
 
-As we can see the area under the \gls{roc} curve increases during the several initial epochs. In case of cosine distance, it reaches maximum around the 40\textsuperscript{th} epoch with value 0.9145. See the plot in \autoref{fig:mini_epoch_cos}. With Manhattan distance the maximum was reached very early and probably could be improved by further testing. However, since we achieve better results with cosine distance, we do not evaluate the Manhattan distance approach any further.
+As we can see, the area under the \gls{roc} curve increases during the several initial epochs. In the case of Cosine distance, it reaches a maximum around the 40\textsuperscript{th} epoch with value 0.9145. See the plot in \autoref{fig:mini_epoch_cos}. With Manhattan distance, the maximum was reached very early and probably could be improved by further testing. However, since we achieve better results with cosine distance, we do not evaluate the Manhattan distance approach any further.
 
 \begin{figure}
     \centering
     \def\svgwidth{\columnwidth}
     \input{img/mini_epoch_cos.pdf_tex}
-    \caption{Area under the ROC curve with smaller epoch}
+    \caption{Area under the ROC curve with less samples per epoch}
     \label{fig:mini_epoch_cos}
 \end{figure}
+\todo{chyba tu euclidean distance}
 
-We also explored the effect of using Semihard instead of Hard Triplet Loss. The model trained slightly faster with the Semihard Loss. It achieved the best performance so far. However, compared the Hard loss, this increase in performance is barely noticeable. The best value of area under the curve is 0.9161. You can see the comparison during the training in \autoref{fig:semi_hard_loss}.
+We also explore the effect of using Semihard instead of Hard Triplet Loss. The Semihard option achieves the best performance so far. However, compared to the Hard loss, this increase in performance is barely noticeable. The best value of area under the curve is 0.9161. You can see the comparison during the training in \autoref{fig:semi_hard_loss}.
 
 \begin{figure}
     \centering
@@ -386,15 +389,21 @@ We also explored the effect of using Semihard instead of Hard Triplet Loss. The 
     \label{fig:semi_hard_loss}
 \end{figure}
 
-\subsubsection{Altering the architecture}
+\subsubsection{Altering the Architecture}
 
-So far we focused on finding suitable hyperparameters but we do not change the structure of the MobileNet itself, aside from the removal of last ``classification'' layer. Now, we briefly investigate if we can improve our model by if slightly altering the architecture could improve the performance of the network. Based on findings in the this section so far we use the semihard loss with cosine distance.
+{\color{red}
+So far, we focused on finding suitable hyperparameters, but we do not change the structure of the MobileNet itself, aside from the removal of the last ``classification'' layer. 
+}
 
+Now, we briefly investigate if we can improve our model by if slightly altering the architecture could improve the network's performance. Based on findings in this section so far, we use the semihard loss with Cosine distance. The alternation we now aim to test is described in \ref{} -- adding a dense layer.
+
+{\color{red}
 The alteration we use is to add a dense layer at the end of the network. This is motivated by the fact that we removed the last layer (originally trained by softmax). By this removal the network could lose some of its capabilities. By adding another similar layer the netwourk could retrieve some if its potentially lost ability. 
 
 To keep things simple, we keep the size of the new layer same as the layer before it, that is 1280 neurons. We also experiment if ``freezing'' (i.e. not changing the weights of the original MobileNet weights during training) helps.
+}
 
-As it turned out, the setting where we trained the MobileNet with added dense layer without freezing indeed produced the best model so far. That being said the difference in the area under the \gls{roc} is negligible -- we achieved area of 0.9192. You can compare the actual \gls{roc} curve of this model and two models without dense layer in \autoref{fig:final_roc}. As you can see in the plot, the performance of the network with the dense layer is worse in very low level of \gls{fpr} (approx. below 0.1), while noticeably better for higher values of \gls{fpr}. We evaluate both networks (with and without added dense layer) in the next step of creating \glspl{iden}.
+The results show that the setting where we train the MobileNet with added dense layer without freezing indeed produces the best model so far. The difference in the area under the \gls{roc} is negligible -- we achieved area of 0.9192. You can compare the actual \gls{roc} curve of this model and two models without a dense layer in \autoref{fig:final_roc}. As you can see in the plot, the performance of the network with the dense layer is worse in a very low level of \gls{fpr} (approx. below 0.1), while noticeably better for higher values of \gls{fpr}. We evaluate both networks (with and without added dense layer) in the next step of creating \glspl{iden}.
 
 
 \begin{figure}
@@ -404,12 +413,16 @@ As it turned out, the setting where we trained the MobileNet with added dense la
     \caption{ROC curves of final approaches for feature extraction}
     \label{fig:final_roc}
 \end{figure}
+\todo{co je final? kornketizuj parametre}
 
-These results were achieved by using MobileNet as pre-trained on ImageNet dataset with replaced last layer. We also experimented with using weights that we learned during the training without the added dense layer. We added the dense layer to the network and continue with the trainig with the added layer. However we did not manage to produce improved results. 
+These results were achieved by using MobileNet as pre-trained on ImageNet dataset with replaced last layer. We also experimented with using weights that we learn during the training without the added dense layer. We add the dense layer to the network and continue with the training with the added layer. However we did not manage to produce improved results. 
+
+\todo[inline]{ako to dopadlo freeze vs non freeze? ako dopadol njaprv freeze a potom unfreeze?}
 
 \section{Trajectory Construction}
 
-We now briefly remind the reader of the next step which is trajectory construction. Unlike in case of feature vectors we do not conduct thorough evaluation of various approaches, as the desired result of this step is strongly influenced by the next step which is actual \gls{iden} construction.
+\todo[inline]{tieto veci tu nepatria a trbea ich skratit na jeden odstavec. Uz boli povedane v kapitole 5.}
+We now briefly remind the reader of the next step, which is trajectory construction. Unlike in the case of feature vectors, we do not conduct a thorough evaluation of various approaches, as the desired result of this step is strongly influenced by the next step, which is actual \gls{iden} construction.
 
 Nevertheless, we at least suggest some useful threshold for the suggested quantities as described in \autoref{ssec:spatial_merging} -- displacement, relative displacement and Intersection over Union. We can draw suitable thresholds directly from the training set. Note that the threshold should be set in a such manner that each resulting trajectory should contain \glspl{det} only from one \gls{iden}, as we merge the trajectories but never split them afterwards. If we have a trajectory which contains \glspl{det} from two or more different golden \glspl{iden} we can never fix this ``impurity''.
 
@@ -433,4 +446,144 @@ We did this analysis for each of the considered quantities. The results are reco
 
 \section{Identity Construction}
 
-In this section we review the final results of our algorithm. 
+In this section, we review how well our algorithm constructs the \glspl{iden}. As a main measure of quality, we use \gls{roc} curves as in previous sections. Note that the approach of using prepared trajectories which we subsequently merge allows us to compute the \gls{roc} curve precisely, rather than approximately by random sampling.
+
+In order to run the evaluation efficiently we keep the compute the matrix $M$. An element $M_{i,j}$ represents how many \glspl{det} from $j$-th golden \gls{iden} were assigned $i$-th predicted \gls{iden}. Note that this is not standard confusion matrix, if you are familiar with that term. This matrix represents the distribution of \glspl{det}. Our samples for the purposes of the \gls{roc} curve are, however, \emph{pairs} of \glspl{det}. For example \gls{tp} are pairs of \glspl{det} such that both \gls{det} were drawn from the same cell of the matrix. Overall, we can compute the appropriate values for ROC curve as follows:
+
+\begin{align*}
+    \mathrm{TP} &= \sum_{i,j} M_{i,j} (M_{i,j} - 1)\\
+    \mathrm{FP} &= \sum_{i,j} M_{i,j} \left(\left(\sum_{j'}M_{i,j'}\right)-M_{i,j}\right)\\
+    \mathrm{FN} &= \sum_{i,j} M_{i,j} \left(\left(\sum_{i'}M_{i',j}\right)-M_{i,j}\right)\\
+    \mathrm{TN} &= \sum_{i,j} M_{i,j} \left(\left(\sum_{i',j'}M_{i',j'}\right) - \left(\sum_{j'}M_{i,j'}\right) - \left(\sum_{i'}M_{i',j}\right) + M_{i,j}\right)
+\end{align*}
+
+This computation allows us to keep all the values effectively updated. One merge of two \glspl{iden} together effectively translates to an update of two rows (we add the second row to the first and set the second to zeros). If we keep the sums of rows, columns, and the whole matrix separately, this allows us to keep all the values up-to-date after each marge (with just linear time w.r.t. the number of golden \glspl{iden}).
+
+\subsection{Merging Trajectories}
+
+For the first experiment with merging trajectories, we select the best performing \gls{nn} for feature vector generation. That is an architecture based on the MobileNet where we replace the last layer with a new dense layer and train it using Cosine distance. We create the initial trajectories using just Intersection over Union with threshold 0.9 and time window of 0.1 seconds. This threshold is a bit stricter compared to the findings in the training dataset as per 
+\autoref{tab:metadata_comparison}. However, we want to make sure that for initial experiments, the trajectories will not be of mixed \glspl{iden} but that each trajectory will be a subset of golden \gls{iden}. We also have to select the threshold for the selection of representants. We choose threshold 0.1 as it allowed for effective evaluation.
+
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    {\input{img/final_merging_initial.pdf_tex}}
+    \caption{ROC curve for directly using distances from feature space and after using clustering to identities}
+    \label{fig:final_merging_initial}
+\end{figure}
+
+We plot the resulting \gls{roc} curve of this approach alongside with the \gls{roc} curve of using the distances within the feature space directly in \autoref{fig:final_merging_initial}. For the direct distances over feature vectors, the same approach as in \autoref{fig:final_roc}. However, you may notice that the curve in this figure is closer to the desired point (0, 1) that is because for the previous figure, we purposely omitted ``easy'' pairs of \glspl{det} that were physically close together, in this figure we consider all the \glspl{det}.
+
+In the figure, you also see that after using the merging trajectories approach, the resulting performance is strictly worse in terms of the \gls{roc} curve. This is partly due to the property that we aim to leverage -- transitivity of ``belonging to a \gls{iden}''. If there are two golden \glspl{iden} which happen to have just two \glspl{det} (one from each \gls{iden}) that are close together, the whole trajectories will be merged. This may very easily happen, especially in the case of low-quality \glspl{det}, where the low quality causes the actual object to be unidentifiable, while the two images are actually visually similar. A few examples of falsely positive pairs of \glspl{det} is displayed in \autoref{fig:fp_pairs}.
+
+\begin{figure}
+    \newlength{\fpheight}
+    \setlength{\fpheight}{3cm}
+
+
+    \centering
+    
+    \begin{subfigure}[b]{0.3\textwidth}
+         \centering
+         \includegraphics[height=\fpheight]{img/fp_0_a.png}
+         \includegraphics[height=\fpheight]{img/fp_0_b.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+         \centering
+         \includegraphics[height=\fpheight]{img/fp_1_a.png}
+         \includegraphics[height=\fpheight]{img/fp_1_b.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+         \centering
+         \includegraphics[height=\fpheight]{img/fp_2_a.png}
+         \includegraphics[height=\fpheight]{img/fp_2_b.png}
+    \end{subfigure}\\
+    \vspace{1cm}
+    \begin{subfigure}[b]{0.3\textwidth}
+         \centering
+         \includegraphics[height=\fpheight]{img/fp_3_a.png}
+         \includegraphics[height=\fpheight]{img/fp_3_b.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+         \centering
+         \includegraphics[height=\fpheight]{img/fp_4_a.png}
+         \includegraphics[height=\fpheight]{img/fp_4_b.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+         \centering
+         \includegraphics[height=\fpheight]{img/fp_5_a.png}
+         \includegraphics[height=\fpheight]{img/fp_5_b.png}
+    \end{subfigure}
+    \caption{Examples of falsely positive pairs}
+    \label{fig:fp_pairs}
+\end{figure}
+
+Nevertheless, we should not perceive the approach with merging trajectories as a strictly worse approach. Unless we cluster the \glspl{det} we can not query all the \glspl{det} of one given object. For example if we have just the distances of feature vectors we can, for a given \gls{det}, retrieve the other detection in order of their visual similarity. However, this similarity drops significantly once the tracked person turns or changes her appearance in any other way. This means that the ability of drawing complete trajectories of a given person is lost.
+
+On the other hand, approach with subsequent merging into bigger \glspl{iden} tries to mitigate this problem by keeping track of small changes and due to transitivity to keep its ability to find complete trajectories. This is however traded off by lower \gls{tpr} (or higher \gls{fpr}) which can be seen in the figure.
+
+We can also notice, that while the \gls{roc} curve for the simple feature approach is smooth, while the \gls{roc} curve of using merging is not. In particular, one can find several straight lines in the \gls{roc} curve. This is caused by the fact that once a threshold is crossed, specific \gls{iden} are merged causing jumps in \gls{tp} (if the merged \glspl{iden} were largely of the same golden \gls{iden}) or \gls{fp} (if the merged \glspl{iden} consists of \glspl{det} from distinct golden \glspl{iden}).
+
+\subsubsection{Optimizing Parameters}
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    {\input{img/final_parameter_search.pdf_tex}}
+    \caption{ROC for various setting for initial trajectory creation}
+    \label{fig:final_parameter_search}
+\end{figure}
+
+We aim to improve this approach by appropriately changing the parameters used for the initial trajectory generation. We change the threshold of \gls{iou} needed to merge, and the sliding time window size. The \gls{roc} curves for selected is shown in \autoref{fig:final_parameter_search}.
+
+As you can see, these parameters for initial trajectory have dramatic impact on the quality of the final clustering. We manage to improve our approach significantly. For a specific values of \gls{fpr} we even directly produce higher \gls{tpr}.
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    {\input{img/final_rep.pdf_tex}}
+    \caption{ROC with increased number of representants}
+    \label{fig:final_rep}
+\end{figure}
+
+We also shortly experiment with lowering the threshold for selecting the representants within the trajectory (which means increase the number of representants per trajectory). As you can see in \autoref{fig:final_rep} this indeed improved the model. Unfortunately, due to significantly higher computational cost, such an increase in the number of representants is not suitable for practical use.
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    {\input{img/final_nn.pdf_tex}}
+    \caption{ROC with different neural networks for producing feature vectors}
+    \label{fig:final_nn}
+\end{figure}
+
+We also test whether changing the \gls{nn} would improve the results. We evaluate other approaches (without a dense layer with hard and semihard training loss), exactly as per \autoref{fig:final_roc}. However, as we can see in the figure, the network's performance with dense layer seems best.
+
+\subsection{Direct Identity Construction}
+
+Lastly, we evaluate the approach where we construct the \glspl{iden} directly without a priori construction of the trajectories. Unlike in other approaches, we do not use \gls{roc} curves to evaluate this approach. The reason it would become computationally exhaustive to get all pairs. We can not sample the pairs directly and sort them based on the distance as we did in \autoref{sec:eval_fv} as the fact whether we consider two \glspl{det} to be of same \gls{iden} does not depend only on the distance between them but also on other \glspl{det}. Nor we can make use of a priori trajectory generation to make the computation of subsequent \gls{roc} curved feasible. Therefore we select just a few hyperparameters and evaluate \gls{tpr} and \gls{fpr} just for those set values.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{c||c|c}
+     \gls{iou} \textbackslash{} window & 0.5s & 1.0s \\ \hline \hline
+     0.8 & 0.7652 / 0.3933 & 0.8005 / 0.4137 \\ \hline
+     0.85 & 0.7637 / 0.3923 & 0.7997 / 0.4058 \\ \hline
+     0.9 & 0.7634 / 0.3921 & 0.7624 / 0.3915 \\ \hline
+     0.95 & 0.7995 / 0.4056 & 0.7796 / 0.4002 
+    \end{tabular}
+    \caption[Comparison of various hyperparameters for direct identity construction]{Comparison of various hyperparameters for direct identity construction. In each cell there is \gls{tpr} / \gls{fpr} for given threshold for merging using \gls{iou} and given size of sliding time window}
+    \label{tab:direct_param}
+\end{table}
+
+We can review the results of more successful settings in \autoref{tab:direct_param}. As you can see, we did not manage to improve the results compared to merging trajectories.
+
+The main drawback of this approach is that once every \gls{det} from a \gls{iden} is removed from the sliding time window, no additional \gls{det} can be added to the \gls{iden}. To mitigate this problem, we increase the sliding window size (up to 15 seconds). This also means that the metadata becomes less useful. Therefore, we added another condition that for merging using the metadata, the \glspl{det} has to be closer together than 0.2 seconds (even though the sliding window contains \glspl{det} from 15 seconds). This increase in the window size significantly increased the time needed for processing the \gls{ses}. Unfortunately, even after these changes, we did not improve the results.
+
+
+
+
+
+
+
+

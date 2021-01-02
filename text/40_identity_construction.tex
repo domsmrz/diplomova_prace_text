@@ -1,5 +1,7 @@
 \chapter{Identity and Trajectory Construction}
 
+\label{ch:iden_construction}
+
 %123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
 
 In this chapter we discuss actual techniques to group the \glspl{det} into
@@ -94,7 +96,7 @@ various settings), we assign the \glspl{det} to different trajectories. In the
 opposite case we shall further evaluate secondary conditions on the spatial
 information.
 
-\subsection{Conditioning on spatial information}
+\subsection{Conditioning on Spatial Information}
 
 \label{ssec:spatial_merging}
 
@@ -153,7 +155,7 @@ The last quantity we shall consider is so-called \gls{iou}. \Gls{iou} represents
 \stepcounter{footnote}\footnotetext{\url{https://creativecommons.org/licenses/by-sa/4.0}}
 
 
-\subsection{Trajectory generation}
+\subsection{Trajectory Generation}
 
 \label{ssec:trajectory_generation}
 
@@ -217,24 +219,24 @@ The overall approach for trajectory generation described in this subsection is s
 
 \label{sec:generating_identities}
 
-So far we have looked into how to cluster the \glspl{det} purely based on the metadata (i.e. how to create trajectories). Now we add the visual information (in form of feature vectors from \autoref{ch:features}) to also identify the same object in \glspl{det} that are physically far apart or captured by different cameras -- something that was not possible using just metadata. In other words we are interested in creating the \glspl{iden}. Each \gls{iden} then represents all the \glspl{det} of a single object. To find the correct \glspl{iden} is the final goal of our algorithm, and of this thesis.
+So far we have looked into how to cluster the \glspl{det} purely based on the metadata (i.e. how to create trajectories). Now we add the visual information (in form of feature vectors from \autoref{ch:features}) to also identify the same object in \glspl{det} that are physically far apart or captured by different cameras -- something that was not possible using just metadata. In other words we are interested in creating the \glspl{iden}. Each \gls{iden} then represents all the \glspl{det} of a single object. Finding the correct \glspl{iden} is the final goal of our algorithm, and of this thesis.
 
 \subsection{Trajectory Merging}
 
-The first approach we evaluate directly works with trajectories generated in previous section. We consider trajectories as ``building blocks'' and merge them together into the \glspl{iden} by incorporating the visual information.
+The first approach we evaluate works with trajectories generated in previous section. We consider trajectories as ``building blocks'' and merge them together into the \glspl{iden} by incorporating the visual information.
 
 We base the merging of the trajectories on the distance between the \glspl{det} (or more, precisely, corresponding feature vectors) from the trajectories. We explore multiple distance functions (Euclidean, Manhattan, Cosine -- for definitions please refer to \autoref{sec:distances}) and their effect on the quality of resulting \glspl{iden}.
 
-The straight-forward approach would be to consider each pair of trajectories and to compare each \gls{det} from one trajectory to each \gls{det} from the other trajectory. If the distance between the corresponding feature vectors is lower than selected threshold, we merge the trajectories together. This is quite similar to merging \glspl{det} into trajectories as described in previous section. However, it shares the same disadvantage -- the total number of comparison needed in quadratic in terms of number of \glspl{det}. In the previous case we solved this problem by using sliding window. If we use the sliding window here we lose the ability to merge trajectories with significant ``time gaps''. Therefore, we show another approach to decrease the number of comparison needed.
+The straight-forward approach would be to consider each pair of trajectories and to compare each \gls{det} from one trajectory to each \gls{det} from the other trajectory. If the distance between the corresponding feature vectors is lower than selected threshold, we merge the trajectories together. This is quite similar to merging \glspl{det} into trajectories as described in previous section. However, it shares the same disadvantage -- the total number of comparisons needed is quadratic in terms of number of \glspl{det}. In the case of trajectories we would solved this problem by using sliding window. If we use the sliding window here we lose the ability to merge trajectories with significant ``time gaps''. Therefore, we show another approach to decrease the number of comparisons needed.
 
 
 \subsubsection{Selection of Representants}
 
 %We present a relatively simple approach to decrease number of comparison needed.
 
-The idea behind the approach is to select from each trajectory a set of representants. We want to select a suitable set of representants that will preserve as much information as possible needed for creating appropriate \glspl{iden}. We then compare just pairs of representants instead of all pairs of \glspl{det}. As we show, if the representants are chosen well, the resulting \glspl{iden} will be nearly as good as if we were to compare all the pairs of \glspl{det}.
+The idea behind this approach is to select from each trajectory a set of representants. We want to select a suitable set of representants that will preserve as much information as possible needed for creating appropriate \glspl{iden}. We then compare just pairs of representants instead of all pairs of \glspl{det}. As we show, if the representants are chosen well, the resulting \glspl{iden} will be nearly as good as if we were to compare all the pairs of \glspl{det}.
 
-To show how to pick suitable representants, let us consider following case. Let there be a trajectory and let us pick two \glspl{det} from the trajectory that are similar in terms of their feature vectors. Now consider additional trajectory and one arbitrary \gls{det} from this trajectory in particular. The situation is shown in \autoref{fig:triangular}. The question we focus on is whether we should merge these trajectories together based on the three selected \glspl{det} or not. The straight-forward way to do it would be to compare the \gls{det} from the second trajectory to both of the \glspl{det} from the first trajectory. Note due to the triangular inequality as the two \glspl{det} from the first trajectory are similar, the two computed distances from the third \gls{det} should be similar too. Therefore, if we make our decision regarding the merging the trajectories based on just one of the two distances, we (in most cases) make just as good decision as if we computed both distances. Note that this observation relies on the triangular inequality and therefore holds only if the distance function used is a metric.
+To show how to pick suitable representants, let us consider following case: let there be a trajectory and let us pick two \glspl{det} from the trajectory that are similar in terms of their feature vectors. Now consider additional trajectory and one arbitrary \gls{det} from this trajectory in particular. The situation is shown in \autoref{fig:triangular}. The question we focus on is whether we should merge these trajectories together based on the three selected \glspl{det} or not. The straight-forward way to do it would be to compare the \gls{det} from the second trajectory to both of the \glspl{det} from the first trajectory. Note due to the triangular inequality as the two \glspl{det} from the first trajectory are similar, the two computed distances from the third \gls{det} should be similar too. Therefore, if we make our decision regarding the merging the trajectories based on just one of the two distances, we (in most cases) make just as good decision as if we computed both distances. Note that this observation relies on the triangular inequality and therefore holds only if the distance function used is a metric.
 
 \begin{figure}
     \centering
@@ -244,7 +246,7 @@ To show how to pick suitable representants, let us consider following case. Let 
     \label{fig:triangular}
 \end{figure}
 
-This leads us to the idea that for each trajectory from each set of similar \gls{det} we set only one of them as a representant. To be more precise for each trajectory we set a set of representants such that for each \gls{det} within the trajectory there is at least one representant, for which the distance to the detection is at most some threshold $\Delta_{rep}$. Refer to \autoref{alg:representants} to how to select such representants.
+This leads us to the idea that for each trajectory from each set of similar \gls{det} we set only one of them as a representant. To be more precise for each trajectory we set a set of representants such that for each \gls{det} within the trajectory there is at least one representant, for which the distance to the detection is at most some threshold $\Delta_{rep}$. Refer to \autoref{alg:representants} on how to select such representants.
 
 \begin{algorithm}
  \SetKwInOut{Input}{input}
@@ -268,7 +270,7 @@ This leads us to the idea that for each trajectory from each set of similar \gls
  \label{alg:representants}
 \end{algorithm}
 
-In context of many trajectories and detection this approach indeed gives some guarantees. Let us assume that we get a set of trajectories and we find set of representants by \autoref{alg:representants} with threshold $\Delta_{rep}$ for each trajectory. After selection of representants we merge the trajectories that have any representants closer than merging threshold $\Delta_{mrg}$.
+In context of many trajectories and detections this approach indeed gives some guarantees. Let us assume that we get a set of trajectories and we find set of representants by \autoref{alg:representants} with threshold $\Delta_{rep}$ for all trajectories. Given the representants of the trajectories, we merge the trajectories that have any pair of representants closer than merging threshold $\Delta_{mrg}$.
 
 If there is unknown partitioning (golden \glspl{iden}) that are ``well-separated'' in a certain sense by the distance function then we will obtain exactly this unknown golden partitioning. By the term ``well-separated'' we mean that the minimal distance between \glspl{det} from two distinct golden \glspl{iden} is at least $\Delta_{mrg}$ and that for each pair of \glspl{det} from the same golden \gls{iden} there exists path over \glspl{det} such that each subsequent \glspl{det} are at most $(\Delta_{mrg} - 2\Delta_{rep})$ apart. To visualize this situation see \autoref{fig:claim}. We formalize this claim:
 
@@ -308,9 +310,9 @@ If there is unknown partitioning (golden \glspl{iden}) that are ``well-separated
     \centering
     \def\svgwidth{\columnwidth}
     \input{img/claim.pdf_tex}
-    \caption[Visualization of claim \ref{clm:claim}]{Visualization of claim \ref{clm:claim}. The figure shows two \glspl{iden}, first of them divided into three trajectories, latter into two. The Dots represents \glspl{det}, the black ones mark the representants. Solid lines (shown only is the first trajectory) connect \glspl{det} to the closes representant, these lines are at most $\Delta_{rep}$ long. Dashed lines connect representants themselves and thus are at longer than $\Delta_{rep}$. Dotted lines connect \glspl{det} of different trajectory but the same \gls{iden} (only a few are shown). The gray lines connect \glspl{det} of different \glspl{iden}.
+    \caption[Visualization of claim \ref{clm:claim}]{Visualization of claim \ref{clm:claim}. The figure shows two \glspl{iden}, first of them divided into three trajectories, latter into two. Dots represent \glspl{det}, the black ones mark the representants. Solid lines (shown only is the first trajectory) connect \glspl{det} to the closest representant, these lines are at most $\Delta_{rep}$ long. Dashed lines connect representants themselves and thus are longer than $\Delta_{rep}$. Dotted lines connect \glspl{det} of different trajectoryies but the same \gls{iden} (only a few are shown). The gray lines connect \glspl{det} of different \glspl{iden}.
     
-    The claim considers situation where all ``gray distances'' are at least $\Delta_{mrg}$ and where we can walk from any \gls{det} of one \gls{iden} to another \gls{det} from the same \gls{iden} only by using the lines within the trajectories and the dotted lines that are at most $(\Delta_{mrg} - 2\Delta_{rep})$ long. In such cases the produces \glspl{iden} perfectly match the golden \glspl{iden} shown in the figure.}
+    The claim considers situation where all ``gray distances'' are at least $\Delta_{mrg}$ and where we can walk from any \gls{det} of one \gls{iden} to another \gls{det} from the same \gls{iden} only by using the lines within the trajectories and the dotted lines that are at most $(\Delta_{mrg} - 2\Delta_{rep})$ long. In such cases the produced \glspl{iden} perfectly match the golden \glspl{iden} shown in the figure.}
     \label{fig:claim}
 \end{figure}
 
@@ -328,8 +330,8 @@ Let:
     \item $\Delta_{rep}, \Delta_{mrg} \in \R^+$ such that $\Delta_{rep} < \Delta_{mrg}$
     \item $\delta$ be an metric function over $D$
     \item $r$ be a function $r: \Pt{D} \goto \Pt{D}$ such that $(\forall c \subseteq D)((r(c) \subseteq c) \land (\forall b \in c) (\exists b' \in r(c)) (\delta(b, b') \leq \Delta_{rep}))$ (this represents selection of representants obtained for example via \autoref{alg:representants})
-    \item $\circ$ be a relation over $T$ such that $t\circ t' \Leftrightarrow (\exists d \in r(t)) (\exists d' \in r(t')) (\delta(d, d') \leq \Delta_{mrg})$ (two trajectories are in relation $\circ$ if we can merge them together)
-    \item $\bullet$ be a transitive closure of $\circ$ (i.e. $t \bullet t' \Leftrightarrow (\exists n \in \N) (\exists (t_1, \ldots, t_n) \in T^n) (t = t_1 \land t' = t_n \land (\forall i) (t_i\circ t_{i+1}))$ (this relation is equivalence that represents final \glspl{iden} -- two trajectories are in relation $\bullet$ if and only if they were merged together)
+    \item $\triangledown$ be a relation over $T$ such that $t\triangledown t' \Leftrightarrow (\exists d \in r(t)) (\exists d' \in r(t')) (\delta(d, d') \leq \Delta_{mrg})$ (two trajectories are in relation $\triangledown$ if we can merge them together)
+    \item $\blacktriangledown$ be a transitive closure of $\triangledown$ (i.e. $t \blacktriangledown t' \Leftrightarrow (\exists n \in \N) (\exists (t_1, \ldots, t_n) \in T^n) (t = t_1 \land t' = t_n \land (\forall i) (t_i\triangledown t_{i+1}))$ (this relation is equivalence that represents final \glspl{iden} -- two trajectories are in relation $\blacktriangledown$ if and only if they were merged together)
 \end{itemize}
 
 If the following holds (i.e. the golden \glspl{iden} are ``well-separated''):
@@ -338,13 +340,13 @@ If the following holds (i.e. the golden \glspl{iden} are ``well-separated''):
     \item $(\forall a, a' \in A) (\forall d \in a) (\forall d' \in a') (a \neq a' \Rightarrow \delta(d, d') > \Delta_{mrg})$
 \end{itemize}
 
-Then: $t\bullet t' \Leftrightarrow (\exists a \in A) (t \cup t' \subseteq a)$ (i.e. produced \glspl{iden} exactly match golden \glspl{iden})
+Then: $t\blacktriangledown t' \Leftrightarrow (\exists a \in A) (t \cup t' \subseteq a)$ (i.e. produced \glspl{iden} exactly match golden \glspl{iden})
 
 % Let $D$ be a set of \glspl{det}, $A$ its partitioning, $\delta$ a metric over
-% $D$, $T$ another partitioning of $D$ such that $(\forall t \in T) (\exists a \in A) (t \subseteq a)$ and thresholds $x_{rep}, x_{merge} \in \R^+$. Denote $r: \Pt{D} \goto \Pt{D}$ generator representants as per \autoref{alg:representants} with threshold $x_{rep}$. Now consider $R$ to be a relation over $T$ such that $tRt' \Leftrightarrow (\exists d \in r(t)) (\exists d' \in r(t')) (\delta(d, d') \leq x_{merge})$ and let $\widehat{R}$ be its transitive closure.
+% $D$, $T$ another partitioning of $D$ such that $(\forall t \in T) (\exists a \in A) (t \subseteq a)$ and thresholds $\Delta_{rep}, \Delta_{merge} \in \R^+$. Denote $r: \Pt{D} \goto \Pt{D}$ generator representants as per \autoref{alg:representants} with threshold $\Delta_{rep}$. Now consider $R$ to be a relation over $T$ such that $tRt' \Leftrightarrow (\exists d \in r(t)) (\exists d' \in r(t')) (\delta(d, d') \leq \Delta_{merge})$ and let $\widehat{R}$ be its transitive closure.
 
-% If $\min_{a, a' \in A : a \neq a'} \min_{d \in a, d' \in a'} \delta(d, d') > x_{merge}$ and
-% $(\forall a \in A)(\forall d, d' \in a)(\exists (d = d_1, d_2, \ldots, d_n = d') \subseteq a)(\forall i)(\delta(d_i, d_{i+1}) \leq x_{merge} - 2x_{rep})$ 
+% If $\min_{a, a' \in A : a \neq a'} \min_{d \in a, d' \in a'} \delta(d, d') > \Delta_{merge}$ and
+% $(\forall a \in A)(\forall d, d' \in a)(\exists (d = d_1, d_2, \ldots, d_n = d') \subseteq a)(\forall i)(\delta(d_i, d_{i+1}) \leq \Delta_{merge} - 2\Delta_{rep})$ 
 % then $t\widehat{R}t' \Leftrightarrow (\exists a \in A)(t \cup t' \subseteq a)$.
 
 \end{claim}
@@ -352,28 +354,28 @@ Then: $t\bullet t' \Leftrightarrow (\exists a \in A) (t \cup t' \subseteq a)$ (i
 % This claim basically tells us that if we start with the trajectories that
 % are ``clean'' (i.e. each trajectory is a subset of some golden \gls{iden}) and
 % the \glspl{iden} are well-separated (i.e. distance between golden \glspl{iden}
-% are at least $x_{merge}$ and for any pair of the \glspl{det} within a \gls{iden}
-% there is a sequence of \glspl{det} such thateach subseqent pair of \glspl{det} within the sequence is distant at most $(x_{merge} - 2x_{rep})$ and the ends
+% are at least $\Delta_{merge}$ and for any pair of the \glspl{det} within a \gls{iden}
+% there is a sequence of \glspl{det} such thateach subseqent pair of \glspl{det} within the sequence is distant at most $(\Delta_{merge} - 2\Delta_{rep})$ and the ends
 % of the sequence are the original two \glspl{det}, then the produced clustering
 % of the \glspl{det} corresponds to the desired golden \glspl{iden}.
 
 \begin{myproof}
-First, let us prove that $t \bullet t' \Rightarrow (\exists a \in A) (t \cup t' \subseteq a)$. We shall prove this by contradiction, i.e. for now we assume
-that $(\exists a \in A) (t \in a)$ and $(\exists a' \in A) (t' \in a')$ and $a \neq a'$. From property of $\bullet$ we know there is a sequence of $t_1, t_2, \ldots t_n$ (for some $n$), such that $(\forall i) (t_i \circ t_{i+1})$. Let
+First, let us prove that $t \blacktriangledown t' \Rightarrow (\exists a \in A) (t \cup t' \subseteq a)$. We prove this by contradiction, i.e. for now we assume
+that $(\exists a \in A) (t \in a)$ and $(\exists a' \in A) (t' \in a')$ and $a \neq a'$. From property of $\blacktriangledown$ we know there is a sequence of $t_1, t_2, \ldots t_n$ (for some $n$), such that $(\forall i) (t_i \triangledown t_{i+1})$. Let
 us take minimal $i$ such that $t_i$ and $t_{i+1}$ is not subset of the same
 $a \in A$ (such $i$ exists as $t$ and $t'$ does belong to different $a$s).
-For such $i$ (since $t_i \circ t_{i+1}$) there is $d \in t_i$ and
-$d' \in t_{i+1}$ such that $\delta(d, d') \leq x_{mrg}$. However since $d \in a$
+For such $i$ (since $t_i \triangledown t_{i+1}$) there is $d \in t_i$ and
+$d' \in t_{i+1}$ such that $\delta(d, d') \leq \Delta_{mrg}$. However since $d \in a$
 and $d' \in a'$ (such that $a \neq a'$) this is in contradiction with second
 of the original assumptions.
 
-Now let us prove that $(\exists a \in A) (t \cup t' \subseteq a) \Rightarrow t \bullet t'$. Let us choose $d \in t$ and $d' \in t'$ arbitrarily. By the
+Now we prove that $(\exists a \in A) (t \cup t' \subseteq a) \Rightarrow t \blacktriangledown t'$. Let us choose $d \in t$ and $d' \in t'$ arbitrarily. By the
 assumptions for elements of $a$ there is sequence $(d_0, \ldots, d_n) \in A^n$
-such that $d = d_0 \land d' = d_n \land (\forall i) (\delta(d_i, d_{i+1}) \leq x_{mrg} - 2x_{rep}$. Now let us denote for each $i$ $t_i \in T$ such that
-$d_i \in t_i$. Finally, let us denote $r_i = \mathrm{argmin}_{d \in r(t_i)} \delta(d, d_i)$. If $t_i = t_{i+1}$ then $t_i \circ t_{i+1}$ by definition.
+such that $d = d_0 \land d' = d_n \land (\forall i) (\delta(d_i, d_{i+1}) \leq \Delta_{mrg} - 2\Delta_{rep}$. Now we denote for each $i,$ $t_i \in T$ such that
+$d_i \in t_i$. Finally, we denote $r_i = \mathrm{argmin}_{d' \in r(t_i)} \delta(d', d_i)$. If $t_i = t_{i+1}$ then $t_i \triangledown t_{i+1}$ by definition.
 So let us consider cases where $t_i \neq t_{i+1}$. In such case we can bound
 the distance between $r_i$ and $r_{i+1}$ due to the triangle inequality:
-$\delta(r_i, r_{i+1}) \leq \delta(r_i, d_i) + \delta(d_i, d_{i+1}) + \delta(d_{i+1}, r_{i+1}) \leq x_{rep} + (x_{mrg} - 2x_{rep}) + x_{rep} = x_{mrg}$. And as $r_i \in r(t_i)$ we can conclude that $(\forall i) (t_i \circ t_{i+1})$. Therefore $t \bullet t'$.\end{myproof}
+$\delta(r_i, r_{i+1}) \leq \delta(r_i, d_i) + \delta(d_i, d_{i+1}) + \delta(d_{i+1}, r_{i+1}) \leq \Delta_{rep} + (\Delta_{mrg} - 2\Delta_{rep}) + \Delta_{rep} = \Delta_{mrg}$. And as $r_i \in r(t_i)$ we can conclude that $(\forall i) (t_i \triangledown t_{i+1})$. Therefore $t \blacktriangledown t'$.\end{myproof}
 
 
 \begin{cor}
@@ -382,9 +384,8 @@ If the distance between two closest \glspl{det} from different golden
 of the same golden \gls{iden} is $\Delta_{within} < \Delta_{between}$, then for any set of ``clean''
 trajectories (i.e. if each trajectory contains \glspl{det} only from single
 golden \gls{iden}) the \autoref{alg:representants} for representant selection
-with threshold $(\Delta_{between} - \Delta_{within} - \varepsilon) / 2$ (for arbitrarily small
-$\varepsilon \in \R^+$) followed by merging based on representants with
-threshold $\Delta_{between} - \varepsilon$ produces the golden \glspl{iden}.
+with threshold $\Delta_{rep} < (\Delta_{between} - \Delta_{within}) / 2$ followed by merging based on representants with
+threshold $\Delta_{mrg}$ s.t. $\Delta_{within} \leq \Delta_{mrg} < \Delta_{between}$ produces the golden \glspl{iden}.
 \end{cor}
 
 Let us note that the original assumption is fulfilled if the Triplet Loss
@@ -396,26 +397,25 @@ In case that $\delta$ is not metric function but just a generic distance
 function we have no such guarantees. However we still evaluate this approach
 even for such distance functions.
 
-\subsection{Direct identity generation}
+\subsection{Direct Identity Generation}
 
-So far we have presented two-step approach. In the first step we generate
+We have presented two-step approach for the identity generation. In the first step we generate
 trajectories and during the second step we merge these trajectories into
 the \glspl{iden}.
 
-However, we also experiment with the approach where we generate the identities directly from the \glspl{det}. This approach would work similar to the original trajectory generation (from \autoref{ssec:trajectory_generation}) where we have a sliding window of \glspl{det} and we merge two sets of \glspl{det} together if we find two similar \glspl{det}. This approach has significant drawback of not being able to merge two sets of \glspl{det} together if there is too big ``time gap'' between two consecutive \glspl{det}. Nevertheless, we believe it is worth to experiment with this direct approach.
+However, we also experiment with the approach where we generate the identities directly from the \glspl{det} (and omit the trajectories). This approach would work similarly to the original trajectory generation (from \autoref{ssec:trajectory_generation}) where we have a sliding window of \glspl{det} and we merge two sets of \glspl{det} together if we find two similar \glspl{det}. This approach has significant drawback of not being able to merge two sets of \glspl{det} together if there is too big ``time gap'' between two consecutive \glspl{det}. Nevertheless, we believe it is worth to experiment with this direct approach.
 
-However, we still want to be able to at least assign two \glspl{det} to the
-same \gls{iden} if they both fit into the sliding window, even though they are
-from different cameras. Therefore, our approach will be as follows: If we are
+However, we still want to be able to assign two \glspl{det} to the
+same \gls{iden} if they both fit into the sliding window and are from different cameras. Therefore, our approach will be as follows: If we are
 considering two \glspl{det} for merging, we evaluate the spatial information
 exactly as in \autoref{ssec:spatial_merging}. If all the conditions are met,
-then we merge corresponding set of \glspl{det}. If one of the threshold is
-exceeded then we evaluate the visual information. If the corresponding feature
-vectors are closer then pre-selected threshold, we merge the corresponding sets of \glspl{det} even though the information from metadata is not conclusive.
+we merge the corresponding set of \glspl{det}. If one of the thresholds is
+exceeded, then we evaluate the visual information. If the corresponding feature
+vectors are closer than the pre-selected threshold, we merge the corresponding set \glspl{det} even though the information from metadata is not conclusive.
 
 \section{Recapitulation}
 
-In this chapter we elaborated on two ways of generating \glspl{iden} that we experiment with (trajectory generation with subsequent merging and direct approach). Both are dependent on which feature vectors will be used (which we described in \autoref{ch:features}). Furthermore, each approach is dependent on selection of additional hyperparameters (such as thresholds). In \autoref{ch:evaluation} we aim to find suitable hyperparameters by emirical testing. To reiterate the paramters are:
+This chapter elaborated on two ways to generate \glspl{iden} -- trajectory generation with subsequent merging and direct approach. Both are dependent on the choice of the feature vectors used (which we described in \autoref{ch:features}). Furthermore, each approach is dependent on the selection of additional hyper-parameters (such as thresholds). In \autoref{ch:evaluation} we aim to find suitable hyper-parameters by empirical testing. To summarize the parameters:
 
 \begin{itemize}
     \item Size of the sliding window
