@@ -1,0 +1,93 @@
+%% Creator: Inkscape 1.0.1 (0767f8302a, 2020-10-17), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'img/lr_heatmap_euclidean.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{460.40622277bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.63103341)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{img/lr_heatmap_euclidean.pdf}}%
+    \put(0.25047495,0.56605479){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{img/lr_heatmap_euclidean.pdf}}%
+    \put(0.4135609,0.56605479){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{img/lr_heatmap_euclidean.pdf}}%
+    \put(0.57664681,0.56605479){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}3\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{img/lr_heatmap_euclidean.pdf}}%
+    \put(0.73973276,0.56605479){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{img/lr_heatmap_euclidean.pdf}}%
+    \put(0.9028187,0.56605479){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}10\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{img/lr_heatmap_euclidean.pdf}}%
+    \put(0.57664681,0.02015545){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Epoch\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{img/lr_heatmap_euclidean.pdf}}%
+    \put(0.02970711,0.4565389){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$5\times{}10^{-6}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{img/lr_heatmap_euclidean.pdf}}%
+    \put(0.02970711,0.29345298){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$2\times{}10^{-5}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{img/lr_heatmap_euclidean.pdf}}%
+    \put(0.07010622,0.13036705){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$10^{-4}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{img/lr_heatmap_euclidean.pdf}}%
+    \put(0.01650207,0.30170485){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Learning rate\end{tabular}}}}}%
+    \put(0.25047495,0.45879743){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8712\end{tabular}}}}%
+    \put(0.4135609,0.45879743){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8718\end{tabular}}}}%
+    \put(0.57664681,0.45879743){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8717\end{tabular}}}}%
+    \put(0.73973276,0.45879743){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8857\end{tabular}}}}%
+    \put(0.9028187,0.45879743){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8841\end{tabular}}}}%
+    \put(0.25047495,0.2957115){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8890\end{tabular}}}}%
+    \put(0.4135609,0.2957115){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8812\end{tabular}}}}%
+    \put(0.57664681,0.2957115){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8739\end{tabular}}}}%
+    \put(0.73973276,0.2957115){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8655\end{tabular}}}}%
+    \put(0.9028187,0.2957115){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8647\end{tabular}}}}%
+    \put(0.25047495,0.13262559){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8798\end{tabular}}}}%
+    \put(0.4135609,0.13262559){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8897\end{tabular}}}}%
+    \put(0.57664681,0.13262559){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8589\end{tabular}}}}%
+    \put(0.73973276,0.13262559){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8757\end{tabular}}}}%
+    \put(0.9028187,0.13262559){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.8708\end{tabular}}}}%
+    \put(0.57664681,0.59559053){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Euclidean distance\end{tabular}}}}%
+  \end{picture}%
+\endgroup%

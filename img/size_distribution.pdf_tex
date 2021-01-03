@@ -38,7 +38,7 @@
   \newcommand*\fsize{\dimexpr\f@size pt\relax}%
   \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{375bp}%
+    \setlength{\unitlength}{450bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -50,21 +50,23 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.8)%
+  \begin{picture}(1,0.58333333)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{img/size_distribution.pdf}}%
-    \put(0.38446,0.134){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}100\end{tabular}}}}%
-    \put(0.62978,0.134){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}200\end{tabular}}}}%
-    \put(0.158,0.1516){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0\end{tabular}}}}%
-    \put(0.158,0.24682){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}2000\end{tabular}}}}%
-    \put(0.158,0.34206){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}4000\end{tabular}}}}%
-    \put(0.158,0.43728){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}6000\end{tabular}}}}%
-    \put(0.158,0.5325){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}8000\end{tabular}}}}%
+    \put(0.27798333,0.11166667){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}50\end{tabular}}}}%
+    \put(0.45226667,0.11166667){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}100\end{tabular}}}}%
+    \put(0.62655,0.11166667){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}150\end{tabular}}}}%
+    \put(0.80083333,0.11166667){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}200\end{tabular}}}}%
+    \put(0.13166667,0.12633333){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0\end{tabular}}}}%
+    \put(0.13166667,0.23828333){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}5k\end{tabular}}}}%
+    \put(0.13166667,0.35023333){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}10k\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{img/size_distribution.pdf}}%
-    \put(0.88056,0.56164){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Widths\end{tabular}}}}%
+    \put(0.9004,0.3847){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Widths\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{img/size_distribution.pdf}}%
-    \put(0.88056,0.52364){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Heights\end{tabular}}}}%
+    \put(0.9004,0.35303333){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Heights\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{img/size_distribution.pdf}}%
+    \put(0.47666667,0.06533335){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Pixels\end{tabular}}}}%
+    \put(0.05640104,0.275){\color[rgb]{0.16470588,0.24705882,0.37254902}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Number of detections\end{tabular}}}}}%
   \end{picture}%
 \endgroup%

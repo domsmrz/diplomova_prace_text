@@ -310,7 +310,7 @@ If there is unknown partitioning (golden \glspl{iden}) that are ``well-separated
     \centering
     \def\svgwidth{\columnwidth}
     \input{img/claim.pdf_tex}
-    \caption[Visualization of claim \ref{clm:claim}]{Visualization of claim \ref{clm:claim}. The figure shows two \glspl{iden}, first of them divided into three trajectories, latter into two. Dots represent \glspl{det}, the black ones mark the representants. Solid lines (shown only is the first trajectory) connect \glspl{det} to the closest representant, these lines are at most $\Delta_{rep}$ long. Dashed lines connect representants themselves and thus are longer than $\Delta_{rep}$. Dotted lines connect \glspl{det} of different trajectoryies but the same \gls{iden} (only a few are shown). The gray lines connect \glspl{det} of different \glspl{iden}.
+    \caption[Visualization of claim \ref{clm:claim}]{Visualization of claim \ref{clm:claim}. The figure shows two \glspl{iden}, first of them divided into three trajectories, latter into two. Dots represent \glspl{det}, the black ones mark the representants. Solid lines (shown only is the first trajectory) connect \glspl{det} to the closest representant, these lines are at most $\Delta_{rep}$ long. Dashed lines connect representants themselves and thus are longer than $\Delta_{rep}$. Dotted lines connect \glspl{det} of different trajectories but the same \gls{iden} (only a few are shown). The gray lines connect \glspl{det} of different \glspl{iden}.
     
     The claim considers situation where all ``gray distances'' are at least $\Delta_{mrg}$ and where we can walk from any \gls{det} of one \gls{iden} to another \gls{det} from the same \gls{iden} only by using the lines within the trajectories and the dotted lines that are at most $(\Delta_{mrg} - 2\Delta_{rep})$ long. In such cases the produced \glspl{iden} perfectly match the golden \glspl{iden} shown in the figure.}
     \label{fig:claim}
@@ -328,7 +328,7 @@ Let:
     \item $A$ a partitioning of $D$ (this represents golden \glspl{iden})
     \item $T$ partitioning of $D$ such that $(\forall t \in T) (\exists a \in A) (t \subseteq a)$ (this represents input ``clean'' trajectories)
     \item $\Delta_{rep}, \Delta_{mrg} \in \R^+$ such that $\Delta_{rep} < \Delta_{mrg}$
-    \item $\delta$ be an metric function over $D$
+    \item $\delta$ be a metric function over $D$
     \item $r$ be a function $r: \Pt{D} \goto \Pt{D}$ such that $(\forall c \subseteq D)((r(c) \subseteq c) \land (\forall b \in c) (\exists b' \in r(c)) (\delta(b, b') \leq \Delta_{rep}))$ (this represents selection of representants obtained for example via \autoref{alg:representants})
     \item $\triangledown$ be a relation over $T$ such that $t\triangledown t' \Leftrightarrow (\exists d \in r(t)) (\exists d' \in r(t')) (\delta(d, d') \leq \Delta_{mrg})$ (two trajectories are in relation $\triangledown$ if we can merge them together)
     \item $\blacktriangledown$ be a transitive closure of $\triangledown$ (i.e. $t \blacktriangledown t' \Leftrightarrow (\exists n \in \N) (\exists (t_1, \ldots, t_n) \in T^n) (t = t_1 \land t' = t_n \land (\forall i) (t_i\triangledown t_{i+1}))$ (this relation is equivalence that represents final \glspl{iden} -- two trajectories are in relation $\blacktriangledown$ if and only if they were merged together)

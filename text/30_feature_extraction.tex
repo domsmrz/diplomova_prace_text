@@ -344,6 +344,8 @@ This simple architecture is not as complex as fine-tuned architectures such as R
 
 \subsection{Pre-trained Models}
 
+\label{ssec:pretrained_models}
+
 We experiment with various architectures based on the already trained \glspl{nn} (see \autoref{ssec:transfer_learning} and \autoref{sec:existing_architectures}).
 
 The first experiment in this regard is to use ResNet and MobileNet as they were trained on the ImageNet dataset without the last ``classification'' layer. By such an experiment, we can hypothesize if these networks extract enough information simply by virtue of being image distinguishing neural networks or whether additional training is needed.
@@ -362,5 +364,7 @@ For training itself, we use Triplet Loss as described in \autoref{sec:triplet_lo
 Usually, we train the neural networks until the convergence of the loss function is reached. However, in some cases (notably, while incorporating the ResNet architecture), we needed to end the training earlier due to high hardware and time demands. Nevertheless, to avoid overfitting on the training dataset, we also evaluate the networks with weights learned in earlier training stages.
 
 \subsection{Resizing Images}
+
+\label{ssec:resizing}
 
 Many \glspl{nn} for image processing (including those we work with) require the input image to be of fixed dimensions. For resizing images, various algorithms can be employed. We exclusively use the bicubic interpolation to achieve good results when scaling up (which is our common use case). For details please refer to \cite{keys1981cubic}. Other algorithms can be experimented with. However, it is out of the scope of this work.
