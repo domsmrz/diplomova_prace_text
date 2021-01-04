@@ -18,16 +18,16 @@ Where $\mathcal{I}$ is the space of images as in \autoref{eq:image}
 
 The first set of feature extraction approaches focuses on encapsulating the distribution of color within a given image. The idea is that the color distribution of the tracked person's image should not change even if the given person moves within the display. We describe this distribution in the forms of histograms, similarly to other research (see \autoref{sec:early_research}).
 
-\begin{figure}
-    \centering
-    \def\svgwidth{\columnwidth}
-    \scalebox{0.6}{\input{img/histogram.pdf_tex}}
-    \caption[Visualization of histogram of data]{Visualization of histogram of data $(2, 3, 11, 15, 17, 23)$ with 3 bins, lower bound 0 and upper bound 30. The values of the histogram are $(2, 3, 1)$}
-    \label{fig:histogram}
-    \todo[inline=true]{Uhladit obrazek}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     \def\svgwidth{\columnwidth}
+%     \scalebox{0.6}{\input{img/histogram.pdf_tex}}
+%     \caption[Visualization of histogram of data]{Visualization of histogram of data $(2, 3, 11, 15, 17, 23)$ with 3 bins, lower bound 0 and upper bound 30. The values of the histogram are $(2, 3, 1)$}
+%     \label{fig:histogram}
+%     \todo[inline=true]{Uhladit obrazek}
+% \end{figure}
 
-Histograms are often used for visualization purposes. However, in this work, we use histograms as actual feature vectors. To avoid any ambiguity, we offer the following definition, which is in line with the standard concept of histograms. An example of histogram accompanied by standard visualization can be seen in \autoref{fig:histogram}.
+Histograms are often used for visualization purposes. However, in this work, we use histograms as actual feature vectors. To avoid any ambiguity, we offer the following definition, which is in line with the standard concept of histograms.% An example of histogram accompanied by standard visualization can be seen in \autoref{fig:histogram}.
 
 \begin{defn}
 \label{defn:simplehistogram}
@@ -63,8 +63,6 @@ $$\widehat{H}_{i_1, \ldots i_m} = \frac{H_{i_1, \ldots i_m}}{\sum_{j_1, \ldots, 
 Where $H_{i_1, \ldots, i_m}$ is a histogram of $X$.
 \end{defn}
 
-\todo[inline=true]{Doplnit srovnani concatenace a multi-d-histogramu do eval.}
-
 \subsection{Color Models}
 
 As we mentioned previously in this section, so far, we aim to capture the distribution of the color within an image via histograms. However, we need to decide how we want to represent the pixels in the first place. We explore several well-known models.
@@ -80,34 +78,36 @@ A simple comparison can be seen in \autoref{fig:rubik_rgb_hsv}. In the figure, w
 
 \begin{figure}
     \newlength{\rubiklength}
+    \newlength{\raiselength}
     \setlength{\rubiklength}{3cm}
+    \setlength{\raiselength}{1.4cm}
     \centering
     \begin{tabular}{rccc}
-         Original &
+         \raisebox{\raiselength}{Original} &
          \includegraphics[width=\rubiklength]{img/rubik/1_orig.jpg} & 
          \includegraphics[width=\rubiklength]{img/rubik/2_orig.jpg} & \includegraphics[width=\rubiklength]{img/rubik/3_orig.jpg}\\
          
-         Red &
+         \raisebox{\raiselength}{Red} &
          \includegraphics[width=\rubiklength]{img/rubik/1_rgb_r.jpg} & 
          \includegraphics[width=\rubiklength]{img/rubik/2_rgb_r.jpg} & \includegraphics[width=\rubiklength]{img/rubik/3_rgb_r.jpg}\\
          
-         Green &
+         \raisebox{\raiselength}{Green} &
          \includegraphics[width=\rubiklength]{img/rubik/1_rgb_g.jpg} & 
          \includegraphics[width=\rubiklength]{img/rubik/2_rgb_g.jpg} & \includegraphics[width=\rubiklength]{img/rubik/3_rgb_g.jpg}\\
          
-         Blue &
+         \raisebox{\raiselength}{Blue} &
          \includegraphics[width=\rubiklength]{img/rubik/1_rgb_b.jpg} & 
          \includegraphics[width=\rubiklength]{img/rubik/2_rgb_b.jpg} & \includegraphics[width=\rubiklength]{img/rubik/3_rgb_b.jpg}\\
          
-         Hue &
+         \raisebox{\raiselength}{Hue} &
          \includegraphics[width=\rubiklength]{img/rubik/1_hsv_h.jpg} & 
          \includegraphics[width=\rubiklength]{img/rubik/2_hsv_h.jpg} & \includegraphics[width=\rubiklength]{img/rubik/3_hsv_h.jpg}\\
          
-         Saturation &
+         \raisebox{\raiselength}{Saturation} &
          \includegraphics[width=\rubiklength]{img/rubik/1_hsv_s.jpg} & 
          \includegraphics[width=\rubiklength]{img/rubik/2_hsv_s.jpg} & \includegraphics[width=\rubiklength]{img/rubik/3_hsv_s.jpg}\\
          
-         Value &
+         \raisebox{\raiselength}{Value} &
          \includegraphics[width=\rubiklength]{img/rubik/1_hsv_v.jpg} & 
          \includegraphics[width=\rubiklength]{img/rubik/2_hsv_v.jpg} & \includegraphics[width=\rubiklength]{img/rubik/3_hsv_v.jpg}
 
@@ -119,30 +119,30 @@ A simple comparison can be seen in \autoref{fig:rubik_rgb_hsv}. In the figure, w
 \end{figure}
 
 \begin{figure}
-    \centering
     \setlength{\rubiklength}{3cm}
+    \setlength{\raiselength}{1.4cm}
+    \centering
     \begin{tabular}{rccc}
-         Original &
+         \raisebox{\raiselength}{Original} &
          \includegraphics[width=\rubiklength]{img/rubik/1_orig.jpg} & 
          \includegraphics[width=\rubiklength]{img/rubik/2_orig.jpg} & \includegraphics[width=\rubiklength]{img/rubik/3_orig.jpg}\\
          
-         Luma &
+         \raisebox{\raiselength}{Luma} &
          \includegraphics[width=\rubiklength]{img/rubik/1_yuv_y.jpg} & 
          \includegraphics[width=\rubiklength]{img/rubik/2_yuv_y.jpg} &
          \includegraphics[width=\rubiklength]{img/rubik/3_yuv_y.jpg}\\
          
-         Blue projection &
+         \raisebox{\raiselength}{Blue projection} &
          \includegraphics[width=\rubiklength]{img/rubik/1_yuv_u.jpg} & 
          \includegraphics[width=\rubiklength]{img/rubik/2_yuv_u.jpg} &
          \includegraphics[width=\rubiklength]{img/rubik/3_yuv_u.jpg}\\
          
-         Red projection &
+         \raisebox{\raiselength}{Red projection} &
          \includegraphics[width=\rubiklength]{img/rubik/1_yuv_v.jpg} & 
          \includegraphics[width=\rubiklength]{img/rubik/2_yuv_v.jpg} & \includegraphics[width=\rubiklength]{img/rubik/3_yuv_v.jpg}
          \end{tabular}
     \caption[YUV decomposition of an object under varying light conditions]{YUV decomposition of an object under varying light conditions. The original photos are shown in the top row, remaining rows show components of luma (Y), blue projection (U) and red projection (V) respectively.}
     \label{fig:rubik_yuv}
-    \todo[inline=true]{\LaTeX{} Zarovnat text v prvnim sloupci aby byl vertikalne uprostred (ne dole jak je ted)}
 \end{figure}
 
 \subsubsection{HSV}
@@ -180,7 +180,6 @@ We can see that hue and saturation are quite robust in terms of changes in light
     \includegraphics[width=6cm]{img/HSV_color_solid_cylinder.png}
     \caption[HSV color cylinder]{HSV color cylinder\\Source: HSV color solid cylinder\protect\footnotemark{} by SharkD, CC BY-SA 3.0\protect\footnotemark{}, via Wikimedia Commons}
     \label{fig:hsv_cylinder}
-    \todo[inline=true,color=cyan]{\LaTeX tenhle zpusob sazeni hodi footnote na jinou stranu nez je obrazek. Lepsi nez to vubec nemit, ale mozna s tim zkusim jeste neco udelat}
 \end{figure}
 \addtocounter{footnote}{-2}
 \stepcounter{footnote}\footnotetext{\url{https://commons.wikimedia.org/wiki/File:HSV_color_solid_cylinder.png}}
@@ -192,7 +191,7 @@ Another fairly popular (\cite{orwell1999multi}, \cite{wren1997pfinder}) encoding
 
 \begin{figure}
     \centering
-    \includegraphics[width=6cm]{img/YUV_UV_plane.svg.png}
+    \includegraphics[width=5.6cm]{img/YUV_UV_plane.svg.png}
     \caption[UV plane of YUV decomposition]{UV plane of YUV decomposition\\
     Source: YUV UV plane\protect\footnotemark{} by Tonyle, CC BY-SA 3.0, via Wikimedia Commons \protect\footnotemark{}}
     \label{fig:yuv_decomposition}
@@ -340,7 +339,7 @@ The first network we evaluate is a simple custom architecture. Our architecture 
     \label{tab:custom_architecture}
 \end{table}
 
-This simple architecture is not as complex as fine-tuned architectures such as ResNet and MobileNet. Therefore, we expect to the resulting feature vectors as quality as the well-researched counter-part. However, it serves as a baseline for this type of approach. Furthermore, its simplicity has other advantages. Training takes significantly less time, which allows for a quick initial overview of the results. It also provides low latency during the inference, which is useful if we extend our usage to on-line \reid{}.
+This simple architecture is not as complex as fine-tuned architectures such as ResNet and MobileNet. Therefore, we expect the resulting feature vectors to be a lower quality. However, it serves as a baseline for this type of approach. Furthermore, its simplicity has other advantages. Training takes significantly less time, which allows for a quick initial overview of the results. It also provides low latency during the inference, which is useful if we extend our usage to on-line \reid{}.
 
 \subsection{Pre-trained Models}
 
@@ -352,7 +351,7 @@ The first experiment in this regard is to use ResNet and MobileNet as they were 
 
 Finally, we explore the possibility of improving the abilities of \gls{nn} by fine-tuning them on our dataset. The first straight-forward approach we tested was to train the network without the last ``classification'' layer on our dataset without additional modification.\footnote{Actually, in order to employ Triplet Loss for learning, we needed to add a normalization layer. However, this layer does not add any trainable parameters.} However, we also explore the possibilities of slight modifications. We add a custom dense layer, sort of ``in place'' of the removed classification layer.
 
-We also experiment with the so-called ``freezing'' pre-trained part of the model. This means that we only fine-tuned the added final layer by learning, instead of the whole model. This has the advantage of a faster learning as the number of trainable parameters are significantly lower and the derivative has to be computed only for the last layer. Furthermore, using completely untrained weights in the final layer may cause the weights set in the pre-trained part to re-learn and completely lose the pre-trained model's advantages.
+We also experiment with ``freezing'' the pre-trained part of the model. This means that we only fine-tuned the added final layer by learning, instead of the whole model. This has the advantage of a faster learning as the number of trainable parameters are significantly lower and the derivative has to be computed only for the last layer. Furthermore, using completely untrained weights in the final layer may cause the weights set in the pre-trained part to re-learn and completely lose the pre-trained model's advantages.
 
 \subsection{Training}
 

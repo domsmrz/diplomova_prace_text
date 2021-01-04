@@ -1,15 +1,14 @@
 \chapter{Preliminaries}
 
-%123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
+\label{ch:preliminaries}
 
-In this chapter, we provide an overview of the elementary concepts we use in the thesis. We start by introducing the basic notation we shall
-use thorough out the work. Then we show the concept of distances and
-metric spaces. We finish the chapter by describing the basics of
-neural networks and related concepts.
+In this chapter, we provide an overview of the elementary concepts we use in the thesis. We start by introducing the basic notation we shall use thorough out the work. Then we show the concept of distances and metric spaces. We finish the chapter by describing the basics of neural networks and related concepts.
 
 \section{Notation}
 
-We briefly summarize the notation we use. We use standard notation for number systems: $\mathbb{N}$ for natural numbers (including zero), $\mathbb{R}$ for real numbers, $\mathbb{R}^+$ for positive real numbers, and $\mathbb{R}^+_0$ for non-negative real numbers.
+We use standard notation for number systems: $\mathbb{N}$ for natural numbers (including zero), $\mathbb{R}$ for real numbers, $\mathbb{R}^+$ for positive real numbers, and $\mathbb{R}^+_0$ for non-negative real numbers.
+
+% We use $\Pt{X}$ to denote a power set, that is a set of all subsets of set $X$.
 
 We often work with vectors, and we shall write them as $\vec{a}$. In order to refer to $i$-th element of a vector $\vec{a}$ we shall write $a_i$. Similarly, in the case of matrix $A$, we shall refer to a specific element in $i$-th row and $j$-th column as $A_{i,j}$.
 
@@ -22,6 +21,17 @@ tensors of sizes $(s_2, s_3, \ldots, s_n)$.
 \end{defn}
 
 As we can see, a 1-dimensional tensor is a vector, and a 2-dimensional tensor is a matrix. Similarly, we shall refer to specific element of tensor $a$ using subscripts ($a_{i,j,k}$).
+
+We also use some elementary operation on the sets. We denote the power set of $A$ by $\Pt{A}$, that is set of all subsets of $A$. We also use a term partitioning:
+
+\begin{defn}
+We say that set $B$ is partitioning of set $A$ if:
+\begin{enumerate}[label=(\roman*)]
+    \item $\bigcup B = A$
+    \item $(\forall b \in B) (\forall b' \in B) (b \cap b' \neq \emptyset \Leftrightarrow b = b')$
+\end{enumerate}
+We refer to elements of $B$ as partitions.
+\end{defn}
 
 \section{Distance and Metric Spaces}
 \label{sec:distances}
@@ -183,7 +193,7 @@ It can be easily seen that the minimal value of the Triplet Loss is zero. In ord
 
 An additional challenge for using Triplet Loss is to select suitable triplets. Usually, each point in the dataset (or more precisely in a subset of the dataset called a batch) is once selected as an anchor point. Then the task is then to find the appropriate positive and negative sample for each anchor point.
 
-The related terminology is somewhat ambiguous. For practical purposes, we chose to use the terminology corresponding to the implementation in the Tensorflow framework (\cite{tensorflow}). They operate with two strategies: Hard and Semi-Hard Triplet Loss.
+The related terminology is somewhat ambiguous. For practical purposes, we choose to use the terminology corresponding to the implementation in the Tensorflow framework (\cite{tensorflow}). They operate with two strategies: Hard and Semi-Hard Triplet Loss.
 
 In the case of Hard Loss, the positive and negative samples are selected ``as hard as possible'', which means that the positive sample is the furthest (from the anchor point) out of all considered samples of the same cluster. On the other hand, the negative sample is the closest sample out of all samples from samples that are not of the same cluster as the anchor point.
 

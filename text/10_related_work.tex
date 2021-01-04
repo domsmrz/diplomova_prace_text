@@ -1,5 +1,7 @@
 \chapter{Related Work}
 
+\label{ch:related_work}
+
 %123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
 
 Great advantages offered by the usable re-identification algorithm also bring a considerable amount of research in the area. In this chapter, we aim to review this research and related articles. Furthermore, we also focus on the popular architectures of \glspl{nn} for image processing (not necessarily used for \reid{}).
@@ -28,7 +30,7 @@ More and more successful models based on the deep learning emerged in the past f
 
 One such research is presented by \cite{ding2015deep}. The authors propose a relatively simple \gls{nn} consisting only of a few convolutional layers, interwoven with the max-pooling layers. To train the network, they use a Triplet loss (albeit using non-standard terminology). They elaborate more on the selection of the triplets to train on.
 
-A similar approach was explored by \cite{cheng2016person}. The basis of their method is again convolutional \gls{nn} trained by Triplet Loss. However, they presented several notable improvements. Firstly, the architecture they designed after the first convolutional layer ``splits'' the input into four horizontal stripes. Meaning that each of these strips is fed into its own independent part of the \gls{nn}, where each part tries to learn the features of its respective body part. However, the original information is also used (``copied'') into the fifth ``global'' part of the \gls{nn} and trained. At the end of the \gls{nn} pipe-line, the parts' outputs are combined. The loss function used is again the Triplet Loss. The authors also focused on the formulation of Triplet Loss. They propose a slightly different formulation of the Triplet Loss, designed specifically for the \reid{} task.
+A similar approach was explored by \cite{cheng2016person}. The basis of their method is again convolutional \gls{nn} trained by Triplet Loss. However, they presented several notable improvements. Firstly, the architecture they designed after the first convolutional layer ``splits'' the input into four horizontal strips. Meaning that each of these strips is fed into its own independent part of the \gls{nn}, where each part tries to learn the features of its respective body part. However, the original information is also used (``copied'') into the fifth ``global'' part of the \gls{nn} and trained. At the end of the \gls{nn} pipe-line, the parts' outputs are combined. The loss function used is again the Triplet Loss. The authors also focused on the formulation of Triplet Loss. They propose a slightly different formulation of the Triplet Loss, designed specifically for the \reid{} task.
 
 Another \gls{nn} design is presented by \cite{li2014deepreid}. Unlike other approaches, they do not use Triplet Loss or a similar loss to embed the original images into feature space. The architecture they propose directly process pair of images. The output of the whole network is then simple number which describes ``confidence'' of the \gls{nn} how likely the images display the same person. Such architecture is then trained via simple softmax loss.
 

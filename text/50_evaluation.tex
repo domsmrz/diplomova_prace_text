@@ -522,8 +522,9 @@ In \autoref{fig:final_merging_initial} we also see that after merging trajectori
     \end{subfigure}
     \caption{Examples of falsely positive pairs}
     \label{fig:fp_pairs}
-\end{figure}
+    \todo[inline]{rozsirila by som popisok}
 
+\end{figure}
 Nevertheless, we should not perceive the approach with merging trajectories as a strictly worse approach. Unless we cluster the \glspl{det} we can not query all the \glspl{det} of one given object. For example if we have just the distances of feature vectors we can, for a given \gls{det}, retrieve the other \glspl{det} in order of their visual similarity. However, this similarity drops significantly once the tracked person turns or changes her appearance in any other way. This means that the ability of drawing complete trajectories of a given person is lost.
 
 On the other hand, approach with subsequent merging into bigger \glspl{iden} tries to mitigate this problem by keeping track of small changes and due to transitivity to keep its ability to find complete trajectories. This is however traded off by lower \gls{tpr} (or higher \gls{fpr}) which can be seen in the figure.
@@ -593,18 +594,16 @@ Lastly, we evaluate the approach where we construct the \glspl{iden} directly wi
 
 We can review the results in \autoref{tab:direct_param}. These results were obtained with merging threshold for distance between feature vectors set to 0.3. For the other settings of the threshold the results were quite poor (\gls{tpr} below 0.4 or \gls{fpr} above 0.8). As you can see, we did not manage to improve the results compared to merging trajectories.
 
-The main drawback of this approach is that once every \gls{det} from a \gls{iden} is removed from the sliding time window, no additional \gls{det} can be added to the \gls{iden}. To mitigate this problem, we increase the sliding window size (up to 15 seconds). This also means that the metadata becomes less useful. Therefore, we added another condition that for merging using the metadata, the \glspl{det} has to be closer together than 0.2 seconds (even though the sliding window contains \glspl{det} from 15 seconds). This increase in the window size significantly increased the time needed for processing the \gls{ses}. The obtained results for more successful settings are displayed in \autoref{tab:direct_time_window}. Unfortunately, even after these changes, we did not improve the results.
+The main drawback of this approach is that once every \gls{det} from a \gls{iden} is removed from the sliding time window, no additional \gls{det} can be added to the \gls{iden}. To mitigate this problem, we increase the sliding window size (up to 10 seconds). This also means that the metadata becomes less useful. Therefore, we added another condition that for merging using the metadata, the \glspl{det} has to be closer together than 0.2 seconds (even though the sliding window contains \glspl{det} from 10 seconds). This increase in the window size significantly increased the time needed for processing the \gls{ses}. The obtained results for more successful settings are displayed in \autoref{tab:direct_time_window}. Unfortunately, even after these changes, we did not improve the results.
 
 \begin{table}[]
     \centering
-    \begin{tabular}{c||c|c|c|c}
-     window \textbackslash{} distance & 0.10 & 0.15 \\ \hline \hline
-     3s & 0.3713 / 0.0194 & 0.7481 / 0.1666 \\ \hline
-     5s & 0.4473 / 0.0605 & 0.8439 / 0.2767 \\ \hline
-     10s & 0.6268 / 0.1647 & 0.8573 / 0.6776 \\ \hline
-     15s & 0.6666 / 0.1677 & 0.8578 / 0.6779 
+    \begin{tabular}{c||c|c|c}
+     distance \textbackslash{} window & 5s & 10s \\ \hline \hline
+     0.1 & 0.3256 / 0.0041 & 0.4496 / 0.0291  \\ \hline
+     0.2 & 0.8623 / 0.2656 & 0.8651 / 0.6814 \\ \hline
+     0.3 & 0.9230 / 0.8219 & 0.9232 / 0.8900
     \end{tabular}
-    \caption[Comparison of various hyperparameters for direct identity construction]{Comparison of various hyperparameters for direct identity construction with separate time window for metadata. In each cell there is \gls{tpr} / \gls{fpr} for given threshold for merging using corresponing threshold for cosine distance.}
+    \caption[Comparison of various hyperparameters for direct identity construction with separate time window for spatial metadata]{Comparison of various hyperparameters for direct identity construction with separate time window for spatial metadata. The trajectories were merged only if they have \gls{iou} of at least 0.8 and were closer than 0.2 seconds or the condition for merging via feature vectors are met (as per thresholds in the table). In each cell there is \gls{tpr} / \gls{fpr} for given parameters.}
     \label{tab:direct_time_window}
-    \todo[inline=true]{check popisek}
 \end{table}
