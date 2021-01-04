@@ -67,7 +67,7 @@
     \put(0.13166667,0.48633333){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.8\end{tabular}}}}%
     \put(0.13166667,0.57633333){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{img/basic_nn_overfit_roc.pdf}}%
-    \put(0.8392,0.55136667){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}before training\end{tabular}}}}%
+    \put(0.8392,0.55136667){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Before training\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{img/basic_nn_overfit_roc.pdf}}%
     \put(0.8392,0.5197){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\textsuperscript{st} epoch\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{img/basic_nn_overfit_roc.pdf}}%

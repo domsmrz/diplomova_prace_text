@@ -67,9 +67,9 @@
     \put(0.14363636,0.46334545){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.9\end{tabular}}}}%
     \put(0.14363636,0.53101818){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.92\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{img/semi_hard_loss.pdf}}%
-    \put(0.87654545,0.51058182){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}hard\end{tabular}}}}%
+    \put(0.87654545,0.51058182){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Hard\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{img/semi_hard_loss.pdf}}%
-    \put(0.87654545,0.47603636){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}semihard\end{tabular}}}}%
+    \put(0.87654545,0.47603636){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Semihard\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{img/semi_hard_loss.pdf}}%
     \put(0.46818182,0.07127275){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Epoch\end{tabular}}}}%
     \put(0.05425568,0.34545455){\color[rgb]{0.16470588,0.24705882,0.37254902}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Area under ROC curve\end{tabular}}}}}%

@@ -67,15 +67,15 @@
     \put(0.13166667,0.48633333){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.8\end{tabular}}}}%
     \put(0.13166667,0.57633333){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{img/black_white_roc.pdf}}%
-    \put(0.7882,0.55136667){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}rgb, $4^3$ bins\end{tabular}}}}%
+    \put(0.7882,0.55136667){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}RGB, $4^3$ bins\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{img/black_white_roc.pdf}}%
-    \put(0.7882,0.5197){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}hs, $8^2$ bins\end{tabular}}}}%
+    \put(0.7882,0.5197){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}HS, $8^2$ bins\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{img/black_white_roc.pdf}}%
-    \put(0.7882,0.48803333){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}hs+bw, $8^2 + 2$ bins\end{tabular}}}}%
+    \put(0.7882,0.48803333){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}HS+BW, $8^2 + 2$ bins\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=5]{img/black_white_roc.pdf}}%
-    \put(0.7882,0.45636667){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}hue, $16$ bins\end{tabular}}}}%
+    \put(0.7882,0.45636667){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Hue, $16$ bins\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=6]{img/black_white_roc.pdf}}%
-    \put(0.7882,0.4247){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}hue+bw, $16 + 2$ bins\end{tabular}}}}%
+    \put(0.7882,0.4247){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Hue+BW, $16 + 2$ bins\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=7]{img/black_white_roc.pdf}}%
     \put(0.42166667,0.06533335){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}FPR\end{tabular}}}}%
     \put(0.06085417,0.35833333){\color[rgb]{0.16470588,0.24705882,0.37254902}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}TPR\end{tabular}}}}}%

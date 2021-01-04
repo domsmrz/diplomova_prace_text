@@ -406,6 +406,18 @@ The results show that the setting where we train the MobileNet with added dense 
 
 These results were achieved by using MobileNet as pre-trained on ImageNet dataset with replaced last layer. We also experimented with using weights that we learn during the training without the added dense layer. We add the dense layer to the network and continue with the training with the added layer. However, we did not manage to produce improve the model. Corresponding results of the tested approaches are in \autoref{tab:final_comparison}.
 
+\subsubsection{Comparison with Simple Architecture}
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{img/custom_architecture.pdf_tex}
+    \caption{ROC curves the best model based on MobileNet and the best model with our architecture}
+    \label{fig:custom_architecture}
+\end{figure}
+
+We also evaluate the experiments with a simple architecture presented in \autoref{ssec:custom_architecture}. We evaluated various learning rates and adjusted the size of the epoch as in case of pre-trained MobileNet architecture. The comparison between the best model of our custom architecture and the best model based on the MobileNet is in \autoref{fig:custom_architecture}. We can see that we can achieve interesting results even with a relatively simple architecture. Nevertheless, the model based on the MobileNet provides significantly better results and therefore, we use it in the subsequent experiments.
+
 \begin{table}[]
     \centering
     \begin{tabularx}{\textwidth}{X|c|c}

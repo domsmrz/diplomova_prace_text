@@ -1,5 +1,23 @@
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
 
-{\color{red} zhrnutie o com bola praca, aka bola contribution (ako to vylepsilo svet, ktory realny problem to riesi, atd) a ako sa to moze rozsitit (future work)
-pripadne nejake remarks typu: "toto nam nevyslo ale nevadi lebo aspon sme overili ze to nejde"}
+In this work, we designed several approaches for \reid{} task. In the proposed pipeline, we make use of the visual information as well as the spatial and temporal metadata. Then we evaluated the approaches on the manually prepared datasets.
+
+For the encoding of the visual information, we experimented with the color histogram and state-of-the-art approaches involving the deep neural networks. The latter one turned out to be more useful for the \reid{} task. We also experimented with various methods for incorporating spatial information.
+
+Our best approach involves using MobileNet. When presented with the pair of images of a single object with corresponding metadata, the model detected that they were indeed corresponding to the same object in 84.46\% of the time. If presented with the datapoints of distinct objects, it gave the correct answer in 89.50\% of cases in our dataset. Due to the technical difficulty of creating a new dataset, we leave a more thorough evaluation to future work.
+
+
+% However, as we selected some of the hyperparameters based on the performance on the dataset itself, these finding should be verified on additional dataset. We do not provide this additional verification due to technical difficulty of creating a new annotated dataset. Furthermore, evaluation using a new dataset could prove how well our model process different environments.
+
+We provide the implementation of all presented approaches. As such, our work can be used as-is by any other application that has a use for \reid{}. In particular, we design our approach to work well within the framework of \gls{VL}.
+
+We also presented a tool for the manual annotation of the purposes of \reid{}. The tool allows for manual matching of the object within a camera streams. We used this tool to create a training dataset for the approaches based on the neural networks and the dataset we used for the evaluation.
+
+% We also presented a tool for the manual annotation of the detected object within the camera stream. We used this tool to provide a datatasets for training designed neural networks as well as for the final evaluation.
+
+There are many ways to build upon the work we presented. The pipeline we implemented is suitable for automated testing of other approaches. Therefore, this can be reused partly or fully for any of the following research in the area to evaluate and investigate new approaches to the \reid{} task. The future work could also investigate more complex methods for incorporating the temporal and spatial metadata, where perhaps machine learning based techniques could be used. 
+
+%  It provides required framework needed for the end-to-end evaluation of new design including automated training. Also more complex methods for incorporation of the temporal and spatial metadata could be used, perhaps based on the machine learning techniques. 
+
+% Future work - co sa moze este vyskusat? Okrem novych datasetov? Napriklad povedat, ze ten other module moze zobrazovat identities, ze sa daju vyskusat ine siete, ze stale tam je priestor na???

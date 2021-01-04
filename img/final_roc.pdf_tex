@@ -53,7 +53,6 @@
   \begin{picture}(1,1)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
-    \put(0.05617308,0.48461538){\color[rgb]{0.16470588,0.24705882,0.37254902}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}TPR\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{img/final_roc.pdf}}%
     \put(0.12307692,0.10307692){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0\end{tabular}}}}%
     \put(0.27384615,0.10307692){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}0.2\end{tabular}}}}%
@@ -68,12 +67,13 @@
     \put(0.12153846,0.69507692){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.8\end{tabular}}}}%
     \put(0.12153846,0.83969231){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{img/final_roc.pdf}}%
-    \put(0.56153846,0.21110769){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}hard, direct\end{tabular}}}}%
+    \put(0.56153846,0.21110769){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Hard, direct\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{img/final_roc.pdf}}%
-    \put(0.56153846,0.18187692){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}semihard, direct\end{tabular}}}}%
+    \put(0.56153846,0.18187692){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Semihard, direct\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{img/final_roc.pdf}}%
-    \put(0.56153846,0.15264615){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}semihard, dense\end{tabular}}}}%
+    \put(0.56153846,0.15264615){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Semihard, dense\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=5]{img/final_roc.pdf}}%
     \put(0.5,0.06030771){\color[rgb]{0.16470588,0.24705882,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}FPR\end{tabular}}}}%
+    \put(0.05617308,0.48461539){\color[rgb]{0.16470588,0.24705882,0.37254902}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}TPR\end{tabular}}}}}%
   \end{picture}%
 \endgroup%
