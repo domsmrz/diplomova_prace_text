@@ -29,7 +29,7 @@ The first \gls{ses} -- our first dataset -- comes from processing a single camer
     \label{fig:single_session}
 \end{figure}
 
-We use the second \gls{ses} for actual evaluation of tested approaches. This second session is constructed from the recording of two simultaneously recording cameras. The recordings are over two minutes long. The view of the cameras partially overlap. In this session total of 147,681 \glspl{det} were extracted. Just as in the case of the previous \gls{ses}, we filter some \glspl{det} out as not usable. There remain 15,757 \glspl{det}. The worse ratio of usable \glspl{det} compared to the previous case was cased mainly by many ``faulty'' \glspl{det} of statues and lamps which were not presented in the view of the first \gls{ses}. We assigned these \glspl{det} into 52 unique \glspl{iden}. These \glspl{iden} are used as ground truth for evaluation of our approach. Examples of frames from this \gls{ses} are in \autoref{fig:double_session}.
+We use the second \gls{ses} for actual evaluation of tested approaches. This second session is constructed from the recording of two simultaneously recording cameras. The recordings are over two minutes long. The view of the cameras partially overlap. In this session total of 147,681 \glspl{det} were extracted. Just as in the case of the previous \gls{ses}, we filter some \glspl{det} out as not usable. There remain 15,757 \glspl{det}. The worse ratio of usable \glspl{det} compared to the previous case was caused mainly by many ``faulty'' \glspl{det} of statues and lamps which were not presented in the view of the first \gls{ses}. We assigned these \glspl{det} into 52 unique \glspl{iden}. These \glspl{iden} are used as ground truth for evaluation of our approach. Examples of frames from this \gls{ses} are in \autoref{fig:double_session}.
 
 \begin{figure}
     \centering
@@ -400,27 +400,42 @@ The results show that the setting where we train the MobileNet with added dense 
     \centering
     \def\svgwidth{\columnwidth}
     \input{img/final_roc.pdf_tex}
-    \caption{ROC curves of final approaches for feature extraction}
+    \caption[ROC curves of MobileNet architecture with various alterations]{ROC curves of MobileNet architecture as-is and with added dense layer, trained with Hard and Semihard triplet selection.}
     \label{fig:final_roc}
-    \todo[inline=true]{co je final? kornketizuj parametre}
 \end{figure}
 
-These results were achieved by using MobileNet as pre-trained on ImageNet dataset with replaced last layer. We also experimented with using weights that we learn during the training without the added dense layer. We add the dense layer to the network and continue with the training with the added layer. However, we did not manage to produce improved results. 
+These results were achieved by using MobileNet as pre-trained on ImageNet dataset with replaced last layer. We also experimented with using weights that we learn during the training without the added dense layer. We add the dense layer to the network and continue with the training with the added layer. However, we did not manage to produce improve the model. Corresponding results of the tested approaches are in \autoref{tab:final_comparison}.
+
+\begin{table}[]
+    \centering
+    \begin{tabularx}{\textwidth}{X|c|c}
+          Architecture & Hard & Semihard \\
+          \hline
+         Basic architecture & 0.9145 & 0.9161 \\
+         With dense layer, all parameters trainable & 0.9062 & 0.9192 \\
+         With dense layer, only the last layer is trained & 0.8497 & 0.8477 \\
+         Firstly trained the basic architecture, then added dense and continue training whole network & 0.9084 & 0.9109 \\
+         Firstly trained the basic architecture, then added dense and train only last layer & 0.9048 & 0.9021 \\
+         With dense layer, firstly only last layer is trained, then the whole network & 0.8461 & 0.8494
+    \end{tabularx}
+    \caption[Comparison of various MobileNet alterations]{Comparison of various MobileNet alterations. In a cells there are the area under the curve achived by correpsonding architecture. Each approach was evaluated with different number of epochs, only best perofmance per architecture is displayed.}
+    \label{tab:final_comparison}
+\end{table}
 
 %\todo[inline]{ako to dopadlo freeze vs non freeze? ako dopadol njaprv freeze a potom unfreeze?}
 
 \section{Trajectory Construction}
 
-\todo[inline]{tieto veci tu nepatria a trbea ich skratit na jeden odstavec. Uz boli povedane v kapitole 5.}
-We now briefly remind the reader of the next step, which is trajectory construction. Unlike in the case of feature vectors, we do not conduct a thorough evaluation of various approaches, as the desired result of this step is strongly influenced by the next step, which is actual \gls{iden} construction.
+% \todo[inline]{tieto veci tu nepatria a trbea ich skratit na jeden odstavec. Uz boli povedane v kapitole 5.}
+Now we proceed to trajectory construction. Unlike in the case of feature vectors, we do not conduct a thorough evaluation of various approaches at this point, as the desired result of this step is strongly dependent on the next step, which is actual \gls{iden} construction.
 
-Nevertheless, we at least suggest some useful threshold for the suggested quantities as described in \autoref{ssec:spatial_merging} -- displacement, relative displacement and Intersection over Union. We can draw suitable thresholds directly from the training set. Note that the threshold should be set in a such manner that each resulting trajectory should contain \glspl{det} only from one \gls{iden}, as we merge the trajectories but never split them afterwards. If we have a trajectory which contains \glspl{det} from two or more different golden \glspl{iden} we can never fix this ``impurity''.
+Nevertheless, we at least suggest some useful threshold for the quantities described in \autoref{ssec:spatial_merging} -- displacement, relative displacement and Intersection over Union. The thresholds should be set in a such manner that each resulting trajectory contains \glspl{det} only from one \gls{iden}, as we merge the trajectories but never split them afterwards. If we have a trajectory which contains \glspl{det} from two or more different golden \glspl{iden} we can never fix this ``impurity''.
 
-This leads us to simple way to suggest suitable thresholds. For now let us consider simple displacement. We analyzed the training dataset. In the dataset we looked into each pair of the \glspl{det} which are no more than 0.2 seconds from each other and they are from different golden \glspl{iden}. For each such pair we recorded the displacement and consider the value as ``negative sample''. To obtain ``positive samples'' we processed all the \glspl{iden} in order of their timestamps. For any subsequent pair of \glspl{det} in each trajectory, if the pair is less than 0.2 seconds apart, we consider the corresponding value of displacement as ``positive sample''.
+This leads us to simple way to suggest suitable thresholds. For now let us consider simple displacement. We analyze the training dataset. In the dataset we look into each pair of the \glspl{det} which are no more than 0.2 seconds apart from each other and they are from different golden \glspl{iden}. For each such pair we record the displacement and consider the value as ``negative sample''. To obtain ``positive samples'' we processed all the \glspl{iden} in order of their timestamps. For any subsequent pair of \glspl{det} in each trajectory, if the pair is less than 0.2 seconds apart, we consider the corresponding value of displacement as ``positive sample''.
 
 Then we computed the minimum over the negative samples (which gives us suitable starting point of which value to use on the testing dataset). Furthermore we counted how many positive samples are greater than the computed minimum (which gave us rough estimation of how quality the quantity is).
 
-\begin{table}[]
+\begin{table}
     \centering
     \begin{tabular}{c|r|r}
          Quantity & Threshold & False over threshold  \\ \hline
@@ -436,9 +451,9 @@ We did this analysis for each of the considered quantities. The results are reco
 
 \section{Identity Construction}
 
-In this section, we review how well our algorithm constructs the \glspl{iden}. As a main measure of quality, we use \gls{roc} curves as in previous sections. Note that the approach of using prepared trajectories which we subsequently merge allows us to compute the \gls{roc} curve precisely, rather than approximately by random sampling.
+In this section, we review how well our algorithm constructs the \glspl{iden}. As a main measure of quality, we use \gls{roc} curves as in previous sections. When we evaluated the feature vectors alone, we just sorted the pairs of \glspl{det} by the distance and processes them one by one to produce \gls{roc} curve. Now, we cluster the \glspl{det} into \glspl{iden}. The decision whether the model assigns the pair of \glspl{det} to the same \gls{iden} depends also on other \glspl{det} not only on the distance between \glspl{det} in question. Therefore, we need to choose more complex approach to compute the \gls{roc} curves.
 
-In order to run the evaluation efficiently we keep the compute the matrix $M$. An element $M_{i,j}$ represents how many \glspl{det} from $j$-th golden \gls{iden} were assigned $i$-th predicted \gls{iden}. Note that this is not standard confusion matrix, if you are familiar with that term. This matrix represents the distribution of \glspl{det}. Our samples for the purposes of the \gls{roc} curve are, however, \emph{pairs} of \glspl{det}. For example \gls{tp} are pairs of \glspl{det} such that both \gls{det} were drawn from the same cell of the matrix. Overall, we can compute the appropriate values for ROC curve as follows:
+To run the evaluation efficiently we keep the compute a matrix $M$. An element $M_{i,j}$ represents how many \glspl{det} from $j$-th golden \gls{iden} were assigned $i$-th predicted \gls{iden}. Note that this is not standard confusion matrix, if you are familiar with that term. This matrix represents the distribution of \glspl{det}. Our samples for the purposes of the \gls{roc} curve are, however, \emph{pairs} of \glspl{det}. For example \gls{tp} are pairs of \glspl{det} such that both \gls{det} were drawn from the same cell of the matrix. Overall, we can compute the appropriate values for ROC curve as follows:\footnote{We actually compute number of \emph{ordered} pairs of \glspl{det}. However for the computation of \gls{tpr} and \gls{fpr} we can use ordered pairs instead of unordered pairs, as for each unordered pair there are two ordered ones}
 
 \begin{align*}
     \mathrm{TP} &= \sum_{i,j} M_{i,j} (M_{i,j} - 1)\\
@@ -452,7 +467,7 @@ This computation allows us to keep all the values effectively updated. One merge
 \subsection{Merging Trajectories}
 
 For the first experiment with merging trajectories, we select the best performing \gls{nn} for feature vector generation. That is an architecture based on the MobileNet where we replace the last layer with a new dense layer and train it using Cosine distance. We create the initial trajectories using just Intersection over Union with threshold 0.9 and time window of 0.1 seconds. This threshold is a bit stricter compared to the findings in the training dataset as per 
-\autoref{tab:metadata_comparison}. However, we want to make sure that for initial experiments, the trajectories will not be of mixed \glspl{iden} but that each trajectory will be a subset of golden \gls{iden}. We also have to select the threshold for the selection of representants. We choose threshold 0.1 as it allowed for effective evaluation.
+\autoref{tab:metadata_comparison}. However, we want to make sure that for initial experiments, the trajectories will not be of mixed \glspl{iden} but that each trajectory will be a subset of golden \gls{iden}. We also have to select the threshold for the selection of representants. We choose threshold 0.1 as it allowed for effective evaluation.\footnote{Remember that smaller the threshold, more representatns will be selected which in turn requires more comparisons}
 
 
 \begin{figure}
@@ -463,9 +478,9 @@ For the first experiment with merging trajectories, we select the best performin
     \label{fig:final_merging_initial}
 \end{figure}
 
-We plot the resulting \gls{roc} curve of this approach alongside with the \gls{roc} curve of using the distances within the feature space directly in \autoref{fig:final_merging_initial}. For the direct distances over feature vectors, the same approach as in \autoref{fig:final_roc}. However, you may notice that the curve in this figure is closer to the desired point (0, 1) that is because for the previous figure, we purposely omitted ``easy'' pairs of \glspl{det} that were physically close together, in this figure we consider all the \glspl{det}.
+We plot the resulting \gls{roc} curve of this approach in \autoref{fig:final_merging_initial}. For comparison we also show the \gls{roc} curve obtained by using just distances from the feature vectors -- i.e. the same approach as in  \autoref{fig:final_roc}. However in this stage we do not omit the ``easy'' pairs of \glspl{det} that were physically close together. Therefore the curve in \autoref{fig:final_merging_initial} is closer to the optimal point (0, 1) compared to \autoref{fig:final_roc} even though they represent the very same approach.
 
-In the figure, you also see that after using the merging trajectories approach, the resulting performance is strictly worse in terms of the \gls{roc} curve. This is partly due to the property that we aim to leverage -- transitivity of ``belonging to a \gls{iden}''. If there are two golden \glspl{iden} which happen to have just two \glspl{det} (one from each \gls{iden}) that are close together, the whole trajectories will be merged. This may very easily happen, especially in the case of low-quality \glspl{det}, where the low quality causes the actual object to be unidentifiable, while the two images are actually visually similar. A few examples of falsely positive pairs of \glspl{det} is displayed in \autoref{fig:fp_pairs}.
+In \autoref{fig:final_merging_initial} we also see that after merging trajectories, the resulting \gls{tpr} and \gls{fpr} are worse. This is partly due to the property that we aim to leverage -- transitivity of ``belonging to a \gls{iden}''. If there are two golden \glspl{iden} which happen to have even just two \glspl{det} (one from each \gls{iden}) that are close together, the whole trajectories will be merged. This may very easily happen, especially in the case of low-quality \glspl{det}, where the poor quality causes the actual object to be unidentifiable, while the two images are actually visually similar. A few examples of falsely positive pairs of \glspl{det} are displayed in \autoref{fig:fp_pairs}.
 
 \begin{figure}
     \newlength{\fpheight}
@@ -509,11 +524,11 @@ In the figure, you also see that after using the merging trajectories approach, 
     \label{fig:fp_pairs}
 \end{figure}
 
-Nevertheless, we should not perceive the approach with merging trajectories as a strictly worse approach. Unless we cluster the \glspl{det} we can not query all the \glspl{det} of one given object. For example if we have just the distances of feature vectors we can, for a given \gls{det}, retrieve the other detection in order of their visual similarity. However, this similarity drops significantly once the tracked person turns or changes her appearance in any other way. This means that the ability of drawing complete trajectories of a given person is lost.
+Nevertheless, we should not perceive the approach with merging trajectories as a strictly worse approach. Unless we cluster the \glspl{det} we can not query all the \glspl{det} of one given object. For example if we have just the distances of feature vectors we can, for a given \gls{det}, retrieve the other \glspl{det} in order of their visual similarity. However, this similarity drops significantly once the tracked person turns or changes her appearance in any other way. This means that the ability of drawing complete trajectories of a given person is lost.
 
 On the other hand, approach with subsequent merging into bigger \glspl{iden} tries to mitigate this problem by keeping track of small changes and due to transitivity to keep its ability to find complete trajectories. This is however traded off by lower \gls{tpr} (or higher \gls{fpr}) which can be seen in the figure.
 
-We can also notice, that while the \gls{roc} curve for the simple feature approach is smooth, while the \gls{roc} curve of using merging is not. In particular, one can find several straight lines in the \gls{roc} curve. This is caused by the fact that once a threshold is crossed, specific \gls{iden} are merged causing jumps in \gls{tp} (if the merged \glspl{iden} were largely of the same golden \gls{iden}) or \gls{fp} (if the merged \glspl{iden} consists of \glspl{det} from distinct golden \glspl{iden}).
+We can also notice, that while the \gls{roc} curve for the simple feature approach is smooth, the \gls{roc} curve of using merging is not. In particular, one can find several straight lines in the \gls{roc} curve. This is caused by the fact that once a threshold is crossed, specific \gls{iden} are merged causing jumps in \gls{tp} (if the merged \glspl{iden} were largely of the same golden \gls{iden}) or \gls{fp} (if the merged \glspl{iden} consists of \glspl{det} from distinct golden \glspl{iden}).
 
 \subsubsection{Optimizing Parameters}
 
@@ -525,9 +540,19 @@ We can also notice, that while the \gls{roc} curve for the simple feature approa
     \label{fig:final_parameter_search}
 \end{figure}
 
-We aim to improve this approach by appropriately changing the parameters used for the initial trajectory generation. We change the threshold of \gls{iou} needed to merge, and the sliding time window size. The \gls{roc} curves for selected is shown in \autoref{fig:final_parameter_search}.
+We aim to improve this approach by appropriately changing the parameters used for the initial trajectory generation. We change the threshold for \gls{iou} during the trajectory generation, and the sliding time window size. The \gls{roc} curves for selected values of these parameters are shown in \autoref{fig:final_parameter_search}.
 
-As you can see, these parameters for initial trajectory have dramatic impact on the quality of the final clustering. We manage to improve our approach significantly. For a specific values of \gls{fpr} we even directly produce higher \gls{tpr}.
+As you can see, these parameters for initial trajectory generation have a dramatic impact on the quality of the final clustering. We manage to improve our approach significantly. For a specific values of \gls{fpr} we even achieved higher \gls{tpr} compared to the \gls{roc} curve obtained from distances directly.
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    {\input{img/final_relative.pdf_tex}}
+    \caption{ROC curves of identites while using relative displacement}
+    \label{fig:final_relative}
+\end{figure}
+
+We also evaluated the option of using relative displacement instead of \gls{iou}. Corresponding results are displayed in \autoref{fig:final_relative}. We can produce comparable results as with \gls{iou} although using \gls{iou} still seems as a better option, hence we use it in remining experiments.
 
 \begin{figure}
     \centering
@@ -547,11 +572,11 @@ We also shortly experiment with lowering the threshold for selecting the represe
     \label{fig:final_nn}
 \end{figure}
 
-We also test whether changing the \gls{nn} would improve the results. We evaluate other approaches (without a dense layer with hard and semihard training loss), exactly as per \autoref{fig:final_roc}. However, as we can see in the figure, the network's performance with dense layer seems best.
+We also test whether changing the \gls{nn} would improve the results. We evaluate other approaches (network without a dense layer with hard and semihard training loss), exactly as per \autoref{fig:final_roc}. However, as we can see in the figure, the network's performance with dense layer seems to be the best option.
 
 \subsection{Direct Identity Construction}
 
-Lastly, we evaluate the approach where we construct the \glspl{iden} directly without a priori construction of the trajectories. Unlike in other approaches, we do not use \gls{roc} curves to evaluate this approach. The reason it would become computationally exhaustive to get all pairs. We can not sample the pairs directly and sort them based on the distance as we did in \autoref{sec:eval_fv} as the fact whether we consider two \glspl{det} to be of same \gls{iden} does not depend only on the distance between them but also on other \glspl{det}. Nor we can make use of a priori trajectory generation to make the computation of subsequent \gls{roc} curved feasible. Therefore we select just a few hyperparameters and evaluate \gls{tpr} and \gls{fpr} just for those set values.
+Lastly, we evaluate the approach where we construct the \glspl{iden} directly without a priori construction of the trajectories. Unlike in other approaches, we do not use \gls{roc} curves to evaluate this approach. The reason it would become computationally exhaustive to get all pairs. We can not sample the pairs directly and sort them based on the distance as we did in \autoref{sec:eval_fv} as the fact whether we consider two \glspl{det} to be of same \gls{iden} does not depend only on the distance between them but also on other \glspl{det}. Nor we can make use of a priori trajectory generation (as we do not use it) to make the computation of subsequent \gls{roc} curved feasible. Therefore, we select just a few hyperparameters and evaluate \gls{tpr} and \gls{fpr} just for those values.
 
 \begin{table}[]
     \centering
@@ -562,18 +587,24 @@ Lastly, we evaluate the approach where we construct the \glspl{iden} directly wi
      0.9 & 0.7634 / 0.3921 & 0.7624 / 0.3915 \\ \hline
      0.95 & 0.7995 / 0.4056 & 0.7796 / 0.4002 
     \end{tabular}
-    \caption[Comparison of various hyperparameters for direct identity construction]{Comparison of various hyperparameters for direct identity construction. In each cell there is \gls{tpr} / \gls{fpr} for given threshold for merging using \gls{iou} and given size of sliding time window}
+    \caption[Comparison of various hyperparameters for direct identity construction]{Comparison of various hyperparameters for direct identity construction. In each cell there is \gls{tpr} / \gls{fpr} for given threshold for merging using \gls{iou} and given size of sliding time window. The results correspond to the setting where trajectories are merged if two processed detections are closer than 0.3 in cosine distance.}
     \label{tab:direct_param}
 \end{table}
 
-We can review the results of more successful settings in \autoref{tab:direct_param}. As you can see, we did not manage to improve the results compared to merging trajectories.
+We can review the results in \autoref{tab:direct_param}. These results were obtained with merging threshold for distance between feature vectors set to 0.3. For the other settings of the threshold the results were quite poor (\gls{tpr} below 0.4 or \gls{fpr} above 0.8). As you can see, we did not manage to improve the results compared to merging trajectories.
 
-The main drawback of this approach is that once every \gls{det} from a \gls{iden} is removed from the sliding time window, no additional \gls{det} can be added to the \gls{iden}. To mitigate this problem, we increase the sliding window size (up to 15 seconds). This also means that the metadata becomes less useful. Therefore, we added another condition that for merging using the metadata, the \glspl{det} has to be closer together than 0.2 seconds (even though the sliding window contains \glspl{det} from 15 seconds). This increase in the window size significantly increased the time needed for processing the \gls{ses}. Unfortunately, even after these changes, we did not improve the results.
+The main drawback of this approach is that once every \gls{det} from a \gls{iden} is removed from the sliding time window, no additional \gls{det} can be added to the \gls{iden}. To mitigate this problem, we increase the sliding window size (up to 15 seconds). This also means that the metadata becomes less useful. Therefore, we added another condition that for merging using the metadata, the \glspl{det} has to be closer together than 0.2 seconds (even though the sliding window contains \glspl{det} from 15 seconds). This increase in the window size significantly increased the time needed for processing the \gls{ses}. The obtained results for more successful settings are displayed in \autoref{tab:direct_time_window}. Unfortunately, even after these changes, we did not improve the results.
 
-
-
-
-
-
-
-
+\begin{table}[]
+    \centering
+    \begin{tabular}{c||c|c|c|c}
+     window \textbackslash{} distance & 0.10 & 0.15 \\ \hline \hline
+     3s & 0.3713 / 0.0194 & 0.7481 / 0.1666 \\ \hline
+     5s & 0.4473 / 0.0605 & 0.8439 / 0.2767 \\ \hline
+     10s & 0.6268 / 0.1647 & 0.8573 / 0.6776 \\ \hline
+     15s & 0.6666 / 0.1677 & 0.8578 / 0.6779 
+    \end{tabular}
+    \caption[Comparison of various hyperparameters for direct identity construction]{Comparison of various hyperparameters for direct identity construction with separate time window for metadata. In each cell there is \gls{tpr} / \gls{fpr} for given threshold for merging using corresponing threshold for cosine distance.}
+    \label{tab:direct_time_window}
+    \todo[inline=true]{check popisek}
+\end{table}

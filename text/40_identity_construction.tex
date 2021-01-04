@@ -270,41 +270,19 @@ This leads us to the idea that for each trajectory from each set of similar \gls
  \label{alg:representants}
 \end{algorithm}
 
+In context of many trajectories and \glspl{det} this approach indeed gives some guarantees. To precisely show which, we firstly define a concept of well-separation:
+
+\begin{defn}
+We say that partitioning $A$ of set $D$ is well-separated by distance function a $\delta: D \times D \goto \R_0^+$ with distances $\Delta_{between}$ and $\Delta_{within}$ if:
+\begin{itemize}
+    \item $(\forall a \in A)(\forall d, d' \in a) (\exists n \in \N) (\exists (d_1, \ldots, d_n) \in D^n) (d = d_1 \land d' = d_n \land (\forall i) (\delta(d_i, d_{i+1}) \leq \Delta_{within}))$
+    \item $(\forall a, a' \in A) (\forall d \in a) (\forall d' \in a') (a \neq a' \Rightarrow \delta(d, d') > \Delta_{between})$
+\end{itemize}
+\end{defn}
+
 In context of many trajectories and detections this approach indeed gives some guarantees. Let us assume that we get a set of trajectories and we find set of representants by \autoref{alg:representants} with threshold $\Delta_{rep}$ for all trajectories. Given the representants of the trajectories, we merge the trajectories that have any pair of representants closer than merging threshold $\Delta_{mrg}$.
 
 If there is unknown partitioning (golden \glspl{iden}) that are ``well-separated'' in a certain sense by the distance function then we will obtain exactly this unknown golden partitioning. By the term ``well-separated'' we mean that the minimal distance between \glspl{det} from two distinct golden \glspl{iden} is at least $\Delta_{mrg}$ and that for each pair of \glspl{det} from the same golden \gls{iden} there exists path over \glspl{det} such that each subsequent \glspl{det} are at most $(\Delta_{mrg} - 2\Delta_{rep})$ apart. To visualize this situation see \autoref{fig:claim}. We formalize this claim:
-
-% We can apply this observation in a context of more than just three \glspl{det}.
-% Let us assume that we  start with trajectories that are ``clean'' (i.e.
-% trajectory contain \glspl{det} of just a single golden \gls{iden}). Further
-% assume that the golden \glspl{iden} are ``well-separated'' using the selected
-% metric function in a following sense: The minimal distance between two
-% \glspl{det} from different golden \glspl{iden} is at least $\Delta_{mrg}$
-% and for every pair of \glspl{det} from any \gls{iden} there exists a sequence
-% of \glspl{det} such that every \gls{det} is from the same \gls{iden} and
-% and distance between two consecutive \glspl{det} is at most
-% $\Delta_{mrg} - 2\Delta_{rep}$. Then the produced \glspl{iden} produced by
-% selection representants by \autoref{alg:representants} and then merging
-% trajectories that have \glspl{det} closer than $\Delta_{mrg}$
-% are always exactly golden \glspl{iden}.
-
-
-% The observation that will help us select proper representative is that if
-% there are two \glspl{det} within a trajectory, that are similar (in terms of
-% distance between their feature vectors), than whatever third \gls{det} is
-% similar to the first \gls{det} is similar also to second \gls{det} (at least
-% as long as we use metric and not generic distance as we show in a while).
-% Therefore if there is a pair of similar \glspl{det} in a trajectory, we select
-% at most one as a representant and discard the other. For systematic way of
-% selecting representant leveraging this property see \autoref{alg:representants}.
-
-
-
-
-% Our intuitive observation, that we need to preserve only one of the two similar
-% \glspl{det} in a trajectory can be formalized as:
-
-%This claim can be formalized as follows:
 
 \begin{figure}
     \centering
@@ -342,36 +320,21 @@ If the following holds (i.e. the golden \glspl{iden} are ``well-separated''):
 
 Then: $t\blacktriangledown t' \Leftrightarrow (\exists a \in A) (t \cup t' \subseteq a)$ (i.e. produced \glspl{iden} exactly match golden \glspl{iden})
 
-% Let $D$ be a set of \glspl{det}, $A$ its partitioning, $\delta$ a metric over
-% $D$, $T$ another partitioning of $D$ such that $(\forall t \in T) (\exists a \in A) (t \subseteq a)$ and thresholds $\Delta_{rep}, \Delta_{merge} \in \R^+$. Denote $r: \Pt{D} \goto \Pt{D}$ generator representants as per \autoref{alg:representants} with threshold $\Delta_{rep}$. Now consider $R$ to be a relation over $T$ such that $tRt' \Leftrightarrow (\exists d \in r(t)) (\exists d' \in r(t')) (\delta(d, d') \leq \Delta_{merge})$ and let $\widehat{R}$ be its transitive closure.
-
-% If $\min_{a, a' \in A : a \neq a'} \min_{d \in a, d' \in a'} \delta(d, d') > \Delta_{merge}$ and
-% $(\forall a \in A)(\forall d, d' \in a)(\exists (d = d_1, d_2, \ldots, d_n = d') \subseteq a)(\forall i)(\delta(d_i, d_{i+1}) \leq \Delta_{merge} - 2\Delta_{rep})$ 
-% then $t\widehat{R}t' \Leftrightarrow (\exists a \in A)(t \cup t' \subseteq a)$.
-
 \end{claim}
-
-% This claim basically tells us that if we start with the trajectories that
-% are ``clean'' (i.e. each trajectory is a subset of some golden \gls{iden}) and
-% the \glspl{iden} are well-separated (i.e. distance between golden \glspl{iden}
-% are at least $\Delta_{merge}$ and for any pair of the \glspl{det} within a \gls{iden}
-% there is a sequence of \glspl{det} such thateach subseqent pair of \glspl{det} within the sequence is distant at most $(\Delta_{merge} - 2\Delta_{rep})$ and the ends
-% of the sequence are the original two \glspl{det}, then the produced clustering
-% of the \glspl{det} corresponds to the desired golden \glspl{iden}.
 
 \begin{myproof}
 First, let us prove that $t \blacktriangledown t' \Rightarrow (\exists a \in A) (t \cup t' \subseteq a)$. We prove this by contradiction, i.e. for now we assume
-that $(\exists a \in A) (t \in a)$ and $(\exists a' \in A) (t' \in a')$ and $a \neq a'$. From property of $\blacktriangledown$ we know there is a sequence of $t_1, t_2, \ldots t_n$ (for some $n$), such that $(\forall i) (t_i \triangledown t_{i+1})$. Let
+that $t \blacktriangledown t'$ and $(\exists a \in A) (t \subseteq a)$ and $(\exists a' \subseteq A) (t' \in a')$ and $a \neq a'$. From property of $\blacktriangledown$ we know there is a sequence of $t_1, t_2, \ldots t_n$ (for some $n$), such that $(\forall i) (t_i \triangledown t_{i+1})$. Let
 us take minimal $i$ such that $t_i$ and $t_{i+1}$ is not subset of the same
-$a \in A$ (such $i$ exists as $t$ and $t'$ does belong to different $a$s).
+$a \in A$ (such $i$ exists as $t$ and $t'$ belong to different sets $a \in A$).
 For such $i$ (since $t_i \triangledown t_{i+1}$) there is $d \in t_i$ and
 $d' \in t_{i+1}$ such that $\delta(d, d') \leq \Delta_{mrg}$. However since $d \in a$
 and $d' \in a'$ (such that $a \neq a'$) this is in contradiction with second
 of the original assumptions.
 
 Now we prove that $(\exists a \in A) (t \cup t' \subseteq a) \Rightarrow t \blacktriangledown t'$. Let us choose $d \in t$ and $d' \in t'$ arbitrarily. By the
-assumptions for elements of $a$ there is sequence $(d_0, \ldots, d_n) \in A^n$
-such that $d = d_0 \land d' = d_n \land (\forall i) (\delta(d_i, d_{i+1}) \leq \Delta_{mrg} - 2\Delta_{rep}$. Now we denote for each $i,$ $t_i \in T$ such that
+assumptions for elements of $a$ there is sequence $(d_1, \ldots, d_n) \in D^n$
+such that $d = d_1 \land d' = d_n \land (\forall i) (\delta(d_i, d_{i+1}) \leq \Delta_{mrg} - 2\Delta_{rep}$. Now we denote for each $i,$ $t_i \in T$ such that
 $d_i \in t_i$. Finally, we denote $r_i = \mathrm{argmin}_{d' \in r(t_i)} \delta(d', d_i)$. If $t_i = t_{i+1}$ then $t_i \triangledown t_{i+1}$ by definition.
 So let us consider cases where $t_i \neq t_{i+1}$. In such case we can bound
 the distance between $r_i$ and $r_{i+1}$ due to the triangle inequality:
