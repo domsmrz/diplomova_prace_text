@@ -145,7 +145,9 @@ One of the main advantages of the convolutional layers is that they use relative
 
 In this thesis, we shall heavily use a concept of so called transfer learning. This concept tries to leverage information gained on solving a different but related problem. In the context of \glspl{nn}, it mostly means that we re-use the (part of) architecture and learned weights of a \gls{nn} designed for a slightly different task.
 
-The advantages of using transfer learning on \glspl{nn} were first explored in 1976 and later revisited by \cite{transferreviewed}. However, since then many more research was based on this premise (for example, \cite{transferlearning}).
+% The advantages of using transfer learning on \glspl{nn} were first explored in 1976 and later revisited by \cite{transferreviewed}. However, since then many more research was based on this premise (for example, \cite{transferlearning}).
+
+The advantages of using transfer learning on \glspl{nn} were first explored in 1976. Since then many more research was based on this premise (for example, \cite{transferlearning}). The original article from 1976 was later revisited by its author (\cite{transferreviewed}).
 
 Specifically in our case we shall re-use complex deep learning architectures (described in \autoref{sec:existing_architectures}) trained on ImageNet tasks (\cite{imagenetresults}). As these are classification tasks, the last layer is responsible for selecting the correct class. The idea is to remove this layer under the assumption that the previous layers capture the general information about the input image. This altered network can then be used directly as-is or fine-tuned by training on the samples from our task.
 

@@ -1,0 +1,78 @@
+%% Creator: Inkscape inkscape 0.92.3, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'structure_schema.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{1080.00022911bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,1.35000289)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{structure_schema.pdf}}%
+    \put(0.08592278,1.21309197){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Frame \#1\end{tabular}}}}%
+    \put(0.08542093,0.37975878){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Frame \#4\end{tabular}}}}%
+    \put(0.08575323,0.65717031){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Frame \#3\end{tabular}}}}%
+    \put(0.08603129,0.93494804){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Frame \#2\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{structure_schema.pdf}}%
+    \put(0.78027207,0.65753652){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Frame \#7\end{tabular}}}}%
+    \put(0.77996009,0.93494804){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Frame \#6\end{tabular}}}}%
+    \put(0.78029922,1.21309197){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Frame \#5\end{tabular}}}}%
+    \put(0.78003474,0.37939256){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Frame \#8\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{structure_schema.pdf}}%
+    \put(0.44181951,1.21591547){\color[rgb]{0,0,0.70196078}\rotatebox{45}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Trajectory \#2\end{tabular}}}}}%
+    \put(0.54390111,1.21591545){\color[rgb]{0,0,0.70196078}\rotatebox{45}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Trajectory \#3\end{tabular}}}}}%
+    \put(0.33958461,1.21591545){\color[rgb]{0.1254902,0.49803922,0.18039216}\rotatebox{45}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Trajectory \#1\end{tabular}}}}}%
+    \put(0.64665398,1.21591545){\color[rgb]{0.1254902,0.49803922,0.18039216}\rotatebox{45}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Trajectory \#4\end{tabular}}}}}%
+    \put(0.32204308,0.00666664){\color[rgb]{0.1254902,0.49803922,0.18039216}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Identity \#1\end{tabular}}}}%
+    \put(0.54827425,0.00666664){\color[rgb]{0,0,0.70196078}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Identity \#2\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{structure_schema.pdf}}%
+    \put(0.07527557,1.26187411){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Camera \#1\end{tabular}}}}%
+    \put(0.76982833,1.26187411){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Camera \#2\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{structure_schema.pdf}}%
+  \end{picture}%
+\endgroup%

@@ -66,7 +66,16 @@ As usual in \gls{ml} tasks, we formulate our goal via a pair of input and the de
 Usually, the set presented on the input of our algorithm is a set of \glspl{det} extracted from simultaneous recordings from the cameras placed close together (i.e., we can expect objects to move from one camera to another or even to be recorded by multiple cameras at the same time). Working in the context of the whole set of \glspl{det} gives our algorithm an extra piece of information during the inference. For example if two \glspl{det} $d_0, d_1$ are visually different but both are similar to a third \gls{det} $d_2$, we may then conclude that $d_0$ and $d_1$ display the same object (as well as $d_2$) which we may not find out if we did not consider $d_2$.
 
 
-As mentioned, to actually formalize our goal, we consider ``golden'' partition~$A$ of given \glspl{det}~$D$. This partition represents true re-identification of input \glspl{det}, i.e. an element~$a \in A$ contains all \glspl{det} that display one object. Our algorithm's goal is then to find this golden partition based on the input \glspl{det} $D$. Throughout the thesis we shall refer to any partition of set of \glspl{det} (both, the ``golden'' partition and the imperfect approximation our algorithm generates) as \glspl{iden}.
+As mentioned, to actually formalize our goal, we consider ``golden'' partition~$A$ of given \glspl{det}~$D$. This partition represents true re-identification of input \glspl{det}, i.e. an element~$a \in A$ contains all \glspl{det} that display one object. Our algorithm's goal is then to find this golden partition based on the input \glspl{det} $D$. Throughout the thesis we shall refer to any partition of set of \glspl{det} (both, the ``golden'' partition and the imperfect approximation our algorithm generates) as \glspl{iden}. A visualization of these concepts is available in \autoref{fig:structure_schema}.
+
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\textwidth}
+    \input{img/structure_schema.pdf_tex}
+    \caption{Visualization of different camera streams, detections, corresponding trajectories and identities}
+    \label{fig:structure_schema}
+\end{figure}
 
 
 

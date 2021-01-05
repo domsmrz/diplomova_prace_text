@@ -4,20 +4,55 @@
 
 This chapter overviews the structure of the re-identification project implementation. For the detailed guide on how to use the attached software for \gls{iden} generation on a new dataset, please read \autoref{ch:guide}. For the implementation details, please refer to the attached code.
 
-As we mentioned in the \autoref{sec:vl}, our whole work is designed as a module for \gls{VL}. Even though our work is largely independent of other modules within the framework of \gls{VL}, it shares one main component -- relation database. In this case, the database serves as an API between the modules and storage for the results.
+As we mentioned in the \autoref{sec:vl}, our whole work is designed as a module for \gls{VL}. Even though our work is largely independent of other modules within the framework of \gls{VL}, it shares one main component -- relation database. The database serves as an API between the modules and also as a storage for the input, output and intermediate results.
 
 In our case we worked with PostgreSQL as a management system. However, since we use SQLAlchemy library (\cite{sqlalchemy}) for all the communication with the database, we expect no compatibility issues with the usage of another management system.
 
-\subsubsection*{Code Structure}
-\todo[inline]{obrazok DB}
-The implementation is split into several parts. Each part is independent of the others, using only the database as the common point (similarly to Videolytics modules). For the purpose of testing and evaluation, we also add a command-line interface for each part. With the database approach, we have two options on how to access the results. 
-Alongside the parts we describe further in more detail,  we also provide several small scripts used for the evaluation in the attached code.
+\section{Database Structure}
 
-The first part -- feature vector part -- is responsible for creating feature vectors described in \autoref{ch:features}. The main pipeline for this module consists of downloading the data to compute the feature vectors from the database, annotate them with the feature vectors, and then upload the results back to the database. This process is used exactly as described for the histogram approaches. In the case of the neural networks, additionally, the data are downloaded for the training. In such a case, we first download the data, train, and save the network locally. Then we run the annotation process as described in the main pipeline with the trained network.
+As we consider the database as an \gls{api} for further processing of the data we provide quick summary of the used tables and their relations. The schema of the database is shown in \autoref{fig:database_schema}.
 
-The second part -- clustering part -- is responsible for clustering the \glspl{det} (\autoref{ch:iden_construction}), that is for both -- trajectory generation and identity generation. For this process, the \glspl{det} from given cameras are again retrieved from the database along, if applicable, with the corresponding feature vectors created with the selected settings. If we use the construction of trajectories from before, they are also queried. Once the \glspl{det} are clustered according to the parameters, the resulting trajectories or \glspl{iden} are again committed to the database for use by other \gls{VL} modules. The options which were supplied for the \gls{iden} construction is also committed to the database as a new ``\gls{iden} model''. All the created \glspl{iden} are assigned to this model so they can be later queried if the same options are supplied.
+\begin{itemize}
+    \item camera -- contains basic information regarding the stream source
+    \item frame -- there is a record per each frame, also contains timestamp
+    \item detection -- record per each detection, aside from the image and spatial metadata, it contains reference to the frame
+    \item feature\_type -- there is a record for each type of the feature vector including hyperparameters (i.e. RGB hisogram with 4 bins, or MobileNet annotator including specific setting such as description of a training set)
+    \item feature\_descriptor -- These are actual feature vectors for given detection and feature type
+    \item camera\_setup -- auxiliary table, one record is there per session, by the content of table camera\_setup\_assignment we can determine which cameras are part of given session
+    
+    \item identity\_model -- there is one record per identity model, that is specific settings, which feature type was used for the clustering, including the parameters
+    \item identity -- auxiliary table, there is a record per each identity given identity\_model created
+    
+    \item traj\_model -- same as identity\_model but for trajectories
+    \item traj -- same as identity but for trajectories
+    
+    \item identity\_detection -- $n$ to $n$ mapping between identity and detection tables
+    \item traj\_detection -- $n$ to $n$ mapping between trajectory and detection tables
+\end{itemize}
 
-\subsubsection*{Annotator}
-We also provide a tool for manual annotation of the \glspl{det} we used to obtain the ground truth for our datasets. The tool queries the \glspl{det} from the database as well as selected \glspl{iden} or trajectory. User then can see the \glspl{det} frame-by-frame as well as their division to \glspl{iden}. It is possible to re-assign the wrongly assigned \glspl{det} to different \gls{iden}. This approach allows for semi-automated annotation: The \glspl{det} are firstly clustered by a (even poor) algorithm, then only wrongly \glspl{det} needs to be corrected. Once the re-assignment is complete, the resulting clustering can be committed back to the database as a new set of \glspl{iden} with a new ``identity model''.
+\begin{figure}
+    \centering
+    \footnotesize
+    \def\svgwidth{\columnwidth}
+    \input{img/database_schema.pdf_tex}
+    \caption[Schema of the database]{Schema of the database. The connection represents foreign keys connecting the tables. The name of the foreign key is always the same as the name of the table it references. It always references the primary key -- column \texttt{id}.}
+    \label{fig:database_schema}
+\end{figure}
 
-\todo[inline]{screenshot z anotatoru}
+\section{Code Structure}
+The implementation is split into several parts. Each part is largely independent of the others, using only the database as the common point (similarly to \gls{VL} modules). For the purpose of testing and evaluation, we also add a command-line interface for each part.  Alongside the parts, which we describe further in more detail, we also provide several small scripts used for the evaluation in the attached code.
+
+The first part -- feature vector extractor -- is responsible for creating feature vectors described in \autoref{ch:features}. The main pipeline for this module consists of downloading the data to compute the feature vectors from the database, annotate them with the feature vectors, and then upload the results back to the database. If we use annotators that are based on the \gls{nn}, the model needs to be trained first. In this case the data for training is firstly downloaded and used to train the network. Then we run the annotation process as described in the main pipeline with the trained network. For any subsequent annotation with the same setting the locally stored network is used instead of training the network again.
+
+The second part -- clustering part -- is responsible for clustering the \glspl{det} (\autoref{ch:iden_construction}), that is for both -- trajectory generation and identity generation. For this process, the \glspl{det} from given cameras are again retrieved from the database along, if applicable, with the corresponding feature vectors created with the selected settings. If we cluster the detection based on a priory created trajectories, these trajectories are also queries. Once the \glspl{det} are clustered according to the parameters, the resulting trajectories or \glspl{iden} are again committed to the database for use by other \gls{VL} modules. The options which were supplied for the \gls{iden} construction is also committed to the database as a new ``\gls{iden} model''. All the created \glspl{iden} are assigned to this model so they can be later queried if the same options are supplied.
+
+
+\section{Annotation Tool}
+We also provide a tool for manual annotation of the \glspl{det} we used to obtain the ground truth for our datasets. The tool queries the \glspl{det} from the database as well as selected \glspl{iden} or trajectory. User then can see the \glspl{det} frame-by-frame as well as their division to \glspl{iden}. It is possible to re-assign the \glspl{det} to different \gls{iden}. This approach allows for semi-automated annotation: The \glspl{det} are firstly clustered by a (even poor) algorithm, then only wrongly assigned \glspl{det} need to be corrected. Once the re-assignment is complete, the resulting clustering can be committed back to the database as a new set of \glspl{iden} with a new ``identity model''. A screenshot of the tool is in \autoref{fig:annotation_tool}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{img/annotator_screenshot.png}
+    \caption{Screenshot of the annotation tool}
+    \label{fig:annotation_tool}
+\end{figure}

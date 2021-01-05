@@ -100,7 +100,7 @@ information.
 
 \label{ssec:spatial_merging}
 
-Now, let us focus on the last part of the metadata --- position of the bounding box within the frame. While the conditions we presented so far was simple, we propose more complex conditions for processing spatial information.
+Now, let us focus on the last part of the metadata -- position of the bounding box within the frame. While the conditions we presented so far are simple, we propose more complex conditions for processing spatial information.
 
 In order to sufficiently capture the information regarding the position let us first derive a few auxiliary quantities. When processing this spatial information we compare the selected auxiliary quantities with suitable thresholds. We find suitable subset of auxiliary quantities and threshold by empirical testing in \autoref{ch:evaluation}.
 
@@ -285,7 +285,7 @@ The first condition requires different \glspl{iden} (partitions) to by far apart
 
 Now consider a set of \glspl{det} and its partitioning (golden \glspl{iden}) and a metric function that separates the \glspl{iden} well with thresholds $\Delta_{within}$ and $\Delta_{between}$ s.t. $\Delta_{within} < \Delta_{between}$. Further assume that each \gls{iden} is partitioned into smaller trajectories (i.e. each trajectory contains \glspl{det} from only one \gls{iden}). It is easy to see that if we skip the representant selection and directly merge the trajectories (or in other words we pick all \glspl{det} as representants) which are closer than $\Delta_{mrg}$, s.t. $\Delta_{within} \leq \Delta_{mrg} \leq \Delta_{between}$ then we will obtain the original golden \glspl{iden}.
 
-Now, let us select representsnts from the trajectories by \autoref{alg:representants} with threshold $\Delta_{rep}$. We show that if we select a threshold for merging trajectories a bit more precisely, we still obtain the golden \glspl{iden} even tough we discard some of the \glspl{det} (and keet only the representants). It will turn out that the required threshold for merging needs to be between $\Delta_{within} + 2\Delta_{rep}$ and $\Delta_{between}$. Note that this claim holds only for metric functions as it requires triangle inequality. We formalize and then prove the claim:
+Now, let us select representsnts from the trajectories by \autoref{alg:representants} with threshold $\Delta_{rep}$. We show that if we select a threshold for merging trajectories a bit more precisely, we still obtain the golden \glspl{iden} even tough we discard some of the \glspl{det} (and keep only the representants). It will turn out that the required threshold for merging needs to be between $\Delta_{within} + 2\Delta_{rep}$ and $\Delta_{between}$. Note that this claim holds only for metric functions as it requires triangle inequality. We formalize and then prove the claim:
 
 % In context of many trajectories and detections this approach indeed gives some guarantees. Let us assume that we get a set of trajectories and we find set of representants by \autoref{alg:representants} with threshold $\Delta_{rep}$ for all trajectories. Given the representants of the trajectories, we merge the trajectories that have any pair of representants closer than merging threshold $\Delta_{mrg}$.
 

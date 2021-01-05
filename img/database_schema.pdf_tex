@@ -1,0 +1,154 @@
+%% Creator: Inkscape 1.0.1 (0767f8302a, 2020-10-17), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'img/database_schema.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf\_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf\_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf\_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{429.10376898bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,1.49344442)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0.59435274,0.49369869){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}camera\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{img/database_schema.pdf}}%
+    \put(0.59435274,0.46108056){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- id\end{tabular}}}}%
+    \put(0.59435274,0.43312217){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- name\end{tabular}}}}%
+    \put(0.59435274,0.40516377){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- ip\end{tabular}}}}%
+    \put(0.59435274,0.37720537){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- port\end{tabular}}}}%
+    \put(0.59435274,0.34924697){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- codec\end{tabular}}}}%
+    \put(0.59435274,0.32128857){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- fps\end{tabular}}}}%
+    \put(0.59435274,0.29333025){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- h\end{tabular}}}}%
+    \put(0.59435274,0.26537185){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- w\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{img/database_schema.pdf}}%
+    \put(0.76792779,0.77328267){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}frame\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{img/database_schema.pdf}}%
+    \put(0.71550579,0.74066454){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- id\end{tabular}}}}%
+    \put(0.71550579,0.71270614){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- timestamp\end{tabular}}}}%
+    \put(0.71550579,0.68474775){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- sequence\_number\end{tabular}}}}%
+    \put(0.71550579,0.65678935){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- camera\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{img/database_schema.pdf}}%
+    \put(0.75511352,1.22061709){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}detection\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{img/database_schema.pdf}}%
+    \put(0.75511352,1.18799898){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- id\end{tabular}}}}%
+    \put(0.75511352,1.16004051){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- class\end{tabular}}}}%
+    \put(0.75511352,1.13208211){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- left\end{tabular}}}}%
+    \put(0.75511352,1.10412371){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- top\end{tabular}}}}%
+    \put(0.75511352,1.07616532){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- right\end{tabular}}}}%
+    \put(0.75511352,1.04820692){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- bottom\end{tabular}}}}%
+    \put(0.75511352,1.02024852){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- crop\end{tabular}}}}%
+    \put(0.75511352,0.99229012){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- conf\end{tabular}}}}%
+    \put(0.75511352,0.96433172){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- feature\end{tabular}}}}%
+    \put(0.75511352,0.93637333){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- frame\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{img/database_schema.pdf}}%
+    \put(0.2075949,0.13023959){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}feature\_type\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{img/database_schema.pdf}}%
+    \put(0.2075949,0.09762146){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- id\end{tabular}}}}%
+    \put(0.2075949,0.06966306){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- annotator\end{tabular}}}}%
+    \put(0.2075949,0.04170467){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- options\end{tabular}}}}%
+    \put(0.2075949,0.01374627){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- description\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{img/database_schema.pdf}}%
+    \put(0.80404072,1.47224269){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}feature\_descriptor\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{img/database_schema.pdf}}%
+    \put(0.80404072,1.43962456){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- id\end{tabular}}}}%
+    \put(0.80404072,1.41166616){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- value\end{tabular}}}}%
+    \put(0.80404072,1.38370776){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- detection\end{tabular}}}}%
+    \put(0.80404072,1.35574937){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- feature\_type\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{img/database_schema.pdf}}%
+    \put(0.2145845,0.4517611){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}traj\_model\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{img/database_schema.pdf}}%
+    \put(0.20293517,0.41914297){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- id\end{tabular}}}}%
+    \put(0.20293517,0.39118457){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- generator\end{tabular}}}}%
+    \put(0.20293517,0.36322617){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- options\end{tabular}}}}%
+    \put(0.20293517,0.33526777){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- description\end{tabular}}}}%
+    \put(0.20293517,0.30730945){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- feature\_type\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{img/database_schema.pdf}}%
+    \put(0.27283116,0.75930347){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}traj\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{img/database_schema.pdf}}%
+    \put(0.24021303,0.72668534){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- id\end{tabular}}}}%
+    \put(0.24021303,0.69872695){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- traj\_model\end{tabular}}}}%
+    \put(0.24021303,0.67076855){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- camera\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{img/database_schema.pdf}}%
+    \put(0.57105407,1.45826349){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}traj\_detection\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{img/database_schema.pdf}}%
+    \put(0.57105407,1.42564536){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- id\end{tabular}}}}%
+    \put(0.57105407,1.39768696){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- traj\end{tabular}}}}%
+    \put(0.57105407,1.36972856){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- detection\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{img/database_schema.pdf}}%
+    \put(0.42427248,0.74532427){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}camera\_setup\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{img/database_schema.pdf}}%
+    \put(0.42427248,0.71270614){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- id\end{tabular}}}}%
+    \put(0.42427248,0.68474775){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- description\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=18]{img/database_schema.pdf}}%
+    \put(0.45922048,1.12276265){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}camera\_setup\_assignment\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=19]{img/database_schema.pdf}}%
+    \put(0.45922048,1.09014451){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- id\end{tabular}}}}%
+    \put(0.45922048,1.06218612){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- camera\_setup\end{tabular}}}}%
+    \put(0.45922048,1.03422772){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- camera\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=20]{img/database_schema.pdf}}%
+    \put(0.02120558,0.80124107){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}identity\_model\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=21]{img/database_schema.pdf}}%
+    \put(0.00955624,0.76862294){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- id\end{tabular}}}}%
+    \put(0.00955624,0.74066454){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- generator\end{tabular}}}}%
+    \put(0.00955624,0.71270614){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- options\end{tabular}}}}%
+    \put(0.00955624,0.68474775){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- description\end{tabular}}}}%
+    \put(0.00955624,0.65678935){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- feature\_type\end{tabular}}}}%
+    \put(0.00955624,0.62883095){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- trajectory\_model\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=22]{img/database_schema.pdf}}%
+    \put(0.18779103,1.12276265){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}identity\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=23]{img/database_schema.pdf}}%
+    \put(0.15633784,1.09014451){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- id\end{tabular}}}}%
+    \put(0.15633784,1.06218612){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- identity\_model\end{tabular}}}}%
+    \put(0.15633784,1.03422772){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- camera\_setup\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=24]{img/database_schema.pdf}}%
+    \put(0.27050129,1.45826349){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}identity\_detection\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=25]{img/database_schema.pdf}}%
+    \put(0.27050129,1.42564536){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- id\end{tabular}}}}%
+    \put(0.27050129,1.39768696){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- identity\end{tabular}}}}%
+    \put(0.27050129,1.36972856){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}- detection\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=26]{img/database_schema.pdf}}%
+  \end{picture}%
+\endgroup%

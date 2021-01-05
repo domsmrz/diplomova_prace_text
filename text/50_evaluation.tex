@@ -404,7 +404,6 @@ The results show that the setting where we train the MobileNet with added dense 
     \label{fig:final_roc}
 \end{figure}
 
-These results were achieved by using MobileNet as pre-trained on ImageNet dataset with replaced last layer. We also experimented with using weights that we learn during the training without the added dense layer. We add the dense layer to the network and continue with the training with the added layer. However, we did not manage to produce improve the model. Corresponding results of the tested approaches are in \autoref{tab:final_comparison}.
 
 \subsubsection{Comparison with Simple Architecture}
 
@@ -575,7 +574,7 @@ We also evaluated the option of using relative displacement instead of \gls{iou}
     \label{fig:final_rep}
 \end{figure}
 
-We also shortly experiment with lowering the threshold for selecting the representants within the trajectory (which means increase the number of representants per trajectory). As you can see in \autoref{fig:final_rep} this indeed improved the model. Unfortunately, due to significantly higher computational cost, such an increase in the number of representants is not suitable for practical use.
+We also shortly experiment with lowering the threshold for selecting the representants within the trajectory (which means increase the number of representants per trajectory). As you can see in \autoref{fig:final_rep} this indeed improved the model. Unfortunately, due to significantly higher computational cost, such increase in the number of representants is not suitable for practical use.
 
 \begin{figure}
     \centering
