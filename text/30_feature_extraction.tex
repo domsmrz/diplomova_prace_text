@@ -153,31 +153,31 @@ The first channel --- hue --- represents what we usually refer to as a main prop
 
 The hue is often displayed as a direction or a position of the unit circle. Therefore, the unit of hue is most common a degree. This also means that the value of $359\degree$ and $0\degree$ represent nearly identical color (red).
 
-Mathematically we can compute the value of hue from the RGB channels as
-follows:
+% Mathematically we can compute the value of hue from the RGB channels as
+% follows:
 
-$$H = 60\degree \cdot x, \text{ where } x = 
-\begin{cases}
-0 & \text{ if } R = G = B \\
-\frac{G - B}{R - B} & \text{ if } R \geq G \geq B \\
-2 - \frac{R - B}{G - B} & \text{ if } G > R \geq B \\
-2 + \frac{B - R}{G - R} & \text{ if } G \geq B > R \\
-4 - \frac{G - R}{B - R} & \text{ if } B > G > R \\
-4 + \frac{R - G}{B - G} & \text{ if } B > R \geq G \\
-6 - \frac{B - G}{R - G} & \text{ if } R \geq B > G
-\end{cases}$$
+% $$H = 60\degree \cdot x, \text{ where } x = 
+% \begin{cases}
+% 0 & \text{ if } R = G = B \\
+% \frac{G - B}{R - B} & \text{ if } R \geq G \geq B \\
+% 2 - \frac{R - B}{G - B} & \text{ if } G > R \geq B \\
+% 2 + \frac{B - R}{G - R} & \text{ if } G \geq B > R \\
+% 4 - \frac{G - R}{B - R} & \text{ if } B > G > R \\
+% 4 + \frac{R - G}{B - G} & \text{ if } B > R \geq G \\
+% 6 - \frac{B - G}{R - G} & \text{ if } R \geq B > G
+% \end{cases}$$
 
 Another component of HSV is saturation. This component describes the ``colorfulness'' of the color. Colors with a low level of saturation always appear to be of grey shade, while the color with higher saturation changes depending on its hue component.
 
-The value of saturation can be easily computed from the RGB components:
+% The value of saturation can be easily computed from the RGB components:
 
-$$S = 1 - \frac{\max(R,G,B)}{\min(R,G,B)}$$
+% $$S = 1 - \frac{\max(R,G,B)}{\min(R,G,B)}$$
 
 We can see that hue and saturation are quite robust in terms of changes in light conditions on the experiment in \autoref{fig:rubik_rgb_hsv}. Furthermore, they describe well the changes in the actual color of the material. That is at least for the simple example of the photo of a Rubik cube. The usefulness of these two channels in practical cases was shown by \cite{mckenna1997tracking}, where the authors used them to re-identify faces.
 
 \begin{figure}
     \centering
-    \includegraphics[width=6cm]{img/HSV_color_solid_cylinder.png}
+    \includegraphics[width=5.5cm]{img/HSV_color_solid_cylinder.png}
     \caption[HSV color cylinder]{HSV color cylinder\\Source: HSV color solid cylinder\protect\footnotemark{} by SharkD, CC BY-SA 3.0\protect\footnotemark{}, via Wikimedia Commons}
     \label{fig:hsv_cylinder}
 \end{figure}
@@ -200,8 +200,8 @@ Another fairly popular (\cite{orwell1999multi}, \cite{wren1997pfinder}) encoding
 \stepcounter{footnote}\footnotetext{\url{https://commons.wikimedia.org/wiki/File:YUV_UV_plane.svg}}
 \stepcounter{footnote}\footnotetext{\url{http://creativecommons.org/licenses/by-sa/3.0/}} 
 
-The definition we use in this work comes from ITU-R Recommendation BT.601
-(often just Rec. 601; \cite{bt2011studio}). However, we apply linear
+The definition of the YUV decomposition we use in this work comes from ITU-R Recommendation BT.601
+(often just Rec. 601; by \cite{bt2011studio}). However, we apply linear
 transformation with offset and additional rounding to map the original space of U and V
 to map these components to 8-bit values. This transformation can be expressed
 as:
@@ -304,7 +304,7 @@ A visualization of this weighting can be seen in \autoref{fig:gaussian_weighting
     \centering
     \includegraphics{img/background_filter/1_original.png} \hspace{1cm} \includegraphics{img/background_filter/weights.png} \hspace{1cm}
     \includegraphics{img/background_filter/weights_applied.png}
-    \caption[Visualization of background filtering by Gaussian weighting]{Visualization of background filtering by Gaussian weighting. The chosen distribution is horizontally centered and vertically offset to 30\% of height of the image. Chosen scale of the distribution is 0.3 (with respect to each respective dimensions of the image). The first image shows original image, the second weights, the last one represent applied weights (the weights are represent by transparency channel).}
+    \caption[Visualization of background filtering by Gaussian weighting]{Visualization of background filtering by Gaussian weighting. The chosen distribution is horizontally centered and vertically offset to 30\% of height of the image. Chosen standard deviation of the distribution is 0.3 (with respect to each respective dimensions of the image). The first image shows original image, the second weights, the last one represent applied weights (the weights are represent by transparency channel).}
     \label{fig:gaussian_weighting}
 \end{figure}
 
@@ -313,13 +313,13 @@ A visualization of this weighting can be seen in \autoref{fig:gaussian_weighting
 
 
 
-In this section, we explore feature vectors generated by neural networks. The information in these feature vector may not be as easy to understand as in case of using histograms. However, we aim to trade this lower level of explainability in hopes that the resulting feature vector would contain more useful information in terms of \reid{}.
+In this section, we explore feature vectors generated by neural networks. The information captured in these feature vector may not be as easy to understand as in case of using histograms. However, we aim to trade this lower level of explainability in hopes that the resulting feature vector would contain more useful information in terms of \reid{}.
 
 
 \subsection{Custom Architecture}
 \label{ssec:custom_architecture}
 
-The first network we evaluate is a simple custom architecture. Our architecture is shallow compared to the more complex counter-parts that we also evaluate. It follows the usual practice of using alternating convolutional, max-pooling, and dropout layers with a dense layer prior to the output. For detailed description of the layers please consult \autoref{sec:conv} and \cite{deeplearningbook}. Detailed architecture is described in \autoref{tab:custom_architecture}.
+The first network we evaluate is a simple custom architecture. Our architecture is shallow compared to the more complex counter-parts that we also evaluate. It follows the usual practice of using alternating convolutional, max-pooling, and dropout layers with a dense layer prior to the output. For more thorough description of the layers please consult \autoref{sec:conv} and \cite{deeplearningbook}. The detailed architecture is described in \autoref{tab:custom_architecture}.
 
 \begin{table}
     \centering
@@ -348,20 +348,23 @@ This simple architecture is not as complex as fine-tuned architectures such as R
 
 We experiment with various architectures based on the already trained \glspl{nn} (see \autoref{ssec:transfer_learning} and \autoref{sec:existing_architectures}).
 
-The first experiment in this regard is to use ResNet and MobileNet as they were trained on the ImageNet dataset without the last ``classification'' layer. By such an experiment, we can hypothesize if these networks extract enough information simply by virtue of being image distinguishing neural networks or whether additional training is needed.
+The first experiment in this regard is to use ResNet and MobileNet as they were trained on the ImageNet dataset without the last ``classification'' layer. Removal of this layer is needed as it designed to activate just one neuron based on the class of the image (as required by the original task -- classification on ImageNet). By such an experiment, we can hypothesize if these networks extract enough information simply by virtue of being image distinguishing neural networks or whether the additional training is needed.
 
-Finally, we explore the possibility of improving the abilities of \gls{nn} by fine-tuning them on our dataset. The first straight-forward approach we tested was to train the network without the last ``classification'' layer on our dataset without additional modification.\footnote{Actually, in order to employ Triplet Loss for learning, we needed to add a normalization layer. However, this layer does not add any trainable parameters.} However, we also explore the possibilities of slight modifications. We add a custom dense layer, sort of ``in place'' of the removed classification layer.
+We also explore the possibility of improving the abilities of \gls{nn} by fine-tuning them on our dataset. The first straight-forward approach we test is to train the network without the last layer on our dataset without any additional modifications.\footnote{Actually, in order to employ Triplet Loss for learning, we need to add a normalization layer. However, this layer does not add any trainable parameters.}
 
-We also experiment with ``freezing'' the pre-trained part of the model. This means that we only fine-tuned the added final layer by learning, instead of the whole model. This has the advantage of a faster learning as the number of trainable parameters are significantly lower and the derivative has to be computed only for the last layer. Furthermore, using completely untrained weights in the final layer may cause the weights set in the pre-trained part to re-learn and completely lose the pre-trained model's advantages.
+However, we also explore the possibilities of slight modifications similar to other research that make use of transfer learning such as \cite{tajbakhsh2016convolutional}. By removal of the last layer we could lose some information as well as the actual capabilities of the network. For this reason we add a custom dense layer, sort of ``in place'' of the removed one. The added layer could restore any computational complexity lost by originally removing a layer that could be needed to achieve the best results.
+
+Furthermore, we experiment with \emph{freezing} the pre-trained part of the model while training. This means that we only fine-tuned the added final layer by learning, instead of the whole model. This has the advantage of a faster learning as the number of trainable parameters is significantly lower and the derivative has to be computed only for the last layer. Furthermore, using completely untrained weights in the final layer may cause the weights set in the pre-trained part to re-learn and completely lose the pre-trained model's advantages.
+
+We further build upon the learned models by changing the architecture and re-learning again. That is, we firstly train a model with frozen layers. Then, once the last layer is suitably learned with the respect to pre-trained weights, we unfreeze the whole model and run the training algorithm again. By this way we hope to mitigate the problem where the pre-trained model is completely re-learned due to untrained last layer. We also experiment with combinations. For example we firstly train the MobileNet architecture without the last layer. Only after this initial training we add the dense layer and train the model again.
 
 \subsection{Training}
 
 We shall train and fine-tune presented models via gradient descent algorithm. To provide an unbiased estimation of the quality of the model in terms of \autoref{eq:mla}, we evaluate entirely different \gls{ses} than we used for training and fine-tuning. Both the training \gls{ses} and the \gls{ses} used for evaluation was created from our recordings. We have manually annotated extracted \glspl{det}. We describe the datasets more in \autoref{sec:datasets}.
 
-For training itself, we use Triplet Loss as described in \autoref{sec:triplet_loss}. We extract the \gls{det} from single (``training'') \gls{ses} for the training purposes. As the goal of this step in the workflow is to obtain the representation of images, we discard all the metadata (e.g. position of the \gls{det}) and leave only the images of the \gls{det}.
+For training itself, we use Triplet Loss as described in \autoref{sec:triplet_loss}. We extract the \gls{det} from single (``training'') \gls{ses} for the training purposes. As the goal of this step in the workflow is to obtain the representation of images, we discard all the metadata (e.g. position of the \gls{det}) and leave only the images of the \gls{det}. As the Triplet Loss is dependent on the selected distance function we also explore the effect of various functions described in \autoref{sec:distances}.
 
-
-Usually, we train the neural networks until the convergence of the loss function is reached. However, in some cases (notably, while incorporating the ResNet architecture), we needed to end the training earlier due to high hardware and time demands. Nevertheless, to avoid overfitting on the training dataset, we also evaluate the networks with weights learned in earlier training stages.
+Usually, we train the neural networks until the convergence of the loss function is reached. However, in some cases (notably, while incorporating the ResNet architecture), we may need to end the training earlier due to high hardware and time demands. Nevertheless, to avoid overfitting on the training dataset, we also evaluate the networks with weights learned in earlier training stages. In case where we see that the accuracy on the test set continuously raises we may stop the training early.
 
 \subsection{Resizing Images}
 
