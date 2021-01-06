@@ -1,6 +1,6 @@
 %% Creator: Inkscape 1.0.1 (0767f8302a, 2020-10-17), www.inkscape.org
 %% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
-%% Accompanies image file 'claim.pdf' (pdf, eps, ps)
+%% Accompanies image file 'img/claim.pdf' (pdf, eps, ps)
 %%
 %% To include the image in your LaTeX document, write
 %%   \input{<filename>.pdf_tex}
@@ -54,12 +54,12 @@
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{img/claim.pdf}}%
-    \put(0.01175397,0.84669474){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$A_1$\end{tabular}}}}%
-    \put(0.08143238,0.64530225){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$T_1$\end{tabular}}}}%
+    \put(0.03692162,0.8276656){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$A_1$\end{tabular}}}}%
+    \put(0.10782769,0.64438147){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$T_1$\end{tabular}}}}%
     \put(0.08272475,0.23338069){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$A_2$\end{tabular}}}}%
-    \put(0.37866016,0.78043193){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$T_2$\end{tabular}}}}%
-    \put(0.76815995,0.74847323){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$T_3$\end{tabular}}}}%
-    \put(0.52098029,0.20913013){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$T_4$\end{tabular}}}}%
-    \put(0.74022109,0.1012733){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$T_5$\end{tabular}}}}%
+    \put(0.4142631,0.77828349){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$T_2$\end{tabular}}}}%
+    \put(0.76815995,0.76412624){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$T_3$\end{tabular}}}}%
+    \put(0.53110878,0.21005096){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$T_4$\end{tabular}}}}%
+    \put(0.73991419,0.09421407){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$T_5$\end{tabular}}}}%
   \end{picture}%
 \endgroup%

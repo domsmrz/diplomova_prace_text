@@ -40,7 +40,7 @@ However, defining histogram just over the multi-set of real numbers proves to be
 
 One way to circumvent this problem is to draw a histogram from each channel separately and concatenate them together. However, this naïve approach losses valuable information. For example, an image with half red and half green would generate the same histogram as an image that is half yellow (i.e., the combination of red and green) and half black (if we are using RGB channels).
 
-Therefore, we shall use a bit more complex approach. An approach that would encapsulate the combined color information of each pixel. For this reason we use the following extension of simple histograms:
+Therefore, we shall use a bit more complex approach. An approach that would encapsulate the combined color information of each pixel. For this reason we use the following extension of simple histogram:
 
 \begin{defn}
 \label{defn:histogram}
@@ -65,13 +65,13 @@ Where $H_{i_1, \ldots, i_m}$ is a histogram of $X$.
 
 \subsection{Color Models}
 
-As we mentioned previously in this section, so far, we aim to capture the distribution of the color within an image via histograms. However, we need to decide how we want to represent the pixels in the first place. We explore several well-known models.
+As we mentioned previously in this section, so far, we aim to capture the distribution of the color within an image via histograms. However, we need to decide how we want to represent the pixels in the first place. We explore several well-known color models.
 
 \subsubsection{RGB}
 
 The \autoref{defn:normhistogram} allows us to construct the first feature vector simply by following the definition. We can construct a (three-dimensional) histogram from the original channels (red, green, and blue).
 
-However, such a naïve approach has significant drawbacks. In our scenario, it is common that the tracked object or person changes its brightness. It may move to a shadow or enter the area under a lamp. However, the object does not change its identity by moving to more bright areas. Therefore, we would prefer a model that is invariant to changes in the lightning (or at least not very sensitive). Unfortunately, this is not achieved by considering standard RGB as our color model.
+However, such a naïve approach has significant drawbacks. In our scenario, it is common that the tracked object or person changes its brightness. It may move to a shadow or enter the area under a lamp. However, the object does not change its identity by moving to more bright areas. Therefore, we would prefer a model that is invariant to changes in the lightning (or at least is not very sensitive to them). Unfortunately, this is not achieved by considering standard RGB as our color model.
 
 
 A simple comparison can be seen in \autoref{fig:rubik_rgb_hsv}. In the figure, we work with three photos of the same object in three different light conditions. The original photos are shown in the top row. We can see the decomposition of red, green, and blue channels, respectively, in the following three rows. As we can see, even though we photographed the same object from the same vantage point, the changes in light conditions have a dramatic impact on all three channels.
@@ -149,9 +149,9 @@ A simple comparison can be seen in \autoref{fig:rubik_rgb_hsv}. In the figure, w
 
 One of the possible remedies to tackle the problem of changes in the light conditions is to use another popular decomposition of color information -- hue, saturation, and value model. The last value is sometimes referred to as brightness resulting in the abbreviation HSB.\footnote{Another related decomposition is HSL, where the last channel is replaced by lightning. However, as the main channels for our purposes are the first two, we shall not discuss this differentiation any further.} General concept of HSV decomposition is displayed in \autoref{fig:hsv_cylinder}.
 
-The first channel --- hue --- represents what we usually refer to as a main property of the color when we describe it. For example, colors with the hue of $60\degree$ we usually refer to as ``yellow'' and colors with the hue of $120\degree$ we refer to as ``green''.
+The first channel -- hue -- represents what we usually refer to as a main property of the color when we describe it. For example, colors with the hue of $60\degree$ we usually refer to as ``yellow'' and colors with the hue of $120\degree$ we refer to as ``green''.
 
-The hue is often displayed as a direction or a position of the unit circle. Therefore, the unit of hue is most common a degree. This also means that the value of $359\degree$ and $0\degree$ represent nearly identical color (red).
+The hue is often displayed as a direction or a position on the unit circle. Therefore, the unit of hue is most common a degree. This also means that the value of $359\degree$ and $0\degree$ represent nearly identical color (red).
 
 % Mathematically we can compute the value of hue from the RGB channels as
 % follows:
@@ -167,7 +167,7 @@ The hue is often displayed as a direction or a position of the unit circle. Ther
 % 6 - \frac{B - G}{R - G} & \text{ if } R \geq B > G
 % \end{cases}$$
 
-Another component of HSV is saturation. This component describes the ``colorfulness'' of the color. Colors with a low level of saturation always appear to be of grey shade, while the color with higher saturation changes depending on its hue component.
+Another component of HSV is saturation. This component describes the ``colorfulness'' of the color. Colors with a low level of saturation always appear to be of grey shade (or entirely white), while the color with higher saturation changes depending on its hue component.
 
 % The value of saturation can be easily computed from the RGB components:
 
@@ -187,7 +187,7 @@ We can see that hue and saturation are quite robust in terms of changes in light
 
 \subsubsection{YUV}
 
-Another fairly popular (\cite{orwell1999multi}, \cite{wren1997pfinder}) encoding of color used for this task is YCbCr (often referred as YUV) system. The first component, Y, represents the luminance (brightness) of the color\footnote{Component Y' is often used in place of the Y component. There is a difference between these two notation; however, we shall not discuss this difference further as the important components for our work is the latter two components.}. The remaining two components represent the chrominance of the color. The first of these two components (U or Cb) represents the blue projection. The last component (V or Cr) represents the red projection. The UV decomposition (with fixed Y) can be seen in \autoref{fig:yuv_decomposition}.
+Another fairly popular (\cite{orwell1999multi}, \cite{wren1997pfinder}) encoding of colors used for this task is YCbCr (often referred as YUV) system. The first component, Y, represents the luminance (brightness) of the color\footnote{Component Y' is often used in place of the Y component. There is a difference between these two notation; however, we shall not discuss this difference further as the important components for our work is the latter two components.}. The remaining two components represent the chrominance of the color. The first of these two components (U or Cb) represents the blue projection. The last component (V or Cr) represents the red projection. The UV decomposition (with fixed Y) can be seen in \autoref{fig:yuv_decomposition}.
 
 \begin{figure}
     \centering
@@ -203,7 +203,7 @@ Another fairly popular (\cite{orwell1999multi}, \cite{wren1997pfinder}) encoding
 The definition of the YUV decomposition we use in this work comes from ITU-R Recommendation BT.601
 (often just Rec. 601; by \cite{bt2011studio}). However, we apply linear
 transformation with offset and additional rounding to map the original space of U and V
-to map these components to 8-bit values. This transformation can be expressed
+to 8-bit values. This transformation can be expressed
 as:
 
 \begin{align*}
@@ -215,15 +215,15 @@ How well these channels capture the color information and how much they change w
 
 \subsection{Background Filtering}
 
-There is another aspect to consider when using color histograms for generating feature vectors, and that is background filtering. If we did not filter out the background, the histogram might be polluted with useless information and may change during the tracked individual's movement, thus lowering the re-identification ability of the generated feature vector.
+There is another aspect to consider when using color histograms for generating feature vectors, and that is background filtering. If we do not filter out the background, the histogram might be polluted with useless information and may change during the tracked individual's movement, thus lowering the re-identification ability of the generated feature vector.
 
-We evaluated the results without any background filtering at all as a baseline. Aside from that, we explore two rather simple approaches to this task. 
+We evaluate the results without any background filtering at all as a baseline. Aside from that, we explore two rather simple approaches to this task. 
 
 \subsubsection{Simple Crop}
 
-The first, quite naïve approach is to crop from each image. We can remove strips of fixed width (relative to the image's dimension) from each side. An example of the result of this approach can be seen in \autoref{fig:crop_example}.
+The first, quite naïve approach is to crop each image. We can remove strips of fixed width (relative to the image's dimensions) from each side. An example of the result of this approach can be seen in \autoref{fig:crop_example}.
 
-This way, we can remove (in most cases) all the background. Unfortunately, we often remove not only the background but also usually at least parts of the tracked individual. However, the basic idea is that the part of the person that remains after the crop should be mostly the same (i.e., displaying the same part) and not influenced by the background at all. Even though we may lose some information by this approach (i.e., if the crop from the bottom of the bounding box is too large, we may entirely crop-out the legs), we aim to verify if the remaining information is enough for re-identification purposes.
+This way, we can remove (in most cases) all the background. Unfortunately, we often remove not only the background but also usually at least parts of the tracked individual. However, the basic idea is that the part of the person that remains after the crop should be mostly the same (i.e., displaying the same part) and not influenced by the background at all. Even though we may lose some information by this approach (i.e., if the crop from the bottom of the bounding box is too large, we may entirely crop-out the legs), we aim to verify if the remaining information is enough for the re-identification purposes.
 
 % \begin{figure}
 %     \centering
@@ -274,7 +274,7 @@ This way, we can remove (in most cases) all the background. Unfortunately, we of
      \end{subfigure}
      \hfill \hspace{0.1mm}
 
-    \caption[An example of cropping on actual detections]{An example of cropping on actual detections. 20\% were cropped from left and right, 10\% from the top and 50\% from the bottom.}
+    \caption[An example of cropping on actual detections]{An example of cropping on actual detections. 20\% were cropped from left and right, 10\% from the top and 30\% from the bottom.}
     \label{fig:crop_example}
 \end{figure}
 
@@ -284,27 +284,27 @@ In the second approach, we assign each pixel a weight. This approach's idea is t
 
 There are many functions that would generate suitable weights (we need symmetric
 function with single local maximum). However, we use one in particular
--- Gaussian (i.e. normal distribution function). We experiment with various
-variations of the Gaussian as well as multiple vertical centering points.
+-- Gaussian (i.e., normal distribution function). We experiment with various
+standard variations of the distribution as well as multiple vertical centering points.
 
 
-To formalize the concept of weighted histograms we further alter the \autoref{defn:histogram}. In the original definition we simply counted the number of pixels corresponding to given bin (i.e. fulfilling the conditions). In the definition of weighted histogram instead of simply counting them, we sum the weights of corresponding histogram. Therefore, if we assign weight 1 to all pixels, resulting histogram would be the same as if we would not use weights at all:
+To formalize the concept of weighted histograms we further alter the \autoref{defn:histogram}. In the original definition we simply counted the number of pixels corresponding to a given bin (i.e., fulfilling the conditions). In the definition of weighted histogram instead of simply counting them, we sum the weights of the corresponding pixels. Therefore, if we assign weight 1 to all pixels, resulting histogram would be the same as if we would not use weights at all:
 
 \begin{defn}
 \label{defn:weighted_histogram}
 Weighted histogram of (multi)set $X \subset (\R^m \times \R)$ (where the last
-element of the vector represents weight) of n bins per channel with
+element of the vector represents the weight) of n bins per channel with
 lower bound $l$ and upper bound $u$ is a tensor $H$ with following elements:
 $$H_{i_1, \ldots, i_m} = \sum_{(\vec{x}, w) \in X} \left[w \text{ if } (\forall j) \left(l + (i_j-1) \cdot \frac{u-l}{n} \leq x_j < l + i_j \cdot \frac{u-l}{n}\right)\right]$$
 \end{defn}
 
-A visualization of this weighting can be seen in \autoref{fig:gaussian_weighting}.
+A visualization of the weighting by Gaussian can be seen in \autoref{fig:gaussian_weighting}.
 
 \begin{figure}
     \centering
     \includegraphics{img/background_filter/1_original.png} \hspace{1cm} \includegraphics{img/background_filter/weights.png} \hspace{1cm}
     \includegraphics{img/background_filter/weights_applied.png}
-    \caption[Visualization of background filtering by Gaussian weighting]{Visualization of background filtering by Gaussian weighting. The chosen distribution is horizontally centered and vertically offset to 30\% of height of the image. Chosen standard deviation of the distribution is 0.3 (with respect to each respective dimensions of the image). The first image shows original image, the second weights, the last one represent applied weights (the weights are represent by transparency channel).}
+    \caption[Visualization of background filtering by Gaussian weighting]{Visualization of background filtering by Gaussian weighting. The chosen distribution is horizontally centered and vertically offset to 30\% of height of the image. Chosen standard deviation of the distribution is 0.3 (with respect to each respective dimensions of the image). The first image shows original image, the second weights, the last one represent applied weights (the weights are represent by the transparency channel).}
     \label{fig:gaussian_weighting}
 \end{figure}
 
@@ -319,7 +319,7 @@ In this section, we explore feature vectors generated by neural networks. The in
 \subsection{Custom Architecture}
 \label{ssec:custom_architecture}
 
-The first network we evaluate is a simple custom architecture. Our architecture is shallow compared to the more complex counter-parts that we also evaluate. It follows the usual practice of using alternating convolutional, max-pooling, and dropout layers with a dense layer prior to the output. For more thorough description of the layers please consult \autoref{sec:conv} and \cite{deeplearningbook}. The detailed architecture is described in \autoref{tab:custom_architecture}.
+The first network we propose is a simple custom architecture. Our architecture is shallow compared to the more complex counter-parts that we also evaluate. It follows the usual practice of using alternating convolutional, max-pooling, and dropout layers with a dense layer prior to the output. For more thorough description of the layers please consult \autoref{sec:conv} and \cite{deeplearningbook}. The detailed architecture is described in \autoref{tab:custom_architecture}.
 
 \begin{table}
     \centering
@@ -333,10 +333,10 @@ The first network we evaluate is a simple custom architecture. Our architecture 
          Max-pooling & pool size: 2 & $\frac{n}{4} \times \frac{n}{4} \times 32$ \\
          Dropout & rate: 0.3 & $\frac{n}{4} \times \frac{n}{4} \times 32$ \\
          Flatten & & 2$n^2$ \\
-         Dense & output size: 256, without activation & 256 \\
-         Normalization & & 256
+         Dense & without activation & $m$ \\
+         Normalization & & $m$
     \end{tabular}
-    \caption[Architecture of custom neural network]{Architecture of custom neural network. Parameter $n$ represents size of the input (the input is expected to be resized to $n\times n$ pixels, with RGB channels).}
+    \caption[Architecture of custom neural network]{Architecture of custom neural network. Parameter $n$ represents size of the input (the input is expected to be resized to $n\times n$ pixels, with RGB channels). The parameter $m$ represents number of neuron in the final layer.}
     \label{tab:custom_architecture}
 \end{table}
 
@@ -348,26 +348,26 @@ This simple architecture is not as complex as fine-tuned architectures such as R
 
 We experiment with various architectures based on the already trained \glspl{nn} (see \autoref{ssec:transfer_learning} and \autoref{sec:existing_architectures}).
 
-The first experiment in this regard is to use ResNet and MobileNet as they were trained on the ImageNet dataset without the last ``classification'' layer. Removal of this layer is needed as it designed to activate just one neuron based on the class of the image (as required by the original task -- classification on ImageNet). By such an experiment, we can hypothesize if these networks extract enough information simply by virtue of being image distinguishing neural networks or whether the additional training is needed.
+The first experiment in this regard is to use ResNet and MobileNet as they were trained on the ImageNet dataset without the last ``classification'' layer. Removal of this layer is needed as it designed to activate just one neuron based on the class of the image (as required by the original task -- classification on ImageNet). By such experiment, we can hypothesize if these networks extract enough information simply by virtue of being image distinguishing neural networks or whether the additional training is needed.
 
-We also explore the possibility of improving the abilities of \gls{nn} by fine-tuning them on our dataset. The first straight-forward approach we test is to train the network without the last layer on our dataset without any additional modifications.\footnote{Actually, in order to employ Triplet Loss for learning, we need to add a normalization layer. However, this layer does not add any trainable parameters.}
+We also explore the possibility of improving the abilities of \glspl{nn} by fine-tuning them on our dataset. The first straight-forward approach we test is to train the network without the last layer on our dataset without any additional modifications.\footnote{Actually, in order to employ Triplet Loss for learning, we need to add a normalization layer. However, this layer does not add any trainable parameters.}
 
 However, we also explore the possibilities of slight modifications similar to other research that make use of transfer learning such as \cite{tajbakhsh2016convolutional}. By removal of the last layer we could lose some information as well as the actual capabilities of the network. For this reason we add a custom dense layer, sort of ``in place'' of the removed one. The added layer could restore any computational complexity lost by originally removing a layer that could be needed to achieve the best results.
 
-Furthermore, we experiment with \emph{freezing} the pre-trained part of the model while training. This means that we only fine-tuned the added final layer by learning, instead of the whole model. This has the advantage of a faster learning as the number of trainable parameters is significantly lower and the derivative has to be computed only for the last layer. Furthermore, using completely untrained weights in the final layer may cause the weights set in the pre-trained part to re-learn and completely lose the pre-trained model's advantages.
+Furthermore, we experiment with \emph{freezing} the pre-trained part of the model while training. This means that we only fine-tune the added final layer by learning, instead of the whole model. This has the advantage of a faster learning as the number of trainable parameters is significantly lower and the derivative has to be computed only for the last layer. Furthermore, using completely untrained weights in the final layer may cause the weights set in the pre-trained part to re-learn and completely lose the pre-trained model's advantages.
 
-We further build upon the learned models by changing the architecture and re-learning again. That is, we firstly train a model with frozen layers. Then, once the last layer is suitably learned with the respect to pre-trained weights, we unfreeze the whole model and run the training algorithm again. By this way we hope to mitigate the problem where the pre-trained model is completely re-learned due to untrained last layer. We also experiment with combinations. For example we firstly train the MobileNet architecture without the last layer. Only after this initial training we add the dense layer and train the model again.
+We further build upon the learned models by changing the architecture and re-learning again. That is, we firstly train a model with the last added layer frozen. Then, once the last layer is suitably learned with the respect to pre-trained weights, we unfreeze the whole model and run the training algorithm again. This way we hope to mitigate the problem where the pre-trained model is completely re-learned due to untrained last layer. We also experiment with combinations of aforementioned approaches. For example we firstly train the MobileNet architecture without the last layer. Only after this initial training we add the dense layer and train the model again.
 
 \subsection{Training}
 
-We shall train and fine-tune presented models via gradient descent algorithm. To provide an unbiased estimation of the quality of the model in terms of \autoref{eq:mla}, we evaluate entirely different \gls{ses} than we used for training and fine-tuning. Both the training \gls{ses} and the \gls{ses} used for evaluation was created from our recordings. We have manually annotated extracted \glspl{det}. We describe the datasets more in \autoref{sec:datasets}.
+We shall train and fine-tune presented models via gradient descent algorithm. To provide an unbiased estimation of the quality of the model, we evaluate them on an entirely different \gls{ses} than we use for the training and fine-tuning. Both the training \gls{ses} and the \gls{ses} use for evaluation were created from our recordings. We have manually annotated extracted \glspl{det}. We describe the datasets more in \autoref{sec:datasets}.
 
-For training itself, we use Triplet Loss as described in \autoref{sec:triplet_loss}. We extract the \gls{det} from single (``training'') \gls{ses} for the training purposes. As the goal of this step in the workflow is to obtain the representation of images, we discard all the metadata (e.g. position of the \gls{det}) and leave only the images of the \gls{det}. As the Triplet Loss is dependent on the selected distance function we also explore the effect of various functions described in \autoref{sec:distances}.
+For training itself, we use Triplet Loss as described in \autoref{sec:triplet_loss}. We extract the \gls{det} from a single (``training'') \gls{ses} for the training purposes. As the goal of this step in the workflow is to obtain the representations of images, we discard all the metadata (e.g., position of the \gls{det}) and leave only the images of the \glspl{det}. As the Triplet Loss is dependent on the selected distance function we also explore the effect of various distance functions described in \autoref{sec:distances}.
 
-Usually, we train the neural networks until the convergence of the loss function is reached. However, in some cases (notably, while incorporating the ResNet architecture), we may need to end the training earlier due to high hardware and time demands. Nevertheless, to avoid overfitting on the training dataset, we also evaluate the networks with weights learned in earlier training stages. In case where we see that the accuracy on the test set continuously raises we may stop the training early.
+Usually, we train the neural networks until the convergence of the loss function is reached. However, in some cases (notably, while incorporating the ResNet architecture), we may need to end the training earlier due to high hardware and time demands. Nevertheless, to avoid overfitting on the training dataset, we also evaluate the networks with weights learned in earlier training stages. In case where we see that the accuracy on the test set continuously decreses we may stop the training early.
 
 \subsection{Resizing Images}
 
 \label{ssec:resizing}
 
-Many \glspl{nn} for image processing (including those we work with) require the input image to be of fixed dimensions. For resizing images, various algorithms can be employed. We exclusively use the bicubic interpolation to achieve good results when scaling up (which is our common use case). For details please refer to \cite{keys1981cubic}. Other algorithms can be experimented with. However, it is out of the scope of this work.
+Many \glspl{nn} for image processing (including those we work with) require the input image to be of fixed dimensions. Various algorithms can be employed for resizing images. We exclusively use the bicubic interpolation to achieve good results when scaling up (which is our common use case). For details please refer to \cite{keys1981cubic}. Other algorithms can be experimented with. However, that is out of the scope of this work.
