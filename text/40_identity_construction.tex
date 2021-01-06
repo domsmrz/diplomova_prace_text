@@ -5,13 +5,13 @@
 %123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
 
 In this chapter we discuss actual techniques to group the \glspl{det} into
-desired clusters, i.e. creating \glspl{iden} as per \autoref{ssec:task}.
+desired clusters, i.e., creating \glspl{iden} as per \autoref{ssec:task}.
 We show how we combine the visual information of the image
 (\autoref{ch:features}) with metadata to provide \glspl{iden}.
 
 \section{Trajectories}
 
-In this section, we focus on grouping the \glspl{det} together without the use of visual information, i.e. purely based on the metadata. In other words we create trajectories as per \autoref{sec:workflow}. By its nature the \glspl{det} within a single trajectory are from consecutive frames and physically close together, displaying one moving object.
+In this section, we focus on grouping the \glspl{det} together without the use of visual information, i.e., purely based on the metadata. In other words we create trajectories as per \autoref{sec:workflow}. By its nature the \glspl{det} within a single trajectory are from consecutive frames and physically close together, displaying one moving object.
 
 The reason for this step is to group the \glspl{det} together in cases
 where the visual information -- processing which may be complicated -- is not
@@ -37,9 +37,9 @@ Let us briefly recall available metadata for each \gls{det} as introduced in
     \item Timestamp
 \end{itemize}
 
-Let us start with a simplification. For now, we consider metadata of just two \glspl{det} at hand, and we explore if we can find out whether the \glspl{det} display the same object (i.e. in this context whether they belong to the same trajectory). We discuss each part of the metadata separately.
+Let us start with a simplification. For now, we consider metadata of just two \glspl{det} at hand, and we explore if we can find out whether the \glspl{det} display the same object (i.e., in this context whether they belong to the same trajectory). We discuss each part of the metadata separately.
 
-For each metadata we use a separate condition or set of conditions. We conclude that the \glspl{det} show the same object if all the conditions are true. In some cases we show the simple conditions are enough (\autoref{ssec:nonspatial_merging}). In other cases, we derive additional values which we compare with selected thresholds. We find suitable thresholds by experimenting with various settings (we discuss this topic further in \autoref{ssec:spatial_merging}).
+For each metadata we use a separate condition or set of conditions. We conclude that the \glspl{det} show the same object if all the conditions are true. In some cases we show that simple conditions are enough (\autoref{ssec:nonspatial_merging}). In other cases, we derive additional values, which we compare with selected thresholds. We find suitable thresholds by experimenting with various settings (we discuss this topic further in \autoref{ssec:spatial_merging}).
 
 Note that, even if some of the conditions for a given pair of \glspl{det} are not fulfilled, we can assign the \glspl{det} to the same trajectory later using transitivity. We elaborate further on this topic in \autoref{ssec:trajectory_generation}.
 
@@ -67,28 +67,28 @@ case.\footnote{There
 are approaches that assume that the two given cameras capture largely the same
 area and are calibrated (for example \cite{hu2006principal}). However, we
 assume no prior calibration and therefore we leave similar approaches for other
-work.} For example even if there is one detection in top left corner of one
-camera, and in the exact same time there is another detection in top left corner
+work.} For example, even if there is one detection in the top left corner of one
+camera, and in the exact same time there is another detection in the top left corner
 of a different camera, we can not say if the \glspl{det}
 display the same person or not. This is
-because we do not know if the area within top left corner corresponds to the
+because we do not know if the area within the top left corner corresponds to the
 area in the top left corner of the second camera. In such case we have to use
 a priori assumption and assign them to two different
 trajectories.\footnote{Unless we have any additional information the a priori
 assumption that two \glspl{det} belong to different golden \glspl{iden} (and thus also a trajectory) is more
 likely to be true than the opposite. This holds at least under the assumption that there is no
-golden \gls{iden} that would represents more than half of the
+golden \gls{iden} that would represent more than half of the
 \glspl{det} within given \gls{ses}.}
 
 For an assignment into the same trajectory we therefore consider only \glspl{det}
 from the same camera. We only elaborate on such cases in the remainder
-of this subsection. We discuss the cases how to discover the same object across
+of this subsection. We discuss how to discover the same object across
 different cameras later in this chapter (\autoref{sec:generating_identities}).
 
 Lastly, let us consider additional information that we gain by using the timestamp.
 In combination with the spatial data the timestamp can be helpful. However as
 we mentioned in the introduction of this section
-we are now interested in creating short trajectories (i.e. clusters of
+we are now interested in creating short trajectories (i.e., clusters of
 \glspl{det} that are physically close together). Therefore
 our approach to temporal information is simple: If the time difference is
 bigger than selected threshold (say 0.2 seconds, however we experiment with
@@ -124,9 +124,9 @@ of the \glspl{det}. Formally, we can compute a displacement as follows
 
 However, such simple displacement only expresses the displacement within the screen of the camera. Now, we would like to take the perspective into the account.
 
-If an object close to the camera moves, this movement translates to a larger displacement compared to the displacement caused by the object further from the camera. We propose to estimate the ``closeness'' to the camera without a prior calibration. We use the size of the bounding box of the detection to obtain approximation of the distance from the camera (i.e. bigger the bounding box, more likely it is that the object is closer to the camera). This works well under the assumption that the objects are of similar sizes (i.e. all are people).
+If an object close to the camera moves, this movement translates to a larger displacement compared to the displacement caused by the object further from the camera. We propose to estimate the ``closeness'' to the camera without a prior calibration. We use the size of the bounding box of the detection to obtain approximation of the distance from the camera (i.e., bigger the bounding box, more likely it is that the object is closer to the camera). This works well under the assumption that the objects are of similar sizes (i.e., all are people).
 
-While this estimation is quite vague, it has additional advantages. For example it penalizes more the displacement of smaller objects. This means that we see the big movements of an adult (with big bounding box) as more likely than the same movement of a child (with small bounding box).
+While this estimation is quite vague, it has additional advantages. For example it penalizes more the displacement of smaller objects. This means that we see the big movements of an adult (with a big bounding box) as more likely than the same movement of a child (with a small bounding box).
 
 Overall, this leads us to the definition of relative displacement, where we divide the displacement by an average edge length of the bounding boxes:
 
@@ -163,13 +163,13 @@ So far we worked with only two \glspl{det} at the same time and derived a set of
 
 Firstly, let us note that we can not apply the conditions from \autoref{ssec:nonspatial_merging} and \autoref{ssec:spatial_merging} to every pair of \glspl{det} for practical reasons. Comparing every \gls{det} with every other \gls{det} takes quadratic time with respect to number of \glspl{det} and for hundreds of thousands of \glspl{det} is unfeasible to compute on standard hardware. Therefore, we need to lower the number of comparisons.
 
-In order to do so we leverage the way we use the timestamp as described in \autoref{ssec:nonspatial_merging}. We consider only \glspl{det} whose difference in timestamps are below a selected threshold. This means that we need to compare only pairs of \glspl{det} that fit within a selected ``sliding time window''. We process the \glspl{det} in order of their timestamp.
+In order to do so, we leverage the way we use the timestamp as described in \autoref{ssec:nonspatial_merging}. We consider only \glspl{det} whose difference in timestamps are below a selected threshold. This means that we need to compare only pairs of \glspl{det} that fit within a selected ``sliding time window''. We process the \glspl{det} in order of their timestamp.
 
 When we process a new \gls{det} we add it to the sliding window. At the same time we remove all the \glspl{det} from the sliding window that are older than the timestamp of the new detection minus the threshold. Then we compare the new \gls{det} with all the \glspl{det} within the window. Use of the sliding window dramatically decreases the number of comparisons needed.
 
 However, this approach does not limit the length of the single trajectory by selected threshold. We use ``transitive'' information about the trajectory. Namely, if a \gls{det} ($A$) belongs to the same trajectory as \gls{det} ($B$) and \gls{det} ($B$) belongs to same trajectory as \gls{det} ($C$), we can conclude that the \gls{det} ($A$) and \gls{det} ($C$) is of the same trajectory.
 
-This process of finding if there is a transitive link between the two \glspl{det} may also pose a limitation on the number of \glspl{det} we can process effectively. To improve the performance in this regard we use the standard Union-find architecture originally described by \cite{galler1964improved}. The architecture allows us to track which \glspl{det} belongs to which trajectory and merge them in almost constant\footnote{The actual complexity of the operation is inverse Ackermann function of the size of the structure per query (amortized) as was proved by \cite{tarjan1984worst}. For the details of the structure please refer to the attached code or the original research.} time per request.
+This process of finding if there is a transitive link between the two \glspl{det} may also pose a limitation on the number of \glspl{det} we can process effectively. To improve the performance in this regard we use the standard Union-find architecture originally described by \cite{galler1964improved}. The architecture allows us to track which \glspl{det} belong to which trajectory and merge them in almost constant\footnote{The actual complexity of the operation is inverse Ackermann function of the size of the structure per query (amortized) as was proved by \cite{tarjan1984worst}. For the details of the structure please refer to the attached code or the original research.} time per request.
 
 Finally, let us note this approach of using transitive link is not only efficient but also has additional advantage. Let us consider a case where a person crosses entire view of a camera. Without this transitive connection we would need to set huge thresholds to match the first and last \gls{det} of this person (which would produce trajectories of poor quality). However, by using transitivity over other \glspl{det} we can match the first a last \gls{det} together ``through'' the \glspl{det} of the same person on the frames in between while keeping the thresholds low.
 
@@ -219,7 +219,7 @@ The overall approach for trajectory generation described in this subsection is s
 
 \label{sec:generating_identities}
 
-So far we have looked into how to cluster the \glspl{det} purely based on the metadata (i.e. how to create trajectories). Now we add the visual information (in form of feature vectors from \autoref{ch:features}) to also identify the same object in \glspl{det} that are physically far apart or captured by different cameras -- something that was not possible using just metadata. In other words we are interested in creating the \glspl{iden}. Each \gls{iden} then represents all the \glspl{det} of a single object. Finding the correct \glspl{iden} is the final goal of our algorithm, and of this thesis.
+So far we have looked into how to cluster the \glspl{det} purely based on the metadata (i.e., how to create trajectories). Now we add the visual information (in form of feature vectors from \autoref{ch:features}) to also identify the same object in \glspl{det} that are physically far apart or captured by different cameras -- something that was not possible using just metadata. In other words we are interested in creating the \glspl{iden}. Each \gls{iden} then represents all the \glspl{det} of a single object. Finding the correct \glspl{iden} is the final goal of our algorithm, and of this thesis.
 
 \subsection{Trajectory Merging}
 
@@ -243,7 +243,7 @@ To show how to pick suitable representants, let us consider following case: let 
     \Large
     \def\svgwidth{\columnwidth}
     \scalebox{0.6}{\input{img/triangular.pdf_tex}}
-    \caption[Usage of triangular inequality for the selection of representants]{Usage of the triangular inequality for the selection of representants. From the triangular inequality the distances $d_1$ and $d_2$ differ at most by the value of $d_s$, i.e. $\abs{d_1 - d_2} \leq d_s$}
+    \caption[Usage of triangular inequality for the selection of representants]{Usage of the triangular inequality for the selection of representants. From the triangular inequality the distances $d_1$ and $d_2$ differ at most by the value of $d_s$, i.e., $\abs{d_1 - d_2} \leq d_s$}
     \label{fig:triangular}
 \end{figure}
 
@@ -284,7 +284,7 @@ We say that partitioning $A$ of set $D$ is well-separated by distance function $
 
 The first condition requires different \glspl{iden} (partitions) to by far apart -- the distance between two closes \glspl{det} from different \glspl{iden} has to be at least $\Delta_{between}$. The other conidition on the other hand requires the \glspl{det} within a \gls{iden} to be close to each other. In particular for any two \glspl{det} from one \gls{iden} there has to be a path over the \glspl{det} from the \gls{iden} such that no two subsequent \glspl{det} are more than $\Delta_{within}$ apart.
 
-Now consider a set of \glspl{det} and its partitioning (golden \glspl{iden}) and a metric function that separates the \glspl{iden} well with thresholds $\Delta_{within}$ and $\Delta_{between}$ s.t. $\Delta_{within} < \Delta_{between}$. Further assume that each \gls{iden} is partitioned into smaller trajectories (i.e. each trajectory contains \glspl{det} from only one \gls{iden}). It is easy to see that if we skip the representant selection and directly merge the trajectories (or in other words we pick all \glspl{det} as representants) which are closer than $\Delta_{mrg}$, s.t. $\Delta_{within} \leq \Delta_{mrg} \leq \Delta_{between}$ then we will obtain the original golden \glspl{iden}.
+Now consider a set of \glspl{det} and its partitioning (golden \glspl{iden}) and a metric function that separates the \glspl{iden} well with thresholds $\Delta_{within}$ and $\Delta_{between}$ s.t. $\Delta_{within} < \Delta_{between}$. Further assume that each \gls{iden} is partitioned into smaller trajectories (i.e., each trajectory contains \glspl{det} from only one \gls{iden}). It is easy to see that if we skip the representant selection and directly merge the trajectories (or in other words we pick all \glspl{det} as representants) which are closer than $\Delta_{mrg}$, s.t. $\Delta_{within} \leq \Delta_{mrg} \leq \Delta_{between}$ then we will obtain the original golden \glspl{iden}.
 
 Now, let us select representants from the trajectories by \autoref{alg:representants} with threshold $\Delta_{rep}$. We show that if we select a threshold for merging trajectories a bit more precisely, we still obtain the golden \glspl{iden} even though we discard some of the \glspl{det} (and keep only the representants). It will turn out that the required threshold for merging needs to be between $\Delta_{within} + 2\Delta_{rep}$ and $\Delta_{between}$. Note that this claim holds only for metric functions as it requires triangle inequality. We formalize and then prove the claim:
 
@@ -317,15 +317,15 @@ Let:
     \item $\delta$ be a metric function over $D$
     \item $r$ be a function $r: \Pt{D} \goto \Pt{D}$ such that $(\forall c \subseteq D)((r(c) \subseteq c) \land (\forall b \in c) (\exists b' \in r(c)) (\delta(b, b') \leq \Delta_{rep}))$ (this represents selection of representants obtained for example via \autoref{alg:representants})
     \item $\triangledown$ be a relation over $T$ such that $t\triangledown t' \Leftrightarrow (\exists d \in r(t)) (\exists d' \in r(t')) (\delta(d, d') \leq \Delta_{mrg})$ (two trajectories are in relation $\triangledown$ if we can merge them together)
-    \item $\blacktriangledown$ be a transitive closure of $\triangledown$ (i.e. $t \blacktriangledown t' \Leftrightarrow (\exists n \in \N) (\exists (t_1, \ldots, t_n) \in T^n) (t = t_1 \land t' = t_n \land (\forall i) (t_i\triangledown t_{i+1}))$ (this relation is equivalence that represents final \glspl{iden} -- two trajectories are in relation $\blacktriangledown$ if and only if they were merged together)
+    \item $\blacktriangledown$ be a transitive closure of $\triangledown$ (i.e., $t \blacktriangledown t' \Leftrightarrow (\exists n \in \N) (\exists (t_1, \ldots, t_n) \in T^n) (t = t_1 \land t' = t_n \land (\forall i) (t_i\triangledown t_{i+1}))$ (this relation is equivalence that represents final \glspl{iden} -- two trajectories are in relation $\blacktriangledown$ if and only if they were merged together)
 \end{itemize}
 
-If the partitioning $A$ is well separated by $\delta$ with distances $\Delta_{within} \leq (\Delta_{mrg} - 2\Delta_{rep})$ and $\Delta_{between} \geq \Delta_{mrg}$ then $t\blacktriangledown t' \Leftrightarrow (\exists a \in A) (t \cup t' \subseteq a)$ (i.e. produced \glspl{iden} exactly match golden \glspl{iden})
+If the partitioning $A$ is well separated by $\delta$ with distances $\Delta_{within} \leq (\Delta_{mrg} - 2\Delta_{rep})$ and $\Delta_{between} \geq \Delta_{mrg}$ then $t\blacktriangledown t' \Leftrightarrow (\exists a \in A) (t \cup t' \subseteq a)$ (i.e., produced \glspl{iden} exactly match golden \glspl{iden})
 
 \end{claim}
 
 \begin{myproof}
-First, let us prove that $t \blacktriangledown t' \Rightarrow (\exists a \in A) (t \cup t' \subseteq a)$. We prove this by contradiction, i.e. we assume
+First, let us prove that $t \blacktriangledown t' \Rightarrow (\exists a \in A) (t \cup t' \subseteq a)$. We prove this by contradiction, i.e., we assume
 that $t \blacktriangledown t'$ and $(\exists a \in A) (t \subseteq a)$ and $(\exists a' \in A) (t' \subseteq a')$ where $a \neq a'$. From property of $\blacktriangledown$ we know there is a sequence of $t_1, t_2, \ldots t_n$ (for some $n$), such that $(\forall i) (t_i \triangledown t_{i+1})$. Let
 us take minimal $i$ such that $t_i$ and $t_{i+1}$ is not subset of the same
 $a \in A$ (such $i$ exists as $t$ and $t'$ belong to different sets $a \in A$).
@@ -345,7 +345,7 @@ the distance between $r_i$ and $r_{i+1}$: We have $\delta(r_i, d_i) = \mathrm{mi
 If the distance between two closest \glspl{det} from different golden
 \glspl{iden} is $\Delta_{between}$ and the distance between two most distant \glspl{det}
 of the same golden \gls{iden} is $\Delta_{within} < \Delta_{between}$, then for any set of ``clean''
-trajectories (i.e. if each trajectory contains \glspl{det} only from single
+trajectories (i.e., if each trajectory contains \glspl{det} only from single
 golden \gls{iden}) the \autoref{alg:representants} for representant selection
 with threshold $\Delta_{rep} < (\Delta_{between} - \Delta_{within}) / 2$ followed by merging based on representants with
 threshold $\Delta_{mrg}$ s.t. $\Delta_{within} \leq \Delta_{mrg} < \Delta_{between}$ produces the golden \glspl{iden}.

@@ -223,7 +223,7 @@ We evaluate the results without any background filtering at all as a baseline. A
 
 The first, quite naïve approach is to crop each image. We can remove strips of fixed width (relative to the image's dimensions) from each side. An example of the result of this approach can be seen in \autoref{fig:crop_example}.
 
-This way, we can remove (in most cases) all the background. Unfortunately, we often remove not only the background but also usually at least parts of the tracked individual. However, the basic idea is that the part of the person that remains after the crop should be mostly the same (i.e., displaying the same part) and not influenced by the background at all. Even though we may lose some information by this approach (i.e., if the crop from the bottom of the bounding box is too large, we may entirely crop-out the legs), we aim to verify if the remaining information is enough for the re-identification purposes.
+This way, we can remove (in most cases) all the background. Unfortunately, we often remove not only the background but also at least parts of the tracked individual. However, the basic idea is that the part of the person that remains after the crop should be mostly the same (i.e., displaying the same part) and not influenced by the background at all. Even though we may lose some information by this approach (i.e., if the crop from the bottom of the bounding box is too large, we may entirely crop-out the legs), we aim to verify if the remaining information is enough for the re-identification purposes.
 
 % \begin{figure}
 %     \centering
@@ -304,7 +304,7 @@ A visualization of the weighting by Gaussian can be seen in \autoref{fig:gaussia
     \centering
     \includegraphics{img/background_filter/1_original.png} \hspace{1cm} \includegraphics{img/background_filter/weights.png} \hspace{1cm}
     \includegraphics{img/background_filter/weights_applied.png}
-    \caption[Visualization of background filtering by Gaussian weighting]{Visualization of background filtering by Gaussian weighting. The chosen distribution is horizontally centered and vertically offset to 30\% of height of the image. Chosen standard deviation of the distribution is 0.3 (with respect to each respective dimensions of the image). The first image shows original image, the second weights, the last one represent applied weights (the weights are represent by the transparency channel).}
+    \caption[Visualization of background filtering by Gaussian weighting]{Visualization of background filtering by Gaussian weighting. The chosen distribution is horizontally centered and vertically offset to 30\% of height of the image. Chosen standard deviation of the distribution is 0.3 (with respect to each respective dimensions of the image). The first image shows the original image, the second weights, and the last one represents applied weights (the weights are applied as transparency).}
     \label{fig:gaussian_weighting}
 \end{figure}
 
@@ -336,7 +336,7 @@ The first network we propose is a simple custom architecture. Our architecture i
          Dense & without activation & $m$ \\
          Normalization & & $m$
     \end{tabular}
-    \caption[Architecture of custom neural network]{Architecture of custom neural network. Parameter $n$ represents size of the input (the input is expected to be resized to $n\times n$ pixels, with RGB channels). The parameter $m$ represents number of neuron in the final layer.}
+    \caption[Architecture of custom neural network]{Architecture of custom neural network. Parameter $n$ represents size of the input (the input is expected to be resized to $n\times n$ pixels, with RGB channels). The parameter $m$ represents number of neurons in the output layer.}
     \label{tab:custom_architecture}
 \end{table}
 
@@ -348,7 +348,7 @@ This simple architecture is not as complex as fine-tuned architectures such as R
 
 We experiment with various architectures based on the already trained \glspl{nn} (see \autoref{ssec:transfer_learning} and \autoref{sec:existing_architectures}).
 
-The first experiment in this regard is to use ResNet and MobileNet as they were trained on the ImageNet dataset without the last ``classification'' layer. Removal of this layer is needed as it designed to activate just one neuron based on the class of the image (as required by the original task -- classification on ImageNet). By such experiment, we can hypothesize if these networks extract enough information simply by virtue of being image distinguishing neural networks or whether the additional training is needed.
+The first experiment in this regard is to use ResNet and MobileNet as they were trained on the ImageNet dataset without the last ``classification'' layer. Removal of this layer is needed as it is designed to activate just one neuron based on the class of the image (as required by the original task -- classification on ImageNet). By such experiment, we can hypothesize if these networks extract enough information simply by virtue of being image distinguishing neural networks or whether the additional training is needed.
 
 We also explore the possibility of improving the abilities of \glspl{nn} by fine-tuning them on our dataset. The first straight-forward approach we test is to train the network without the last layer on our dataset without any additional modifications.\footnote{Actually, in order to employ Triplet Loss for learning, we need to add a normalization layer. However, this layer does not add any trainable parameters.}
 
@@ -356,15 +356,15 @@ However, we also explore the possibilities of slight modifications similar to ot
 
 Furthermore, we experiment with \emph{freezing} the pre-trained part of the model while training. This means that we only fine-tune the added final layer by learning, instead of the whole model. This has the advantage of a faster learning as the number of trainable parameters is significantly lower and the derivative has to be computed only for the last layer. Furthermore, using completely untrained weights in the final layer may cause the weights set in the pre-trained part to re-learn and completely lose the pre-trained model's advantages.
 
-We further build upon the learned models by changing the architecture and re-learning again. That is, we firstly train a model with the last added layer frozen. Then, once the last layer is suitably learned with the respect to pre-trained weights, we unfreeze the whole model and run the training algorithm again. This way we hope to mitigate the problem where the pre-trained model is completely re-learned due to untrained last layer. We also experiment with combinations of aforementioned approaches. For example we firstly train the MobileNet architecture without the last layer. Only after this initial training we add the dense layer and train the model again.
+We further build upon the learned models by changing the architecture and re-learning again. That is, we firstly train only the last layer. Then, once the last layer is suitably learned with the respect to pre-trained weights, we unfreeze the whole model and run the training algorithm again. This way we hope to mitigate the problem where the pre-trained model is completely re-learned due to untrained last layer. We also experiment with combinations of aforementioned approaches. For example, we first train the MobileNet architecture without the last layer. Only after this initial training we add the dense layer and train the model again.
 
 \subsection{Training}
 
-We shall train and fine-tune presented models via gradient descent algorithm. To provide an unbiased estimation of the quality of the model, we evaluate them on an entirely different \gls{ses} than we use for the training and fine-tuning. Both the training \gls{ses} and the \gls{ses} use for evaluation were created from our recordings. We have manually annotated extracted \glspl{det}. We describe the datasets more in \autoref{sec:datasets}.
+We shall train and fine-tune presented models via gradient descent algorithm. To provide an unbiased estimation of the quality of the model, we evaluate on an entirely different \gls{ses} than we use for the training and fine-tuning. Both the training \gls{ses} and the \gls{ses} used for evaluation were created from our recordings. We have manually annotated extracted \glspl{det}. We describe the datasets more in \autoref{sec:datasets}.
 
 For training itself, we use Triplet Loss as described in \autoref{sec:triplet_loss}. We extract the \gls{det} from a single (``training'') \gls{ses} for the training purposes. As the goal of this step in the workflow is to obtain the representations of images, we discard all the metadata (e.g., position of the \gls{det}) and leave only the images of the \glspl{det}. As the Triplet Loss is dependent on the selected distance function we also explore the effect of various distance functions described in \autoref{sec:distances}.
 
-Usually, we train the neural networks until the convergence of the loss function is reached. However, in some cases (notably, while incorporating the ResNet architecture), we may need to end the training earlier due to high hardware and time demands. Nevertheless, to avoid overfitting on the training dataset, we also evaluate the networks with weights learned in earlier training stages. In case where we see that the accuracy on the test set continuously decreses we may stop the training early.
+Usually, we train the neural networks until the convergence of the loss function is reached. However, in some cases (notably, while incorporating the ResNet architecture), we may need to end the training earlier due to high hardware and time demands. Nevertheless, to avoid overfitting on the training dataset, we also evaluate the networks with weights learned in earlier training stages. In a case where we see that the accuracy on the test set continuously decreases, we may stop the training early.
 
 \subsection{Resizing Images}
 

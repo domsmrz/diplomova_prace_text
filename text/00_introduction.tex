@@ -5,7 +5,7 @@
 
 Increasing usage of surveillance cameras brought many opportunities for further data exploration. Aside from the obvious usage in a security, such a vast amount of data allows for traffic monitoring and statistical processing of peoples' behavioral patterns. Obtained data can then be in turn used for improved urban planning or marketing purposes.
 
-However, to explore any long-term processes such as the movement of people, we need to match the same individual across different points in time or even different cameras. This problem is widely referred to as \reid{} task in the literature, and is the topic of this thesis. As the most common use-case is processing information about people's behavior, we focus mainly on people. However described approaches should be applicable even for other objects.
+However, to explore any long-term processes such as the movement of people, we need to match the same individual across different points in time or even different cameras. This problem is widely referred to as \reid{} task in the literature and is the topic of this thesis. The most common use-case is processing information about people's behavior. Therefore we focus mainly on tracking people. However, approaches described in this thesis are applicable even for other types of objects.
 
 Many different approaches were taken to solve the \reid{} problem. Some of them process mainly spatial information (\cite{hu2006principal}). However, with the advancement in machine learning more and more approaches focus solely on the visual side of the problem. We often see a general workflow, where a deep neural network is used to extract the visual information from the image of a tracked object. The extracted information is then used for the \reid{} (\cite{ding2015deep} or \cite{cheng2016person}).
 
@@ -30,4 +30,4 @@ Firstly, we summarize the general theoretical background. In \autoref{ch:prelimi
 
 In the remaining chapters, we present our contribution. In \autoref{ch:workflow} we formally define our task. We also show the general workflow of our work in the context of \gls{VL}. The chapters \ref{ch:features} and \ref{ch:iden_construction} describe the actual algorithm for re-identification. In \autoref{ch:features} we focus on how we extract useful visual information from the images of detected objects. In \autoref{ch:iden_construction} we then combine this information with spatial and temporal information to produce final \reid{}. The proposed models are thoroughly evaluated in \autoref{ch:evaluation}. In the \autoref{ch:implementation} we discuss the underlying implementation. We provide a short overview of the architecture and technical aspects of the attached source code.
 
-We also provide detailed guide on how to use our software in \autoref{ch:guide}.
+We also provide a detailed guide on how to use our software in \autoref{ch:guide}.

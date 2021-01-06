@@ -101,7 +101,7 @@ where $S_C$ is cosine similarity.
 
 One of the most popular \gls{ml} models in recent years are artificial \glspl{nn}. The general idea of a mathematical model inspired by a biological brain's function is nothing new (\cite{first_nn}). The discovery of an effective learning algorithm (\cite{backprop}) somewhat established the ``standard'' structure of so-called feed-forward \glspl{nn}.
 
-These feed-forward \glspl{nn} can be viewed as a sequence of layers, where each layer represents a function $f^{(i)}: \R^n \goto \R^m$. The whole \gls{nn} is then a composition of all the layers in order, i.e. $f^{(n)}(f^{(n-1)}(\ldots f^{(1)}(\vec{x})\ldots))$. A function associated with each layer is most commonly a linear combination of the input values with offset (bias) which is then transformed using non-linear differentiable activation function (such as rectified linear unit abbreviated as ReLU\footnote{$\mathrm{ReLU}(x) = x$ for $x > 0$, otherwise $\mathrm{ReLU}(x) = 0$}). For example the $j$-th output of $i$-th layer could be computed as follows (where $\vec{\alpha}^{(i,j)})$ are parameters of the layer):
+These feed-forward \glspl{nn} can be viewed as a sequence of layers, where each layer represents a function $f^{(i)}: \R^p \goto \R^q$. The whole \gls{nn} is then a composition of all the layers in order, i.e. $f^{(n)}(f^{(n-1)}(\ldots f^{(1)}(\vec{x})\ldots))$. A function associated with each layer is most commonly linear combination of the input values with offset (bias) which is then transformed using non-linear differentiable activation function (such as rectified linear unit abbreviated as ReLU\footnote{$\mathrm{ReLU}(x) = x$ for $x > 0$, otherwise $\mathrm{ReLU}(x) = 0$}). For example the $j$-th output of $i$-th layer could be computed as follows (where $\vec{\alpha}^{(i,j)}$ are parameters of the layer):
 
 \begin{equation}
     \label{eq:dense}
@@ -110,7 +110,7 @@ These feed-forward \glspl{nn} can be viewed as a sequence of layers, where each 
 
 While this description of \glspl{nn} is somewhat simplified in comparison with the recurrent and residual connections in modern models, it provides reasonable idea of how the \glspl{nn} operate.
 
-As in the case of other \glsentrylong{ml} models, the ultimate goal is to approximate some function $f^*$. While the function $f^*$ itself is usually unknown, there is a set of values (dataset) for which the desired output is know (i.e. pairs of $\vec{x}, \vec{y}$ where $f^*(\vec{x}) = \vec{y}$). How well the \gls{nn} approximates the function $f^*$ is then measured using the loss function. One of the most common loss function in case where the output of the $f^*$ is a single number is \gls{mse}:
+As in the case of other \glsentrylong{ml} models, the ultimate goal is to approximate some function $f^*$. While the function $f^*$ itself is usually unknown, there is a set of values (dataset) for which the desired output is know (i.e. pairs of $\vec{x}, \vec{y}$ where $f^*(\vec{x}) = \vec{y}$). How well the \gls{nn} approximates the function $f^*$ is then measured using the loss function. One of the most common loss function in the case where the output of the $f^*$ is a single number is \gls{mse}:
 
 $$\text{MSE}_{f^*}(f) = \frac{1}{|X|} \sum_{\vec{x} \in X} (f(\vec{x}) - f^*(\vec{x}))^2$$
 
@@ -133,11 +133,11 @@ $$y_i = \sum_{j=1}^N x_{i+j} c_j$$
 Where $\vec{x}$ and $\vec{y}$ are input and output vectors respectively and $\vec{c}$ is \emph{kernel}, i.e. vector of learned coefficients of size $N$.
 
 
-However, the primary usage of these layers is not processing of one-dimensional vectors. We often use them for processing images. Each image is by itself two-dimensional structure. Furthermore, we usually represent each element of the input matrix by several numbers, which means we have to process three-dimensional tensors. In the input layer information along the third axis usually corresponds to three color channels. In the layers further in the network, the information is more abstract. With the addition of this third dimension applying the convolutional layer becomes more complex, but the basic idea remains the same. For example the value of $r$-th channel in $(i, j)$-th position can be computed as follows ($s$ in the sum represents index of input channel):
+However, the primary usage of these layers is not processing one-dimensional vectors. We often use them for processing images. Each image is by itself two-dimensional structure. Furthermore, we usually represent each element of the input matrix by several numbers, which means we have to process three-dimensional tensors. In the input layer information along the third axis usually corresponds to three color channels. In the layers further in the network, the information is more abstract. With the addition of this third dimension applying the convolutional layer becomes more complex, but the basic idea remains the same. For example the value of $r$-th channel in $(i, j)$-th position can be computed as follows ($s$ in the sum represents an index of the input channel):
 
 $$y_{i, j, r} = \sum_{k, l, s} x_{i+k, j+l, s} \, c_{k, l, r, s}$$
 
-One of the main advantages of the convolutional layers is that they have relatively low number of parameters. The number of parameters depends only on the size of the kernel and not the size of the input (aside from number of channels). For example even for large inputs the small kernels (e.g. $3 \times 3$) is often used. For further description and motivation, please refer to the original work or \cite{deeplearningbook}.
+One of the main advantages of the convolutional layers is that they have relatively low number of parameters. The number of parameters depends only on the size of the kernel and not the input size (aside from the number of channels). For example even for large inputs the small kernels (e.g. $3 \times 3$) is often used. For further description and motivation, please refer to the original work or \cite{deeplearningbook}.
 
 \subsection{Transfer Learning}
 
@@ -147,7 +147,7 @@ In this thesis, we shall heavily use a concept of so called transfer learning. T
 
 % The advantages of using transfer learning on \glspl{nn} were first explored in 1976 and later revisited by \cite{transferreviewed}. However, since then many more research was based on this premise (for example, \cite{transferlearning}).
 
-The advantages of using transfer learning on \glspl{nn} were first explored in 1976. Since then many more research was based on this premise (for example, \cite{transferlearning}). The original article from 1976 was later revisited by its author (\cite{transferreviewed}).
+The advantages of using transfer learning on \glspl{nn} were first explored in 1976. Since then, many more research was based on this premise (for example, \cite{transferlearning}). The original article from 1976 was later revisited by its author (\cite{transferreviewed}).
 
 Specifically in our case we shall re-use complex deep learning architectures (described in \autoref{sec:existing_architectures}) trained on ImageNet tasks (\cite{imagenetresults}). As these are classification tasks, the last layer is responsible for selecting the correct class. The idea is to remove this layer under the assumption that the previous layers capture the general information about the input image. This altered network can then be used directly as-is or fine-tuned by training on the samples from our task.
 
@@ -157,7 +157,7 @@ There are several advantages to using transfer learning. For one, it may signifi
 
 \label{sec:triplet_loss}
 
-Given our task's character, standard loss function such as \gls{mse} described in \autoref{sec:nn} is not well suited for us. Nor we can use other often used loss function such as cross-entropy. Such loss function is designed for tasks where there are specific known labels for each given data point from the training set. However, in our task, we want to assign the images of people to clusters displaying the same person. Note that this is still a supervised task -- i.e., we know beforehand which images belong together, there just is not a specific label assigned to a cluster.
+Given our task's character, standard loss function such as \gls{mse} described in \autoref{sec:nn} is not well suited for us. Nor we can use other often used loss function such as cross-entropy. Such loss function is designed for tasks where there are specific known labels for each given data point from the training set. However, in our task, we want to assign the images of people to clusters displaying the same person. Note that this is still a supervised task -- i.e., we know beforehand which images belong together, only in our case, there is no specific label assigned to a cluster.
 
 Our goal is to achieve this clustering, which would only create separated clusters and always one cluster per person. To achieve the desired clustering, we need to penalize the ``within-cluster'' distance and reward the ``in-between cluster'' distance. In terms of the loss function, it means that the value of the loss function should increase when the distance between the two samples from the same cluster increases (or more precisely when the distance between the feature vectors corresponding to the same cluster increases). To maximize the ``in-between'' distance, the loss function should decrease as the distance between the samples from the different clusters increases. A visual representation of this process can be seen in the \autoref{fig:triplet_loss}.
 
@@ -199,4 +199,4 @@ The related terminology is somewhat ambiguous. For practical purposes, we choose
 
 In the case of Hard Loss, the positive and negative samples are selected ``as hard as possible'', which means that the positive sample is the furthest (from the anchor point) out of all considered samples of the same cluster. On the other hand, the negative sample is the closest sample out of all samples from samples that are not of the same cluster as the anchor point.
 
-This intuitive selection of triplets can however lead to bad local minima (\cite{tripletlossnn}). Therefore we also evaluate different approach for triplet selection. The Semi-Hard approach selects such a pair of positive and negative samples that the negative sample is further away from the anchor point than the positive one, but not by the required margin. In terms of \autoref{eq:triplet} it means that $0 < \delta(f(A), f(N)) - \delta(f(A), f(P)) < \alpha$.
+However, this intuitive selection of triplets can lead to bad local minima (\cite{tripletlossnn}). Therefore we also evaluate a different approach for triplet selection. The Semi-Hard approach selects such a pair of positive and negative samples that the negative sample is further away from the anchor point than the positive one, but not by the required margin. In terms of \autoref{eq:triplet} it means that $0 < \delta(f(A), f(N)) - \delta(f(A), f(P)) < \alpha$.

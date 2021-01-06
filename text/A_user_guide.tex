@@ -6,9 +6,9 @@ In this chapter we review all the steps needed to use the attached software to p
 
 \section{Installation}
 
-In the attached code you can find a dirctory \texttt{videolytics} containing a single subdirectory \texttt{ReID}. We do not include other parts of \gls{VL} projects (which would populate the root directory) as they are not part of our work. Nevertheless, we keep the structure of the project in order not to break path for imports.
+In the attached code you can find a dirctory \texttt{videolytics} containing a single subdirectory \texttt{ReID}. We do not include other parts of \gls{VL} project (which would populate the root directory) as they are not part of our work. Nevertheless, we keep the structure of the project in order not to break path for imports.
 
-Whole application is written in Python only. We developed it and tested it with Python 3.8.5 on Linux KDE Neon 20.04. However, we do not expect compatibility issues with earlier version of Python or different operating systems.
+Whole application is written in Python only. We developed it and tested it with Python 3.8.5 on Linux KDE Neon 20.04. However, we do not expect compatibility issues with earlier version of Python ($3.6$ or $3.7$) or different operating systems.
 
 For the full functionality several Python packages are needed. They are listed in \texttt{requirements.txt}. You can install them via:
 
@@ -16,9 +16,9 @@ For the full functionality several Python packages are needed. They are listed i
     pip install -r ReID/requirements.txt
 \end{verbatim}
 
-Note that within the requirements there is \verb+psycopg2-binary+ used for communication with PostgreSQL database. If you are using different management system, other packages may be needed. However due to abstraction layer provided by SQLAlchemy no changes in the code should be needed. Also note that you want to use GPU for the \glspl{nn} you will need to install CUDA.\footnote{\url{https://docs.nvidia.com/cuda/index.html}} Please refer to the Nvidia website on how to install it.
+Note that within the requirements there is \verb+psycopg2-binary+ used for communication with PostgreSQL database. If you are using different management system, other packages may be needed. However due to abstraction layer provided by SQLAlchemy no changes in the code should be required. Also note that if you want to use GPU for the \glspl{nn} you will need to install CUDA.\footnote{\url{https://docs.nvidia.com/cuda/index.html}} Please refer to the Nvidia website on how to install it.
 
-The last step to get working environment is to setup a database connection. You need to edit the file \texttt{ReID/database\_settings}. In the file an URL of the database needs to be assigned to the variable \verb+database+. The URL should be of following form:
+The last step to get working environment is to setup a database connection. You need to edit the file \texttt{ReID/database\_settings.py}. In the file an URL of the database needs to be assigned to the variable \verb+database+. The URL should be of the following form:
 
 \begin{verbatim}
     dialect[+driver]://user:password@host/dbname[?key=value..]
@@ -30,9 +30,9 @@ The database should have required tables as discussed in \autoref{ch:implementat
     python -m ReID.database_connection
 \end{verbatim}
 
-However, keep in mind that the software does not process raw videos, but needs already prepared \glspl{det}. That is the tables \texttt{detection}, \texttt{camera} and \texttt{frame} should be populated.
+However, keep in mind that the software does not process raw videos, but needs already prepared \glspl{det}. That means all the input tables (see \autoref{ch:implementation}) should be populated.
 
-\section{Feature vectors}
+\section{Feature Vectors}
 
 In order to annotate the \glspl{det} you need to run following command:
 
@@ -40,27 +40,36 @@ In order to annotate the \glspl{det} you need to run following command:
     python -m ReID.annotator
 \end{verbatim}
 
-The annotator has several global options such as which camera to annotate (in terms of the \verb+id+ in the database). For the full list of options run the command with \verb+-h+ flag. The last command of the annotator should be the type of annotation to use. Several annotators require additional parameters, in such case add the parameters after the annotator. You can also use the \verb+-h+ flag after the annotator to list all the available options. For example to annotate camera 42 by RGB histograms with four bins per channal and no background filtering you would run:
+The annotator has several global options such as which camera to annotate (in terms of the \verb+id+ in the database). For the full list of options run the command with \verb+-h+ flag. The last command to the annotator should be the type of annotation to use. Several annotators require additional parameters, in such case add the parameters after the annotator. You can also use the \verb+-h+ flag after the annotator to list all the available options. For example to annotate camera 42 by RGB histograms with four bins per channel and no background filtering you would run:
 
 \begin{verbatim}
     python -m ReID.annotator -c 42 simple-rgb-histogram -b 4
 \end{verbatim}
 
-In case of the approaches based on the \glspl{nn} the parameters also specify the training dataset. If the network with the exactly same parameters is already trained from the previous runs, the training is skipped and the trained network is used.
+In case of the approaches based on the \glspl{nn} the parameters also specify the training dataset. If the network with the exactly same parameters is already trained from the previous runs, the training is skipped and the trained network is used. An example of command that uses neural networks for annotation is:
+
+\begin{verbatim}
+    python3 -m ReID.annotator -c 42 \
+        transferred-mobilenet-annotator --shape 128 128 \
+        --train-camera 7 --ground-truth 1 --train-class PERSON \
+        --epochs 100 --train-steps-per-epoch 20 \
+        --learning-rate 0.00002 --distance cosine
+\end{verbatim}
 
 \section{Detection Clustering}
 
-For the clustering the \glspl{det}, that is for creation of trajectories and \gls{iden} we use script \texttt{ReID/trajectory\_generator}. Similarly to the annotator we can use the \verb+-h+ option to list available flags. As we cluster the detection based on the generated feature vectors we also need to supply the annotator with corresponding options. If the annotation with corresponding options are already present in the database, the feature vectors are queried directly. Otherwise the feature vectors are firtly computed from the detections and commited to the database. An example of command for generating \glspl{iden} in camera 42 based on direct approach is:
+For the clustering the \glspl{det}, that is for creation of trajectories and \glspl{iden} we use script \texttt{ReID/trajectory\_generator.py}. Similarly to the annotator we can use the \verb+-h+ option to list available flags. As we cluster the detections based on the generated feature vectors we also need to supply the annotator with corresponding options. If the annotations with corresponding options are already present in the database, the feature vectors are queried directly. Otherwise the feature vectors are firstly computed from the detections and commited to the database. An example of command for generating \glspl{iden} in camera 42 based on direct approach is:
 
 \begin{verbatim}
     python -m ReID.trajectory_generator -c 42 -r \
-        direct --iou 0.8 -c 0.3 -t 0.2 simple-rgb-histogram -b 5
+        direct --iou 0.8 -c 0.3 -t 0.2 \
+        simple-rgb-histogram -b 5
 \end{verbatim}
 
 
 \section{Annotation Tool}
 
-To invoke annotation tool we use \texttt{ReID/explore} script. We also need to supply \verb+id+ of trajectory or identity model we wish to explore, or a file with a clustering. We can show \glspl{det} from camera 42 with identity model 196,884 we can run:
+To invoke annotation tool we use \texttt{ReID/explore.py} script. We also need to supply \verb+id+ of trajectory or identity model we wish to explore, or a file with a clustering. We can show \glspl{det} from camera 42 with identity model 196,884 we can run:
 
 \begin{verbatim}
     python -m ReID.explore -c 42 -i 196884
@@ -76,11 +85,11 @@ After launching the application, we can see highlighted detections from
 the first frame of the video on the screen.
 Only detections are shown, not the whole video, in this way, we do not need access
 to the original video (just data already presented in the database). In the top left corner
-of the screen, we can see the sequence number of the frame (this is not the frame ID
+of the screen, we can see the sequence number of the frame (this is not the frame \verb+id+
 in the corresponding database, just a sequence number within the respective stream). Alongside
 the sequence number is displayed the timestamp of the displayed frame.
 
-We can browse the video by right and left arrows, skipping one frame forward and
+We can browse the video by right and left arrow keys, skipping one frame forward and
 backward, respectively. Each time we skip on a different frame, the detections from
 the new frame are rendered and highlighted. However, the old detections are left
 on the screen for better referencing the previous screen. The user can refresh the display
@@ -125,7 +134,7 @@ For explanation of given colors, please refer to table \ref{tab:annotation_highl
          identity for loaded model \\ \hline
          Red & Detections/identities selected via left mouse button \\ \hline
          Green & Detections/identities selected via right mouse button \\ \hline
-         Cyan & Detections/identities highlighted via middle mouse buttn \\
+         Cyan & Detections/identities highlighted via middle mouse button \\
     \end{tabularx}
     \caption{Highlight color of detections}
     \label{tab:annotation_highlight}
@@ -137,10 +146,10 @@ For explanation of given colors, please refer to table \ref{tab:annotation_highl
 
 Aside from the standard controlling mechanism, we offer additional features especially
 useful for exploring incorrectly identified and annotated identities. We allow
-for a loading list of pairs of identities during the exploration of the results. These
-identities can be quickly searched through. By this method, we an, for example, efficiently fix the incorrectly annotated data in the golden dataset if we obtain a list of ``suspicious'' identities (for example list of identities that our re-identification algorithm classified differently than are classified in the golden dataset).
+for loading a list of pairs of identities during the exploration of the results. These
+identities can be quickly searched through. By this method, we, for example, efficiently fix the incorrectly annotated data in the golden dataset if we obtain a list of ``suspicious'' identities (for example list of identities that our re-identification algorithm classified differently than are classified in the golden dataset).
 
-The list itself should state two identities ID (corresponding to the IDs in the
+The list itself should state two identity \verb+id+s (corresponding to the \verb+id+s in the
 database) on each line, separated by space. The lines that start with the hash (\verb+#+) are considered as comments and not processed. Once the pairs are loaded
 from the file with \verb+load_pairs+ command, given pairs can be processed via other
 commands, refer to section \ref{sec:commands} for a complete list of commands.
@@ -150,7 +159,7 @@ commands, refer to section \ref{sec:commands} for a complete list of commands.
 
 By typing colon (\verb+:+) the user enters the command mode. Then the user can type
 a command which will be displayed at the lower part of the screen. Commands are confirmed
-by hitting enter and canceled via Escape. List of available command is:
+by hitting enter and canceled via Escape. List of available commands is:
 
 \begin{itemize}
     \item \verb+unify+ (or hitting \verb+u+ in standard mode) -- merge all detections
@@ -158,7 +167,7 @@ by hitting enter and canceled via Escape. List of available command is:
     button
     \item \verb+hide+ (or hitting \verb+h+ in standard mode) -- hide the identity
     currently selected with the left mouse button (detections from given identity
-    will be treated as if they would not be part of any identity at all, i.e.
+    will be treated as if they would not be part of any identity at all, i.e.,
     highlighted in yellow if all the detections are visible, or not displayed at all
     if user hid them via \verb+all+ command).
     \item \verb+all+ (or hitting \verb+a+ in standard mode) -- stops showing detections
@@ -178,8 +187,8 @@ by hitting enter and canceled via Escape. List of available command is:
     \item \verb+single_auto+ (or hitting \verb+s+ in standard mode) -- create new
     cluster and assign currently displayed detection that is part of the
     cluster selected by right mouse button into it.
-    \item \verb+id+ (or hitting \verb+i+ in standard mode) -- start showing IDs of
-    detections below the currenly highlighted detections. These correspond to the IDs
+    \item \verb+id+ (or hitting \verb+i+ in standard mode) -- start showing \verb+id+s of
+    detections below the currenly highlighted detections. These correspond to the \verb+id+s
     in the \texttt{detection} table.
     \item \verb+memory+ (or hitting \verb+m+ in standard mode) -- repeat the last search 
     for deteciton (invoked with commands
@@ -198,19 +207,19 @@ by hitting enter and canceled via Escape. List of available command is:
     This will delete all the detections displayed for other frames and leaves only
     the detections from current frame.
     \item \verb+delete+ (or hitting \verb+d+ in standard mode) -- remove identity
-    selected by left mouse button from the moden entirely
+    selected by left mouse button from the model entirely
     \item \verb+save[!] <file_path>+ -- store the current model into a local file
-    specificied via \verb+<file_path>+ if given file does not exists. To override the file if it exists add \verb+!+
+    specified via \verb+<file_path>+ if given file does not exists. To override the file if it exists add \verb+!+
     % \item \verb+save! <file_path>+ -- works same as the \verb+save+ command except
     % it overrites given file if it exists
     \item \verb+upload <generator_name> <options>+ -- saves current clustering into the
     database as a model with given parameters
     \item \verb+find <detection_id> [(l|r|<detection_id>)]+ -- skips to a frame
-    with detection with given \verb+<detection_id>+. If the ID is followed by \verb+l+,
-    automatically select the detection via left mouse button, if it is followed by
-    \verb+r+ select it via right mouse button. If the ID is followed by second
-    \verb+<detection_id>+, select the detection corresponding to the first ID by left
-    mouse button, and the detection corresponding to the second ID by right mouse button
+    with detection with given \verb+<detection_id>+. If the \verb+id+ is followed by \verb+l+,
+    automatically selected the detection via left mouse button, if it is followed by
+    \verb+r+ select it via right mouse button. If the \verb+id+ is followed by second
+    \verb+<detection_id>+, select the detection corresponding to the first \verb+id+ by left
+    mouse button, and the detection corresponding to the second \verb+id+ by right mouse button
     \item \verb+single <detection_id>+ -- create a new identity/trajectory. Assign the
     detection with \verb+<detection_id>+ into it.
     \item \verb+load_pairs <file_path>+ -- load list of pairs of identities (as per subsection \ref{subsec:exploration}). 
@@ -219,11 +228,11 @@ by hitting enter and canceled via Escape. List of available command is:
     exists. To override the file if it exists add \verb+!+
     % \item \verb+save_pairs[!] <file_path>+ -- works the same as the \verb+save_pairs+
     % command, except it overrides the file \verb+<file_path>+ if it exists
-    \item \verb+select_left <identity_id>+ -- select identity \verb+<identity_id>+ 
+    \item \verb+select_left <identity_id>+ -- selects identity \verb+<identity_id>+ 
     as with the left mouse button and
-    skip to the first frame with the detection from given identity
+    skips to the first frame with the detection from given identity
     \item \verb+select_right <identity_id>+ -- works the same as \verb+select_left+
-    command, except it select given identity with the right mouse button.
+    command, except it selects given identity with the right mouse button.
     \item \verb+skip <n>+ -- skips \verb+n+ frames forward (a negative number can be supplied to skip backwards)
 \end{itemize}
 

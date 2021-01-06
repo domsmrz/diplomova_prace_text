@@ -174,7 +174,7 @@ by offsetting the Gaussian slightly above the center of the image, to 40\%
 of the height of the image, to be precise. The best setting for the standard deviation seems to be 0.2 or 0.1 of the dimensions of the image. For detailed results
 of the grid search, see \autoref{fig:aoc_gauss}.
 
-We selected the best approaches and plotted them in \autoref{fig:roc_background}. As we can see in the selected approaches give us almost identical results. For all the following experiments with the color histograms we use the cropping of 20\% from the top and 30\% from the other sides.
+We selected the best approaches and plotted them in \autoref{fig:roc_background}. As we can see, the selected approaches give us almost identical results. For all the following experiments with the color histograms we use the cropping of 20\% from the top and 30\% from the other sides.
 
 \begin{figure}
     \centering
@@ -193,7 +193,7 @@ the choice of distance function have noticeable effect on the results.
 The worst performing distance function seems to be Euclidean distance. The best one,
 especially in case of lower \gls{fpr} seem to be Manhattan distance.
 After all, Manhattan distance has quite straight-forward explanation in context
-of histograms -- it is simply the number of pixels (relative to the size of the image) that needs to change to obtain the histogram of the second image. We use the Manhattan distance for the final experiments with the histograms.
+of histograms -- it is simply the number of pixels (relative to the size of the image) that needs to change to obtain the histogram of the second image.\footnote{The distance is actually twice the number of pixels, as we need to remove it from one bin and add it to the other. However this does not affect the \gls{roc} curve.} We use the Manhattan distance for the final experiments with the histograms.
 
 \begin{figure}
     \centering
@@ -239,7 +239,7 @@ conditions are not as common in our dataset as we expected. The other aspect is 
 To support this reasoning, we consider pixels with low ($< 0.2$)
 value as black and non-black pixels with low saturation ($< 0.2$) as white and
 assign them to separate bins for the HSV model. As we can see in \autoref{fig:black_white_roc}, this
-significantly improved the performance while using HSV model. However, it still seems the best to use basic RGB decomposition.
+significantly improves the performance while using HSV model. However, it still seems the best to use basic RGB decomposition.
 
 \begin{figure}
     % \centering
@@ -276,10 +276,10 @@ Therefore, we evaluate the performance of the networks with various input size s
 \end{figure}
 
 The \gls{roc} curves for the pre-trained models are shown in \autoref{fig:pretrained_nn_roc}.
-We evaluated various input sizes. In the case of MobileNet, we test
+We evaluate various input sizes. In the case of MobileNet, we test
 all the input sizes that are available for the architecture in the Tensorflow package. As for the 
-ResNet we test a lower number of smaller sizes, mainly for its higher
-complexity and poorer performance than the MobileNet.
+ResNet we test a lower number of smaller sizes, mainly due to its higher
+complexity and poorer performance compared to MobileNet.
 
 As we can see directly from the \gls{roc} curves, the decidedly best setting for this type of \gls{nn} annotation is MobileNet with input images resized to $128 \times 128$ pixels. Therefore, we use this setting for all subsequent experiments.
 
@@ -344,7 +344,7 @@ We lowered the learning rate to try to preserve the original information within 
     \label{fig:basic_nn_lr2_roc}
 \end{figure}
 
-Now, we proceed to evaluate the effect of different distance functions. This requires to train a new \gls{nn} because Triplet Loss (\autoref{eq:triplet}) depends on the choice of the distance function. In other related work we see the Triplet Loss used either with Euclidean distance or Cosine distance (or alternatively squared Euclidean distance\footnote{As the final layer of our \glspl{nn} is normalizing layer, the square Euclidean distance and Cosine distance are proportional to each other: $\delta_{euclid}(\vec{x}, \vec{y}) = 2 - 2\vec{x}^T\vec{y} = 2 - 2 \cos(\vec{x}, \vec{y})$ (as the norms of input vectors are 1).}). However, we also aim to verify the usefulness of Manhattan distance, as it works well with the histogram approach.
+Now, we proceed to evaluate the effect of different distance functions. This requires to train a new \gls{nn} because Triplet Loss (\autoref{eq:triplet}) depends on the choice of the distance function. In other related work we see the Triplet Loss used either with Euclidean distance or Cosine distance (or alternatively squared Euclidean distance\footnote{As the final layer of our \glspl{nn} is normalizing layer, the square Euclidean distance and Cosine distance are proportional to each other: $\left(\delta_{euclid}(\vec{x}, \vec{y})\right)^2 = (\vec{x} - \vec{y})^T(\vec{x} - \vec{y}) = 2 - 2\vec{x}^T\vec{y} = 2 - 2 \cos(\vec{x}, \vec{y})$ (as the norms of input vectors are 1).}). However, we also aim to verify the usefulness of Manhattan distance, as it works well with the histogram approach.
 
 \begin{figure}
     \centering
@@ -368,7 +368,7 @@ Now, we proceed to evaluate the effect of different distance functions. This req
 
 The detailed results with different distance functions are displayed in \autoref{fig:lr_heatmap}. Changing the distance function indeed improved the performance. We obtain the best results while using Cosine distance. However, notice that even with a lowered learning rate, the best results in terms of area under the \gls{roc} curve are achieved by network trained only for a single epoch. Therefore, we split each epoch, and instead of using all 71,732 \glspl{det} in each epoch, we use only 640 \glspl{det} split among 32 batches per epoch.
 
-With this alteration, the area under the \gls{roc} curve increases during the several initial epochs. In the case of Cosine distance, it reaches a maximum around the 40\textsuperscript{th} epoch with value 0.9145. See the plot in \autoref{fig:mini_epoch_cos}. With Manhattan distance, the maximum was reached very early and probably could be improved by further testing. However, since we achieve better results with Cosine distance, we do not evaluate the Manhattan distance approach any further.
+With this alteration, the area under the \gls{roc} curve increases during the several initial epochs. In the case of Cosine distance, it reaches a maximum around the 40\textsuperscript{th} epoch with value 0.9145. See the plot in \autoref{fig:mini_epoch_cos}. With Manhattan distance, the maximum was reached very early and possibly could be improved by further testing. However, since we achieve noticeably better results with Cosine distance, we do not evaluate the Manhattan distance approach any further.
 
 \begin{figure}
     \centering
@@ -414,7 +414,7 @@ The results show that the setting where we train the MobileNet with added dense 
     \label{fig:custom_architecture}
 \end{figure}
 
-We also evaluate the simple architecture presented in \autoref{ssec:custom_architecture}. We evaluate various learning rates and adjusted the size of the epoch as in case of pre-trained MobileNet architecture. The comparison between the best model of our custom architecture and the best model based on the MobileNet is in \autoref{fig:custom_architecture}. We can see that we can achieve interesting results even with a relatively simple architecture. Nevertheless, the model based on the MobileNet provides significantly better results and therefore, we use it in the subsequent experiments.
+We also evaluate the simple architecture presented in \autoref{ssec:custom_architecture}. We evaluate various learning rates and adjust the size of the epoch as in case of pre-trained MobileNet architecture. The comparison between the best model of our custom architecture and the best model based on the MobileNet is in \autoref{fig:custom_architecture}. We can see that we can achieve interesting results even with a relatively simple architecture. Nevertheless, the model based on the MobileNet provides significantly better results and therefore, we use it in the subsequent experiments.
 
 \begin{table}[]
     \centering
@@ -428,7 +428,7 @@ We also evaluate the simple architecture presented in \autoref{ssec:custom_archi
          Firstly trained the basic architecture, then added dense and train only last layer & 0.9048 & 0.9021 \\
          With dense layer, firstly only last layer is trained, then the whole network & 0.8461 & 0.8494
     \end{tabularx}
-    \caption[Comparison of various MobileNet alterations]{Comparison of various MobileNet alterations. In a cells there are the area under the curve achived by correpsonding architecture. Each approach was evaluated with different number of epochs, only best performance per architecture is displayed.}
+    \caption[Comparison of various MobileNet alterations]{Comparison of various MobileNet alterations. In cells is the area under the curve achieved by corresponding architecture. Each approach was evaluated with different number of epochs, only best performance per architecture is displayed.}
     \label{tab:final_comparison}
 \end{table}
 
@@ -437,13 +437,13 @@ We also evaluate the simple architecture presented in \autoref{ssec:custom_archi
 \section{Trajectory Construction}
 
 % \todo[inline]{tieto veci tu nepatria a trbea ich skratit na jeden odstavec. Uz boli povedane v kapitole 5.}
-Now we proceed to trajectory construction. Unlike in the case of feature vectors, we do not conduct a thorough evaluation of various approaches right away. The desired result of this step is strongly dependent on the next step, which is actual \gls{iden} construction. Therefore, we evaluate various setting for this step together with evaluating the approaches for \gls{iden} construction in the following section.
+Now we proceed to trajectory construction. Unlike in the case of feature vectors, we do not conduct a thorough evaluation of various approaches right away. The desired result of this step is strongly dependent on the next step, which is actual \gls{iden} construction. Therefore, we evaluate various settings for this step together with evaluating the approaches for \gls{iden} construction in the following section.
 
 Nevertheless, we at least suggest some useful thresholds for the quantities described in \autoref{ssec:spatial_merging} -- displacement, relative displacement and Intersection over Union. The thresholds should be set in a such manner that each resulting trajectory contains \glspl{det} only from one \gls{iden}, as we merge the trajectories but never split them afterwards. If we have a trajectory which contains \glspl{det} from two or more different golden \glspl{iden} we can never fix this ``impurity''.
 
 This leads us to simple way to suggest suitable thresholds. For now let us consider simple displacement. We analyze the training dataset. In the dataset we look into each pair of the \glspl{det} which are no more than 0.2 seconds apart from each other and they are from different golden \glspl{iden}. For each such pair we record the displacement and consider the value as ``negative sample''. To obtain ``positive samples'' we processed all the \glspl{iden} in order of their timestamps. For any subsequent pair of \glspl{det} in each trajectory, if the pair is less than 0.2 seconds apart, we consider the corresponding value of displacement as ``positive sample''.
 
-Then we compute the minimum over the negative samples (which gives us suitable starting point of which value to use on the testing dataset). Furthermore we count how many positive samples are greater than the computed minimum (which gave us rough estimation of quality the indicator is).
+Then we compute the minimum over the negative samples (which gives us suitable starting point of which value to use on the testing dataset). Furthermore, we count how many positive samples are greater than the computed minimum (which gives us a rough estimation of the indicator's quality).
 
 \begin{table}
     \centering
@@ -461,9 +461,9 @@ We did this analysis for each of the considered quantities. The results are reco
 
 \section{Identity Construction}
 
-In this section, we review how well our algorithm constructs the \glspl{iden}. As a main measure of quality, we use \gls{roc} curves as in previous sections. When we evaluate the feature vectors alone, we just sort the pairs of \glspl{det} by the distance and process them one by one to produce \gls{roc} curve. Now, we cluster the \glspl{det} into \glspl{iden}. The decision whether the model assigns the pair of \glspl{det} to the same \gls{iden} depends also on other \glspl{det} not only on the distance between \glspl{det} in question. Therefore, we need to choose more complex approach to compute the \gls{roc} curves.
+In this section, we review how well our algorithm constructs the \glspl{iden}. As a main measure of quality, we use \gls{roc} curves as in previous sections. When we evaluated the feature vectors alone, we just sorted the pairs of \glspl{det} by the distance and process them one by one to produce \gls{roc} curve. Now, we cluster the \glspl{det} into \glspl{iden}. The decision whether the model assigns the pair of \glspl{det} to the same \gls{iden} depends also on other \glspl{det} not only on the distance between \glspl{det} in question. Therefore, we need to choose more complex approach to compute the \gls{roc} curves.
 
-To run the evaluation efficiently use a matrix $M$ which we keep up-to-date. An element $M_{i,j}$ represents how many \glspl{det} from $j$-th golden \gls{iden} were assigned $i$-th predicted \gls{iden}. Note that this is not standard confusion matrix, if you are familiar with the term. This matrix represents the distribution of \glspl{det}. Our samples for the purposes of the \gls{roc} curve are, however, \emph{pairs} of \glspl{det}. For example \gls{tp} are pairs of \glspl{det} such that both \glspl{det} were drawn from the same cell of the matrix. Overall, we can compute the appropriate values for ROC curve as follows:\footnote{We actually compute number of \emph{ordered} pairs of \glspl{det}. However, for the computation of \gls{tpr} and \gls{fpr} we can use ordered pairs instead of unordered pairs, as for each unordered pair there are exactly two ordered ones}
+To run the evaluation efficiently, we use a matrix $M$ which we keep up-to-date. An element $M_{i,j}$ represents how many \glspl{det} from $j$-th golden \gls{iden} were assigned $i$-th predicted \gls{iden}. Note that this is not standard confusion matrix, if you are familiar with the term. This matrix represents the distribution of \glspl{det}. Our samples for the purposes of the \gls{roc} curve are, however, \emph{pairs} of \glspl{det}. For example \gls{tp} are pairs of \glspl{det} such that both \glspl{det} were drawn from the same cell of the matrix. Overall, we can compute the appropriate values for ROC curve as follows:\footnote{We actually compute number of \emph{ordered} pairs of \glspl{det}. However, for the computation of \gls{tpr} and \gls{fpr} we can use ordered pairs instead of unordered pairs, as for each unordered pair there are exactly two ordered ones}
 
 \begin{align*}
     \mathrm{TP} &= \sum_{i,j} M_{i,j} (M_{i,j} - 1)\\
@@ -494,7 +494,7 @@ In \autoref{fig:final_merging_initial} we also see that after merging trajectori
 
 \begin{figure}
     \newlength{\fpheight}
-    \setlength{\fpheight}{3cm}
+    \setlength{\fpheight}{2.5cm}
 
 
     \centering
@@ -514,7 +514,7 @@ In \autoref{fig:final_merging_initial} we also see that after merging trajectori
          \includegraphics[height=\fpheight]{img/fp_2_a.png}
          \includegraphics[height=\fpheight]{img/fp_2_b.png}
     \end{subfigure}\\
-    \vspace{1cm}
+    \vspace{0.5cm}
     \begin{subfigure}[b]{0.3\textwidth}
          \centering
          \includegraphics[height=\fpheight]{img/fp_3_a.png}
@@ -578,7 +578,7 @@ We also shortly experiment with lowering the threshold for selecting the represe
     \centering
     \def\svgwidth{\columnwidth}
     {\input{img/final_nn.pdf_tex}}
-    \caption{ROC curve with neural networks trained using different variation of Triplet Loss}
+    \caption{ROC curve with neural networks trained using different variations of Triplet Loss}
     \label{fig:final_nn}
 \end{figure}
 
@@ -586,7 +586,7 @@ We also test whether changing the \gls{nn} would improve the results. We evaluat
 
 \subsection{Direct Identity Construction}
 
-Lastly, we evaluate the approach where we construct the \glspl{iden} directly without a priori construction of the trajectories. Unlike in other approaches, we do not use \gls{roc} curves to evaluate this approach. The reason it would become computationally exhaustive to get all pairs. We can not sample the pairs directly and sort them based on the distance as we did in \autoref{sec:eval_fv} as the fact whether we consider two \glspl{det} to be of same \gls{iden} does not depend only on the distance between them but also on other \glspl{det}. Nor we can make use of a priori trajectory generation (as we do not use it) to make the computation of subsequent \gls{roc} curved feasible. Therefore, we select just a few hyperparameters and evaluate \gls{tpr} and \gls{fpr} just for those values.
+Lastly, we evaluate the approach where we construct the \glspl{iden} directly without a priori construction of the trajectories. Unlike in other approaches, we do not use \gls{roc} curves to evaluate this approach. The reason is that it would become computationally exhaustive to get all pairs. We can not sample the pairs directly and sort them based on the distance as we did in \autoref{sec:eval_fv} as the fact whether we consider two \glspl{det} to be of same \gls{iden} does not depend only on the distance between them but also on other \glspl{det}. Nor we can make use of a priori trajectory generation (as we do not use it) to make the computation of subsequent \gls{roc} curved feasible. Therefore, we select just a few hyperparameters and evaluate \gls{tpr} and \gls{fpr} just for those values.
 
 \begin{table}[]
     \centering
@@ -619,4 +619,4 @@ The main drawback of this approach is that once every \gls{det} from a \gls{iden
 
 \section{Recapitulation}
 
-In this chapter we evaluated various approaches for feature extraction, trajectory generation and identity construction. Out of all tested approaches the best model extracts features using MobileNet architecture where we replace the last layer with dense layer. The input size we use $128 \times 128$. For the training we use Semihard Triplet Loss with Cosine distance. For trajectory generation we use \gls{iou} with threshold 0.8 and time window of 0.2 seconds. As used for representant selection we use 0.2. The approach can be improved by lowering this threshold, however this increases computation complexity. Available trade-offs this approach leads to are displayed in \autoref{fig:final_nn}. One possible choice is to have \gls{tpr} 0.8446 and \gls{fpr} 0.1050.
+In this chapter we evaluated various approaches for feature extraction, trajectory generation and identity construction. Out of all tested approaches the best model extracts features using MobileNet architecture where we replaced the last layer with a dense layer. The input size we used $128 \times 128$. For the training we used Semihard Triplet Loss with Cosine distance. For trajectory generation we used \gls{iou} with threshold 0.8 and time window of 0.2 seconds. As for representants selection we used  the threshold 0.2. The approach can be improved by lowering this threshold, however this increases computation complexity. Available trade-offs this approach leads to are displayed in \autoref{fig:final_nn}. One possible choice is to have \gls{tpr} 0.8446 and \gls{fpr} 0.1050.
