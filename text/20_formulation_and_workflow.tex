@@ -9,22 +9,22 @@ Here we present a formal description of our task and the basic overview of the p
 
 \label{sec:vl}
 
-Our work is designed to be a module of the whole analytical system for video processing and advanced analytics by \cite{videolytics}, called \gls{VL}. The goal of the system is to offer an effective way to produce an answer for various queries. Such requests may range from showing an advanced user interface for a live stream to retrieving statistical data from videos stored for offline processing. In order to compute all needed information, the system utilizes various \gls{ml} models. The system may be used to enhance the basic capabilities of security cameras and provide better data that can be utilized in various areas of city planning.
+Our work is designed to be a module of the analytical system for video processing and advanced analytics by \cite{videolytics}, called \gls{VL}. The goal of the system is to offer an effective way to produce an answer for various queries. Such requests may range from showing an advanced user interface for a live stream to retrieving statistical data from videos stored for offline processing. In order to compute all needed information, the system utilizes various \gls{ml} models. The system may be used to enhance the basic capabilities of security cameras and provide better data that can be utilized in various areas of city planning.
 
-\Gls{VL} is designed as a modular system. This modularity is achieved by using a database as a core component of the system. Modules use the database as the only means of exchanging information. Such a solution makes it easier to add new modules, as their implementations are independent (aside from the \gls{api} defined by the database tables). An additional advantage of this approach is that it makes the data persistent and, therefore, it possible to re-evaluate any experiments. For the more thorough description of \gls{VL}'s architecture please refer to \cite{videolyticsarch}. 
+\Gls{VL} is designed as a modular system. This modularity is achieved by using a database as a core component of the system. Modules use the database as the only means of exchanging information. Such a solution makes it easier to add new modules, as their implementations are independent (aside from the \gls{api} defined by the database tables). An additional advantage of this approach is that it makes the data persistent and, therefore, it is possible to re-evaluate any experiments. For the more thorough description of \gls{VL}'s architecture please refer to \cite{videolyticsarch}. 
 
 \section{Task Formulation}
 
-Our goal is to implement the re-identification module for the \gls{VL}. As described in the Introduction, re-identification is, in essence, matching the same object across different frames. To focus directly on the re-identification, we use the stream pre-processing offered by the \gls{VL} system.
+Our goal is to implement the re-identification module for the \gls{VL}. As described in the Introduction, re-identification is, in essence, matching the same object across different frames (that is across different point in times or recordings from different cameras).
 
 \subsection{Input}
 
 \label{ssec:input}
 
 %123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
-Firstly, let us describe the input of our module. To focus directly on the re-identification task, we use other modules to detect an object within the streams and crop out the relevant part of the frame. The input for our part of the system is then just the cropped images alongside additional metadata. We shall refer to this pre-processed input throughout the thesis as \glspl{det}. Let us formally define this notion of \glspl{det}.
+Firstly, let us describe the input of our module. To focus directly on the re-identification task, we use other \gls{VL}' modules to detect an object within the streams and crop out the relevant part of the frame. The input for our part of the system is then just the cropped images alongside additional metadata. We shall refer to this pre-processed input throughout the thesis as \glspl{det}. Let us formally define this notion of \glspl{det}.
 
-Arguably the most important part of the \gls{det} is the image (crop) of the detected object. As \gls{VL} offeres the system for selecting axis-aligned minimal bounding boxes of interesting objects, we focus on rectangular images only. We shall define universe of rectangular images $\mathcal{I}$, using standard RGB representation:
+Arguably the most important part of the \gls{det} is the image (crop) of the detected object. As \gls{VL} offers the system for selecting axis-aligned minimal bounding boxes of interesting objects, we focus on rectangular images only. We shall define universe of rectangular images $\mathcal{I}$, using standard RGB representation:
 
 \begin{equation}
 \mathcal{I} = \bigcup_{\substack{n \in \mathbb{N} \\ m \in \mathbb{N}}} \{0, 1, \ldots, 2^8-1\}^{3mn}
@@ -42,12 +42,12 @@ $$\mathcal{C} = \{c_i, c_h, c_w \mid c_i \in \mathbb{N}, c_h \in \mathbb{N}, c_w
 We shall also refer to sources as cameras interchangeably due to consistency with the other work in the area and the underlying implementation.
 
 %123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
-The final component of the \gls{det} is the additional metadata. For each detection, we record the relative position $x_0, y_0$, of the top left corner of the detection within the stream. Similarly, we denote $x_1, y_1$ relative position of the bottom right corner. Furthermore, we store a \emph{class} by each detection-- representing the detected object's class. Such class is an element of pre-defined vocabulary $V$. Our vocabulary is defined by pre-processing modules of the \gls{VL} systems. It is a relevant subset of classes used in the COCO dataset by \cite{cocodataset}:
+The final component of the \gls{det} is the additional metadata. For each detection, we record the relative position $x_0, y_0$, of the top left corner of the detection within the stream. Similarly, we denote $x_1, y_1$ relative position of the bottom right corner. Furthermore, we store a \emph{class} by each detection -- representing the detected object's class. Such class is an element of pre-defined vocabulary $V$. Our vocabulary is defined by pre-processing modules of the \gls{VL} systems. It is a relevant subset of classes used in the COCO dataset by \cite{cocodataset}:
 
 $$V = \{\text{``person'', ``motorcycle'', ``car'', ``truck'', ``train'', ``bicycle'', ``bus''\}}$$
 
 
-The last component of the metadata is a timestamp $t \in \mathbb{R}^+$. Note that technically we store the timestamp to a certain degree of precision. Therefore, we can consider $t \in \mathbb{N}$. This notation allows us to define the universe of metadata~$\mathcal{M}$ as:
+The last component of the metadata is a timestamp $t \in \mathbb{R}^+$. This notation allows us to define the universe of metadata~$\mathcal{M}$ as:
 
 $$\mathcal{M} = \{{(x_0, x_1, y_0, y_1) \in [0,1]^4 \mid x_0 < x_1 \land y_0 < y_1}\} \times V \times \N \times \R$$
 
@@ -66,7 +66,7 @@ As usual in \gls{ml} tasks, we formulate our goal via a pair of input and the de
 Usually, the set presented on the input of our algorithm is a set of \glspl{det} extracted from simultaneous recordings from the cameras placed close together (i.e., we can expect objects to move from one camera to another or even to be recorded by multiple cameras at the same time). Working in the context of the whole set of \glspl{det} gives our algorithm an extra piece of information during the inference. For example if two \glspl{det} $d_0, d_1$ are visually different but both are similar to a third \gls{det} $d_2$, we may then conclude that $d_0$ and $d_1$ display the same object (as well as $d_2$) which we may not find out if we did not consider $d_2$.
 
 
-As mentioned, to actually formalize our goal, we consider ``golden'' partition~$A$ of given \glspl{det}~$D$. This partition represents true re-identification of input \glspl{det}, i.e. an element~$a \in A$ contains all \glspl{det} that display one object. Our algorithm's goal is then to find this golden partition based on the input \glspl{det} $D$. Throughout the thesis we shall refer to any partition of set of \glspl{det} (both, the ``golden'' partition and the imperfect approximation our algorithm generates) as \glspl{iden}. A visualization of these concepts is available in \autoref{fig:structure_schema}.
+As mentioned, to actually formalize our goal, we consider ``golden'' partitioning~$A$ of given \glspl{det}~$D$. This partitioning represents true re-identification of input \glspl{det}, i.e. an element~$a \in A$ contains all \glspl{det} that display one object. Our algorithm's goal is then to find this golden partitioning based on the input \glspl{det} $D$. Throughout the thesis we shall refer to any partitioning of set of \glspl{det} (both, the ``golden'' partitioning and the imperfect approximation our algorithm generates) as \glspl{iden}. A visualization of these concepts is available in \autoref{fig:structure_schema}.
 
 
 \begin{figure}
@@ -79,16 +79,13 @@ As mentioned, to actually formalize our goal, we consider ``golden'' partition~$
 
 
 
-To summarize this concept, we shall refer to a pair of set of related \glspl{det} and the associated golden partition $A$ as a \gls{ses}. Formally we can define the universe of all theoretically possible \glspl{ses} $\mathcal{S}$ as:
+To summarize this concept, we shall refer to a pair of set of related \glspl{det} and the associated golden partitioning $A$ as a \gls{ses}. Formally we can define the universe $\mathcal{S}$ of all \glspl{ses} as:
 
 \begin{equation*}
-\begin{split}
-&\mathcal{S} =\\& \left\{D \subset \mathcal{D},\,A \subset \mathcal{P(D)} \mid (\forall a \in A) (\forall a' \in A) (a \neq \emptyset) \land (a \cap a' = \emptyset) \land \left(\bigcup A = D\right)\right\}    
-\end{split}
+    \mathcal{S} = \left\{D \subset \mathcal{D},\,A \subset \mathcal{P(D)} \mid A\text{ is paritioning of }D \right\}
 \end{equation*}
 
-
-Our algorithm then works in context of one \gls{ses}~$S = (D, A), S \in \mathcal{S}$. A set of \glspl{det}~$D$ is given to the  algorithm and the goal is to recreate the hidden golden identities~$A$. Our algorithm assigns arbitrary identification number to each identity, therefore we can formalize the desired output as following clustering function~$r_D^*$:
+Our algorithm then works in context of one \gls{ses}~$S = (D, A), S \in \mathcal{S}$. A set of \glspl{det}~$D$ is given to the  algorithm and the goal is to recreate the hidden golden identities~$A$. Our algorithm assigns an arbitrary identification number to each identity, therefore we can formalize the desired output as following clustering function~$r_D^*$:
 
 \begin{equation}
 \begin{split}
@@ -106,49 +103,51 @@ $$
 r_D' : D^2 \to \{0, 1\} \text{ s.t. } (\forall d \in D) (\forall d' \in D) ((r_D'(d, d') = 1) \Leftrightarrow (r_D(d) = r_D(d')))
 $$
 
-So far, we have presented our task's definition in the context of already given \gls{ses}. This definition as-is is enough for the work presented in this thesis as we work only with a few selected \glspl{ses}. Nevertheless, we proceed to shortly define the general case in this setting to provide building blocks for future work and motivation for some of our decisions. In a general case, we should not focus on one specific \gls{ses}, but we aim to design an algorithm that works across \glspl{ses}.
+Even though we described our algorithm in context of a single session, our goal is to make an algorithm that works well with any \gls{ses}. In order to provide unbiased estimation of the quality of our approach we provide evaluation that was chosen independently of the dataset we used for training \glspl{nn}.
+
+% So far, we have presented our task's definition in the context of already given \gls{ses}. This definition as-is is enough for the work presented in this thesis as we work only with a few selected \glspl{ses}. Nevertheless, we proceed to shortly define the general case in this setting to provide building blocks for future work and motivation for some of our decisions. In a general case, we should not focus on one specific \gls{ses}, but we aim to design an algorithm that works across \glspl{ses}.
 
 
-However, there is no algorithm that would output suitable $r_D^*$ as in \autoref{eq:reidentification} for all the \glspl{ses}. To see that we just take any distinct pair of \glspl{det}~$D^\bot = \{d_1, d_2\}$. There exists two distinct partitioning and corresponding \glspl{ses}: $S_1 = (D^\bot, \{\{d_1, d_2\}\})$ and $S_2 = (D^\bot, \{\{d_1\}, \{d_2\}\})$. The output function $r_D$ of any algorithm can satisfy \autoref{eq:reidentification} either for $S_1$ or $S_2$ not for both.
+% However, there is no algorithm that would output suitable $r_D^*$ as in \autoref{eq:reidentification} for all the \glspl{ses}. To see that we just take any distinct pair of \glspl{det}~$D^\bot = \{d_1, d_2\}$. There exists two distinct partitioning and corresponding \glspl{ses}: $S_1 = (D^\bot, \{\{d_1, d_2\}\})$ and $S_2 = (D^\bot, \{\{d_1\}, \{d_2\}\})$. The output function $r_D$ of any algorithm can satisfy \autoref{eq:reidentification} either for $S_1$ or $S_2$ not for both.
 
 
-Therefore, we shall consider only ``possible'' \glspl{ses}. To properly define such \glspl{ses}, we shall assume some distribution $p_\mathcal{S}$ of \glspl{ses} (this distribution should reflect the distribution we aim the algorithm to work on, i.e. distribution of the \glspl{ses} in the real world). We can define possible \glspl{ses}~$\mathcal{S'}$ as:
+% Therefore, we shall consider only ``possible'' \glspl{ses}. To properly define such \glspl{ses}, we shall assume some distribution $p_\mathcal{S}$ of \glspl{ses} (this distribution should reflect the distribution we aim the algorithm to work on, i.e. distribution of the \glspl{ses} in the real world). We can define possible \glspl{ses}~$\mathcal{S'}$ as:
 
-$$\mathcal{S}' = \{S \in \mathcal{S} \mid p_\mathcal{S}(S) > 0\}$$
-If every set of \glspl{det} is in at most one \glspl{ses}, i.e.:
+% $$\mathcal{S}' = \{S \in \mathcal{S} \mid p_\mathcal{S}(S) > 0\}$$
+% If every set of \glspl{det} is in at most one \glspl{ses}, i.e.:
 
-\begin{equation}
-    (\forall (D, A) \in \mathcal{S}')(\forall (D', A') \in \mathcal{S}') (D = D' \Rightarrow A = A'),
-    \label{eq:uniq_session}
-\end{equation}
-Then we can formulate our task by requiring the output function to hold
-condition in \autoref{eq:reidentification} for all
-\glspl{ses} from $\mathcal{S}'$.
+% \begin{equation}
+%     (\forall (D, A) \in \mathcal{S}')(\forall (D', A') \in \mathcal{S}') (D = D' \Rightarrow A = A'),
+%     \label{eq:uniq_session}
+% \end{equation}
+% Then we can formulate our task by requiring the output function to hold
+% condition in \autoref{eq:reidentification} for all
+% \glspl{ses} from $\mathcal{S}'$.
 
-For an (arguably odd) case that \autoref{eq:uniq_session} does not hold, we
-define most likely partition for any set of \glspl{det}, given the distribution
-of \glspl{ses}~$p_\mathcal{S}$: 
+% For an (arguably odd) case that \autoref{eq:uniq_session} does not hold, we
+% define most likely partitioning for any set of \glspl{det}, given the distribution
+% of \glspl{ses}~$p_\mathcal{S}$: 
 
-\begin{equation}
-A^*_D = \text{argmax}_A \pr_{(D', A')\sim p_\mathcal{S}} \left[A' = A \mid D' = D\right]
-\label{eq:mla}
-\end{equation}
+% \begin{equation}
+% A^*_D = \text{argmax}_A \pr_{(D', A')\sim p_\mathcal{S}} \left[A' = A \mid D' = D\right]
+% \label{eq:mla}
+% \end{equation}
 
-We can then obtain the valid task definition. We just replace the
-\glspl{iden}~$A$ in \autoref{eq:reidentification} by the most likely
-\glspl{iden}~$A_D^*$ and require the condition to hold over all sets of
-\glspl{det} from possible \glspl{ses}:
+% We can then obtain the valid task definition. We just replace the
+% \glspl{iden}~$A$ in \autoref{eq:reidentification} by the most likely
+% \glspl{iden}~$A_D^*$ and require the condition to hold over all sets of
+% \glspl{det} from possible \glspl{ses}:
 
-\begin{equation}
-(\forall d \in D) (\forall d' \in D) ((r_D^*(d) = r_D^*(d')) \Leftrightarrow (\exists a \in A_D^*) (\{d, d'\} \subseteq a))
-\label{eq:formulation-final}
-\end{equation}
-
-
-Such definition is in agreement with the definition presented for the case where condition in \autoref{eq:uniq_session} holds.
+% \begin{equation}
+% (\forall d \in D) (\forall d' \in D) ((r_D^*(d) = r_D^*(d')) \Leftrightarrow (\exists a \in A_D^*) (\{d, d'\} \subseteq a))
+% \label{eq:formulation-final}
+% \end{equation}
 
 
-Finally, let us note that as we picked recordings (and corresponding \gls{ses}) for evaluation of our algorithm randomly, the results of such evaluation reflect the quality of the algorithm with respect to the task as defined by \autoref{eq:formulation-final}.
+% Such definition is in agreement with the definition presented for the case where condition in \autoref{eq:uniq_session} holds.
+
+
+% Finally, let us note that as we picked recordings (and corresponding \gls{ses}) for evaluation of our algorithm randomly, the results of such evaluation reflect the quality of the algorithm with respect to the task as defined by \autoref{eq:formulation-final}.
 
 
 \section{Workflow}
@@ -164,17 +163,16 @@ In this section, we describe the general workflow of our re-identification algor
     \def\svgwidth{\textwidth}
     \input{img/workflow.pdf_tex}
     \caption[General workflow of our re-identification algorithm]{General workflow of our re-identification algorithm. Solid lines represent primary, intended dependencies.
-    Dashed lines mark secondary, optimal dependencies, that some algorithms may use.}
+    Dashed lines mark secondary, optional dependencies, that some algorithms may use.}
     \label{fig:workflow}
 \end{figure}
 
-Firstly, we shall extract the feature vectors from the images of the \glspl{det}. Such a feature vector should sufficiently describe the image as we shall not use the images directly further in the pipeline. There are several advantages of such representation. They primarily stem from the fact that once the feature vectors are extracted, the original images can be discarded. For one thing, we can lower the memory consumption for storing the data if the extracted feature vectors are smaller than the original cropped images. Another advantage is -- assuming that the feature extraction is an irreversible operation -- that it produces a layer of anonymization, which may be crucial for our task as we work with potentially sensitive data.
+Firstly, we shall extract the feature vectors from the images of the \glspl{det}. Such a feature vector should sufficiently describe the image as we shall not use the images directly further in the pipeline. There are several advantages of such representation. They primarily stem from the fact that once the feature vectors are extracted, the original images can be discarded. For one thing, we can lower the memory consumption for storing the data if the extracted feature vectors are smaller than the original cropped images. Another advantage is -- assuming that the feature extraction is an irreversible operation -- that it produces a layer of anonymization, which may be crucial for our task as we work with potentially sensitive data. We describe this step in \autoref{ch:features}.
 
-After this feature vector extraction, we proceed to actual re-identification. We usually split this process into two parts (we shall describe each step further in the thesis).
+After this feature vector extraction, we proceed to actual re-identification, which we discuss in \autoref{ch:iden_construction}. We usually split this process into two parts.
 
-The first part is to group \glspl{det} that are close together (i.e., they originate from the same camera, have a very similar position within the frame, and have similar timestamp). We refer to this preliminary grouping as \emph{trajectories}. Although some very advanced strategies can be used even for this stage of the grouping, we shall only work with straight-forward approaches and focus more on the second step. We leave the experimenting with more thought-through approaches (e.g., other algorithms offered by \gls{VL}) as feature work.
+The first part is to group \glspl{det} that are close together (i.e., they originate from the same camera, have a very similar position within the frame, and have similar timestamp). We refer to this preliminary grouping as \emph{trajectories}. Although some very advanced strategies can be used even for this stage of the grouping, we shall only work with straight-forward approaches and focus more on the second step. We leave the experimenting with more thought-through approaches as feature work.
 
+The second part is then to group generated \emph{trajectories} into \emph{identities}. In this step we need to merge trajectories of the same object across multiple cameras. That makes the spatial metadata less useful. Therefore, we focus more on the visual information in this part.
 
-The final step is then to group generated \emph{trajectories} into \emph{identities}. As in this step, we need to be able to merge trajectories of the same object across multiple cameras, making the spatial metadata of the \glspl{det} less useful -- we shall focus more on the information of the actual images of the \glspl{det}.
-
-While this split is a bit arbitrary, it arises from practical use. We can use a straight-forward yet precise algorithm while we do not rely on the visual information for the first step. In the second step, we can leverage the fact that we have significantly fewer (by a few magnitudes) objects to merge.
+While this split is a bit arbitrary (and we indeed explore procedures that construct \glspl{iden} directly from \glspl{det} and feature vectors), it arises from practical use. We can use a straight-forward yet precise algorithm while we do not rely on the visual information for the first step. In the second step, we can leverage the fact that we have significantly fewer (by a few magnitudes) objects to merge.

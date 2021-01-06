@@ -2,7 +2,7 @@
 
 \label{ch:preliminaries}
 
-In this chapter, we provide an overview of the elementary concepts we use in the thesis. We start by introducing the basic notation we shall use thorough out the work. Then we show the concept of distances and metric spaces. We finish the chapter by describing the basics of neural networks and related concepts.
+In this chapter, we provide an overview of the elementary concepts we use in the thesis. We start by introducing the basic notation we use thorough out the thesis. Then we show the concept of distances and metric spaces. We finish the chapter by describing the basics of neural networks and related concepts.
 
 \section{Notation}
 
@@ -12,7 +12,7 @@ We use standard notation for number systems: $\mathbb{N}$ for natural numbers (i
 
 We often work with vectors, and we shall write them as $\vec{a}$. In order to refer to $i$-th element of a vector $\vec{a}$ we shall write $a_i$. Similarly, in the case of matrix $A$, we shall refer to a specific element in $i$-th row and $j$-th column as $A_{i,j}$.
 
-Finally, we shall use the term \emph{tensor} as a generalization of vectors and matrices. We shall use the following recursive definition:
+Finally, we shall use the term \emph{tensor} as a generalization of vectors and matrices. We use the following recursive definition:
 
 \begin{defn}
 0-dimensional tensor is a single number. n-dimensional ($n > 0$) vector of sizes
@@ -36,7 +36,7 @@ We refer to elements of $B$ as partitions.
 \section{Distance and Metric Spaces}
 \label{sec:distances}
 
-In this work, we often need to express the similarity between two data points (usually images or their representation). To provide a precise mathematical background for such similarity, we use the concept of metric spaces introduced by \cite{metric} and named by \cite{metricname}. We further differentiate between metrics (and metric spaces) and distances (and distance spaces). We use definitions per \cite{deza2009encyclopedia}.
+In this work, we often need to express the similarity between two data points (usually images or their representations). To provide a precise mathematical background for such similarity, we use the concept of metric spaces introduced by \cite{metric} and named by \cite{metricname}. We further differentiate between metrics (and metric spaces) and distances (and distance spaces). We use definitions from \cite{deza2009encyclopedia}.
 
 \begin{defn}
 Metric space $(\mathcal{F}, \delta)$ is a pair of set $\mathcal{F}$ and
@@ -81,7 +81,7 @@ distance function $\delta$ (referred as Manhattan distance) is:
 $$\delta(\vec{x}, \vec{y}) = \sum_{i=1}^n \abs{x_i - y_i}$$
 \end{defn}
 
-Aside from the two introduced metric functions we also use one distance that is not fulfill the axioms for metric space. To properly define it, let us first introduce cosine similarity:
+Aside from the two introduced metric functions we also use one distance that does not fulfill the axioms for metric space. To properly define it, let us first introduce cosine similarity:
 
 \begin{defn}
 Cosine similarity is a function $S_C : \R^n \times \R^n \goto [-1, 1]$, s.t.:
@@ -99,24 +99,24 @@ where $S_C$ is cosine similarity.
 \section{Neural Networks}
 \label{sec:nn}
 
-One of the most popular \gls{ml} models in recent years is artificial \glspl{nn}. The general idea of a mathematical model inspired by a biological brain's function is nothing new (\cite{first_nn}). The discovery of an effective learning algorithm (\cite{backprop}) somewhat established the ``standard'' structure of so-called feed-forward \glspl{nn}.
+One of the most popular \gls{ml} models in recent years are artificial \glspl{nn}. The general idea of a mathematical model inspired by a biological brain's function is nothing new (\cite{first_nn}). The discovery of an effective learning algorithm (\cite{backprop}) somewhat established the ``standard'' structure of so-called feed-forward \glspl{nn}.
 
-These feed-forward \glspl{nn} can be viewed as a sequence of layers, where each layer represents a function $f_i$. The whole \gls{nn} is then a composition of all the layers in order, i.e. $f_n(f_{n-1}(\ldots f_1(\vec{x})\ldots))$. A function associated with each layer is most commonly a linear combination of the input values with offset (bias) which is then transformed using non-linear differentiable activation function (for example rectified linear unit abbreviated as ReLU\footnote{$\mathrm{ReLU}(x) = x$ for $x > 0$ and $\mathrm{ReLU}(x) = 0$ otherwise}):
+These feed-forward \glspl{nn} can be viewed as a sequence of layers, where each layer represents a function $f^{(i)}: \R^n \goto \R^m$. The whole \gls{nn} is then a composition of all the layers in order, i.e. $f^{(n)}(f^{(n-1)}(\ldots f^{(1)}(\vec{x})\ldots))$. A function associated with each layer is most commonly a linear combination of the input values with offset (bias) which is then transformed using non-linear differentiable activation function (such as rectified linear unit abbreviated as ReLU\footnote{$\mathrm{ReLU}(x) = x$ for $x > 0$, otherwise $\mathrm{ReLU}(x) = 0$}). For example the $j$-th output of $i$-th layer could be computed as follows (where $\vec{\alpha}^{(i,j)})$ are parameters of the layer):
 
 \begin{equation}
     \label{eq:dense}
-    f_i(\vec{x}) = \mathrm{ReLU}\left(\alpha_{\mathrm{bias}}^{(i)} + \vec{\alpha}^{(i)} \vec{x}\right) = \mathrm{ReLU}\left(\alpha_{\mathrm{bias}}^{(i)} + \sum_{j}\alpha_j^{(i)}x_j\right)
+    f^{(i)}_j(\vec{x}) = \mathrm{ReLU}\left(\alpha_{\mathrm{bias}}^{(i,j)} + \vec{\alpha}^{(i,j)} \vec{x}\right) = \mathrm{ReLU}\left(\alpha_{\mathrm{bias}}^{(i,j)} + \sum_{k}\alpha_k^{(i,j)}x_k\right)
 \end{equation}
 
 While this description of \glspl{nn} is somewhat simplified in comparison with the recurrent and residual connections in modern models, it provides reasonable idea of how the \glspl{nn} operate.
 
-As in case of other \glsentrylong{ml} models, the ultimate goal is to approximate some function $f^*$. While the function $f^*$ itself is usually unknown, there is a set of values (dataset) for which the desired output is know (i.e. pairs of $\vec{x}, \vec{y}$ where $f^*(\vec{x}) = \vec{y}$). How well the \gls{nn} approximates the function $f^*$ is then measured using the loss function. One of the most common loss function used is \gls{mse}:
+As in the case of other \glsentrylong{ml} models, the ultimate goal is to approximate some function $f^*$. While the function $f^*$ itself is usually unknown, there is a set of values (dataset) for which the desired output is know (i.e. pairs of $\vec{x}, \vec{y}$ where $f^*(\vec{x}) = \vec{y}$). How well the \gls{nn} approximates the function $f^*$ is then measured using the loss function. One of the most common loss function in case where the output of the $f^*$ is a single number is \gls{mse}:
 
 $$\text{MSE}_{f^*}(f) = \frac{1}{|X|} \sum_{\vec{x} \in X} (f(\vec{x}) - f^*(\vec{x}))^2$$
 
-In order to use the \glspl{nn} to solve a given task, an architecture (that is number of layers, activation functions, number of neurons in each layer and similar) of the \gls{nn} is firstly appropriately chosen.\footnote{There is quite extensive research in algorithms to learn the appropriate architecture automatically, based on the presented dataset (for example \cite{neat}). However, such approaches are out-of-scope of this thesis.} Choosing the appropriate architecture for a given type of task is an open problem and target of numerous research articles and, to a degree, also this thesis. Once the architecture is chosen, the parameters (e.g., coefficients $\alpha^{(i)}$ in \autoref{eq:dense}) are \emph{learned} from the training dataset.
+In order to use the \glspl{nn} to solve a given task, an architecture (that is number of layers, activation functions, number of neurons in each layer and similar) of the \gls{nn} is firstly appropriately chosen.\footnote{There is quite extensive research in algorithms to learn the appropriate architecture automatically, based on the presented dataset (for example \cite{neat}). However, such approaches are out-of-scope of this thesis.} Choosing the appropriate architecture for a given type of task is an open problem and target of numerous research articles and, to a degree, also this thesis. Once the architecture is chosen, the parameters (e.g., coefficients $\alpha^{(i,j)}$ in \autoref{eq:dense}) are \emph{learned} from the training dataset.
 
-For training purposes, the \gls{nn} is perceived as a function of its parameters rather than the function of the input space. These parameters are then iteratively adjusted to minimize the chosen loss function w.r.t. the know (training) samples. The gradient descent algorithm (or similar) is usually used to find the minimum of the loss function. The general architecture of \glspl{nn} (linear combination and differentiable activation functions) allows for efficient computation of derivative of loss function w.r.t. the parameters of \gls{nn}. Therefore, it is possible to learn suitable parameters even for \glspl{nn} with thousands of parameters.
+For training purposes, the \gls{nn} is perceived as a function of its parameters rather than the function of the input space. These parameters are then iteratively adjusted to minimize the chosen loss function with respect to the known (training) samples. The gradient descent algorithm (or similar) is usually used to find the minimum of the loss function. The general architecture of \glspl{nn} (linear combination and differentiable activation functions) allows for efficient computation of derivative of loss function w.r.t. the parameters of \gls{nn}. Therefore, it is possible to learn suitable parameters even for \glspl{nn} with thousands of parameters.
 
 Recently one may also encounter expressions such as \emph{deep learning} or \emph{deep neural networks}. These terms also refer to the \glspl{nn} and, as the name suggests, they refer specifically to the \glspl{nn} with several layers. However, there is no specific number of layers when a \gls{nn} became deep. These terms are rather associated with various recently discovered techniques that allow effective learning and usage of multiple (even several hundred) layers.
 
@@ -133,11 +133,11 @@ $$y_i = \sum_{j=1}^N x_{i+j} c_j$$
 Where $\vec{x}$ and $\vec{y}$ are input and output vectors respectively and $\vec{c}$ is \emph{kernel}, i.e. vector of learned coefficients of size $N$.
 
 
-However, the primary usage of these layers is not processing of one-dimensional vectors. We often use them for processing images. Each image is by itself two-dimensional structure. Furthermore, we usually represent each element of the input matrix by several numbers. In the input layer this information usually correspond to three color channels, in the layers further in the network, the information is more abstract. This means that we often see the convolution layers processing three-dimensional tensors. With the addition of this third dimension applying the convolutional layer became more complex, but the basic idea remains the same:
+However, the primary usage of these layers is not processing of one-dimensional vectors. We often use them for processing images. Each image is by itself two-dimensional structure. Furthermore, we usually represent each element of the input matrix by several numbers, which means we have to process three-dimensional tensors. In the input layer information along the third axis usually corresponds to three color channels. In the layers further in the network, the information is more abstract. With the addition of this third dimension applying the convolutional layer becomes more complex, but the basic idea remains the same. For example the value of $r$-th channel in $(i, j)$-th position can be computed as follows ($s$ in the sum represents index of input channel):
 
-$$y_{i, j, r} = \sum_{k, l, s} x_{i+k, j+l, s} c_{k, l, r, s}$$
+$$y_{i, j, r} = \sum_{k, l, s} x_{i+k, j+l, s} \, c_{k, l, r, s}$$
 
-One of the main advantages of the convolutional layers is that they use relatively low number of parameters. The number of parameters depends only on the size of the kernel and not the size of the input. For example even for large inputs the small kernels (e.g. $3 \times 3$) is often used. For further description and motivation, please refer to the original work or \cite{deeplearningbook}.
+One of the main advantages of the convolutional layers is that they have relatively low number of parameters. The number of parameters depends only on the size of the kernel and not the size of the input (aside from number of channels). For example even for large inputs the small kernels (e.g. $3 \times 3$) is often used. For further description and motivation, please refer to the original work or \cite{deeplearningbook}.
 
 \subsection{Transfer Learning}
 
@@ -157,7 +157,7 @@ There are several advantages to using transfer learning. For one, it may signifi
 
 \label{sec:triplet_loss}
 
-Given our task's character, standard loss function such as \gls{mse} described in \autoref{sec:nn} is not well suited for us. Such loss function is designed for tasks where there are specific know labels for each given data point from the training set. However, in our task, we want to assign the images of people to clusters displaying the same person. Note that this is still a supervised task -- i.e., we know beforehand which images belong together.
+Given our task's character, standard loss function such as \gls{mse} described in \autoref{sec:nn} is not well suited for us. Nor we can use other often used loss function such as cross-entropy. Such loss function is designed for tasks where there are specific known labels for each given data point from the training set. However, in our task, we want to assign the images of people to clusters displaying the same person. Note that this is still a supervised task -- i.e., we know beforehand which images belong together, there just is not a specific label assigned to a cluster.
 
 Our goal is to achieve this clustering, which would only create separated clusters and always one cluster per person. To achieve the desired clustering, we need to penalize the ``within-cluster'' distance and reward the ``in-between cluster'' distance. In terms of the loss function, it means that the value of the loss function should increase when the distance between the two samples from the same cluster increases (or more precisely when the distance between the feature vectors corresponding to the same cluster increases). To maximize the ``in-between'' distance, the loss function should decrease as the distance between the samples from the different clusters increases. A visual representation of this process can be seen in the \autoref{fig:triplet_loss}.
 
@@ -179,7 +179,7 @@ Triplet loss for selected triplet (A, P, N) is:
 \label{eq:triplet}
 \end{equation}
 Where $f$ is a transformation given by \gls{nn}, $\delta$
-is a selected distance function and $\alpha$ is a priori selected threshold. The
+is a selected distance function and $\alpha$ is a priori selected margin. The
 selected triplet is a triplet of specific samples -- $A$ is a generic point
 called ``anchor'' point, $P$ is a ``positive'' sample (i.e. sample of the same
 cluster as anchor point) and $N$ is a ``negative'' sample (i.e. sample of
@@ -189,14 +189,14 @@ different cluster than anchor point).
 
 Such a definition provides the formula of the loss for a specific triplet. However, we can easily extend this notion by considering the average loss over all selected triplets.
 
-It can be easily seen that the minimal value of the Triplet Loss is zero. In order to achieve this optimal value, not only do all ``in-between'' clusters distances have to be greater than ``within'' cluster distances, but they must be greater by at least a given margin $\alpha$.
+It can be easily seen that the minimal value of the Triplet Loss is zero. In order to achieve this optimal value, not only do all ``in-between'' cluster distances have to be greater than ``within'' cluster distances, but they must be greater by at least a given margin $\alpha$.
 
 \subsection{Triplet Selection}
 
-An additional challenge for using Triplet Loss is to select suitable triplets. Usually, each point in the dataset (or more precisely in a subset of the dataset called a batch) is once selected as an anchor point. Then the task is then to find the appropriate positive and negative sample for each anchor point.
+An additional challenge for using Triplet Loss is to select suitable triplets. Usually, each point in the dataset (or more precisely in a subset of the dataset called a batch) is once selected as an anchor point. Then the task is to find the appropriate positive and negative sample for each anchor point.
 
 The related terminology is somewhat ambiguous. For practical purposes, we choose to use the terminology corresponding to the implementation in the Tensorflow framework (\cite{tensorflow}). They operate with two strategies: Hard and Semi-Hard Triplet Loss.
 
 In the case of Hard Loss, the positive and negative samples are selected ``as hard as possible'', which means that the positive sample is the furthest (from the anchor point) out of all considered samples of the same cluster. On the other hand, the negative sample is the closest sample out of all samples from samples that are not of the same cluster as the anchor point.
 
-The Semi-Hard approach selects such a pair of positive and negative samples that the negative sample is further away from the anchor point than the positive one, but not by the required margin. In terms of \autoref{eq:triplet} it means that $\delta(f(A), f(P)) < \delta(f(A), f(N))$ and $\delta(f(A), f(N)) - \delta(f(A), f(P)) < \alpha$.
+This intuitive selection of triplets can however lead to bad local minima (\cite{tripletlossnn}). Therefore we also evaluate different approach for triplet selection. The Semi-Hard approach selects such a pair of positive and negative samples that the negative sample is further away from the anchor point than the positive one, but not by the required margin. In terms of \autoref{eq:triplet} it means that $0 < \delta(f(A), f(N)) - \delta(f(A), f(P)) < \alpha$.

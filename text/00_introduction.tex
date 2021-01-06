@@ -5,17 +5,17 @@
 
 Increasing usage of surveillance cameras brought many opportunities for further data exploration. Aside from the obvious usage in a security, such a vast amount of data allows for traffic monitoring and statistical processing of peoples' behavioral patterns. Obtained data can then be in turn used for improved urban planning or marketing purposes.
 
-However, to explore any long-term processes such as the movement of people, we need to match the same individual across different points in time or even different cameras. This problem is widely referred to as \reid{} task in the literature, and this thesis mainly focuses on this task.
+However, to explore any long-term processes such as the movement of people, we need to match the same individual across different points in time or even different cameras. This problem is widely referred to as \reid{} task in the literature, and is the topic of this thesis. As the most common use-case is processing information about people's behavior, we focus mainly on people. However described approaches should be applicable even for other objects.
 
 Many different approaches were taken to solve the \reid{} problem. Some of them process mainly spatial information (\cite{hu2006principal}). However, with the advancement in machine learning more and more approaches focus solely on the visual side of the problem. We often see a general workflow, where a deep neural network is used to extract the visual information from the image of a tracked object. The extracted information is then used for the \reid{} (\cite{ding2015deep} or \cite{cheng2016person}).
 
 In this work, we offer a \reid{} pipeline that combines the spatial and temporal information with the descriptors extracted from the images. We design our work as a module for \gls{VL} by \cite{videolytics} -- an analytical system for video surveillance. In our approach, we split the task into two separate stages.
 
-The first stage focuses on encoding the visual information from the stream into a more compact representation. We explore a few options for a suitable representation. One set of approaches is based on the color distribution in the images in the form of color histograms. The other representation we test is obtained deep neural networks. We evaluate and design various architectures based on the recent advancement in image processing.
+The first stage focuses on encoding the visual information from the stream into a more compact representation. We explore a few options for a suitable representation. One set of approaches is based on the color distribution in the images in the form of color histograms. The other representation we test is obtained by deep neural networks. We evaluate and design various architectures based on the recent advancements in image processing.
 
-In the second stage, we incorporate the information about the position of an object. We mainly use this information to match the objects in consecutive frames, where the physical position does not vary too much. We use this matching to a lower number of comparisons based on the visual information.
+In the second stage, we incorporate the information about the position of an object. We mainly use this information to match the objects in consecutive frames, where the physical position does not vary too much. We use this matching to lower the number of comparisons for matching based on the visual information.
 
-We conduct a thorough evaluation of our approaches. To express the quality of the model we focus on the question whether two given datapoints correspond to the same object. We then evaluate how often the proposed model produces the correct answer.
+We conduct a thorough evaluation of our approaches. To express the quality of the model we focus on the question whether two given datapoints truly correspond to the same object. We then evaluate how often the proposed model produces the correct answer.
 
 Aside from the theoretical presentation of our approach to the \reid{} task we implement an entire framework encapsulating the issue. We offer the complete pipeline: Querying the detected objects from the database, processing and re-identifying the objects, and storing the results back to the database. The implementation allows for easy testing of other approaches for the \reid{} task on the available data. We also implement an annotation tool that can also be used for in-depth analysis of any given re-identification algorithm. We used this tool to produce the manual annotations used for the evaluation of proposed approaches.
 
@@ -24,8 +24,10 @@ Aside from the theoretical presentation of our approach to the \reid{} task we i
 
 \subsection*{Thesis Structure}
 
-The work in this thesis is organized as follows:
+This thesis is organized as follows:
 
 Firstly, we summarize the general theoretical background. In \autoref{ch:preliminaries} we introduce the notation we use. We also present the basics of machine learning and neural networks in particular. In \autoref{ch:related_work} we review the recent advancement in the area. Aside from work related to the re-identification task itself, we also review neural network architectures for image processing in general.
 
-In the remaining chapters, we present our contribution. In \autoref{ch:workflow} we formally define our task. We also show the general workflow of our work in the context of \gls{VL}. The chapters \ref{ch:features} and \ref{ch:iden_construction} describe the actual algorithm for re-identification. In \autoref{ch:features} we focus on how we extract useful visual information from the images of detected objects. In \autoref{ch:iden_construction} we then combine this information with spatial and temporal information to produce final \reid{}. The proposed model is thoroughly evaluated in \autoref{ch:evaluation}. In the \autoref{ch:implementation} we discuss the underlying implementation. We describe the architecture and technical aspects of the attached source code.
+In the remaining chapters, we present our contribution. In \autoref{ch:workflow} we formally define our task. We also show the general workflow of our work in the context of \gls{VL}. The chapters \ref{ch:features} and \ref{ch:iden_construction} describe the actual algorithm for re-identification. In \autoref{ch:features} we focus on how we extract useful visual information from the images of detected objects. In \autoref{ch:iden_construction} we then combine this information with spatial and temporal information to produce final \reid{}. The proposed models are thoroughly evaluated in \autoref{ch:evaluation}. In the \autoref{ch:implementation} we discuss the underlying implementation. We provide a short overview of the architecture and technical aspects of the attached source code.
+
+We also provide detailed guide on how to use our software in \autoref{ch:guide}.

@@ -243,8 +243,8 @@ assign them to separate bins for the HSV model. As we can see in \autoref{fig:bl
 significantly improved the performance while using HSV model. However, it still seems the best to use basic RGB decomposition.
 
 \begin{figure}
-    \centering
-    \def\svgwidth{\columnwidth}
+    % \centering
+    \def\svgwidth{0.9\columnwidth}
     \input{img/black_white_roc.pdf_tex}
     \caption[Effect of adding black and white bins to the hue histograms]{Effect of adding black and white bins to hue histograms. The figure shows \gls{roc} curves of histogram based approaches with RGB, hue with saturation, and hue alone decomposition with the best performing number of bins in each category. The plot shows improved performance obtained by adding black and white bins to the latter two categories.}
     \label{fig:black_white_roc}
