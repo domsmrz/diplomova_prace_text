@@ -30,7 +30,7 @@ The database should have required tables as discussed in \autoref{ch:implementat
     python -m ReID.database_connection
 \end{verbatim}
 
-However, keep in mind that the software does not process raw videos, but needs already prepared \glspl{det}. That means all the input tables (see \autoref{ch:implementation}) should be populated.
+However, keep in mind that the software does not process raw videos, but needs already prepared \glspl{det}. That means all the input tables (see \autoref{sec:db_structure}) should be populated.
 
 \section{Feature Vectors}
 
@@ -147,7 +147,7 @@ For explanation of given colors, please refer to table \ref{tab:annotation_highl
 Aside from the standard controlling mechanism, we offer additional features especially
 useful for exploring incorrectly identified and annotated identities. We allow
 for loading a list of pairs of identities during the exploration of the results. These
-identities can be quickly searched through. By this method, we, for example, efficiently fix the incorrectly annotated data in the golden dataset if we obtain a list of ``suspicious'' identities (for example list of identities that our re-identification algorithm classified differently than are classified in the golden dataset).
+identities can be quickly searched through. By this method, we can, for example, efficiently fix the incorrectly annotated data in the golden dataset if we obtain a list of ``suspicious'' identities (for example list of identities that our re-identification algorithm classified differently than are classified in the golden dataset).
 
 The list itself should state two identity \verb+id+s (corresponding to the \verb+id+s in the
 database) on each line, separated by space. The lines that start with the hash (\verb+#+) are considered as comments and not processed. Once the pairs are loaded

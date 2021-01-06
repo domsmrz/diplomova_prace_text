@@ -9,6 +9,7 @@ As we mentioned in the \autoref{sec:vl}, our whole work is designed as a module 
 In our case, we worked with PostgreSQL as a management system. However, since we use SQLAlchemy library (\cite{sqlalchemy}) for all the communication with the database, we expect no compatibility issues with the usage of another management system.
 
 \section{Database Structure}
+\label{sec:db_structure}
 
 As we consider the database as an \gls{api} for further processing of the data we provide quick summary of the used tables and their relations. The schema of the database is shown in \autoref{fig:database_schema}.
 
@@ -17,22 +18,22 @@ As we consider the database as an \gls{api} for further processing of the data w
     \item Input tables \begin{itemize}
         \item \verb+camera+ -- basic information regarding the stream source (camera)
         \item \verb+frame+ -- record per each frame, also contains timestamp
-        \item \verb+detection+ -- record per each detection, contains the image, spatial metadata and contains reference to the frame
+        \item \verb+detection+ -- record per each detection, contains the image, spatial metadata and reference to the frame
         \item \verb+camera_setup+ -- one record per session
         \item \verb+camera_setup_assignment+ -- $n$ to $n$ mapping between \verb+camera+ and \verb+camera_setup+ tables, assigning sources to sessions
     \end{itemize}
     
     \item Intermediate results \begin{itemize}
-        \item \verb+feature_type+ -- record for each type of the feature vector including hyperparameters (e.g., RGB histogram with 4 bins, or MobileNet annotator including specific setting such as description of a training set)
+        \item \verb+feature_type+ -- record for each type of the feature vector including its hyperparameters (e.g., RGB histogram with 4 bins, or MobileNet annotator including specific setting such as description of a training set)
         \item \verb+feature_descriptor+ -- actual feature vectors for a given detection and feature type
         \item \verb+traj_model+ -- record for each type of trajectories
-        \item \verb+traj+ -- record for each actual trajectory
+        \item \verb+traj+ -- record for each trajectory
         \item \verb+traj_detection+ -- $n$ to $n$ mapping between trajectory and detection tables for determining which detections were assigned to the trajectory
     \end{itemize}
     
     \item Output tables \begin{itemize}
-        \item \verb+identity_model+ -- one record per identity model, that is specific settings, which feature type was used for the clustering, including the parameters
-        \item \verb+identity+ -- record per each identity given \verb+identity_model+ created
+        \item \verb+identity_model+ -- one record per identity model, that is specific settings, which parameters and feature types were used for the clustering
+        \item \verb+identity+ -- record per each identity given \verb+identity_model+
         \item \verb+identity_detection+ -- $n$ to $n$ mapping between identity and detection tables; determining which detections were assigned to given identity
     \end{itemize}
 \end{itemize}

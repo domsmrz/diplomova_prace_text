@@ -101,16 +101,16 @@ where $S_C$ is cosine similarity.
 
 One of the most popular \gls{ml} models in recent years are artificial \glspl{nn}. The general idea of a mathematical model inspired by a biological brain's function is nothing new (\cite{first_nn}). The discovery of an effective learning algorithm (\cite{backprop}) somewhat established the ``standard'' structure of so-called feed-forward \glspl{nn}.
 
-These feed-forward \glspl{nn} can be viewed as a sequence of layers, where each layer represents a function $f^{(i)}: \R^p \goto \R^q$. The whole \gls{nn} is then a composition of all the layers in order, i.e. $f^{(n)}(f^{(n-1)}(\ldots f^{(1)}(\vec{x})\ldots))$. A function associated with each layer is most commonly linear combination of the input values with offset (bias) which is then transformed using non-linear differentiable activation function (such as rectified linear unit abbreviated as ReLU\footnote{$\mathrm{ReLU}(x) = x$ for $x > 0$, otherwise $\mathrm{ReLU}(x) = 0$}). For example the $j$-th output of $i$-th layer could be computed as follows (where $\vec{\alpha}^{(i,j)}$ are parameters of the layer):
+These feed-forward \glspl{nn} can be viewed as a sequence of layers, where each layer represents a function $f^{(i)}: \R^p \goto \R^q$. The whole \gls{nn} is then a composition of all the layers in order, i.e., $f^{(n)}(f^{(n-1)}(\ldots f^{(1)}(\vec{x})\ldots))$. A function associated with each layer is most commonly a linear combination of the input values with offset (bias) which is then transformed using non-linear differentiable activation function (such as rectified linear unit abbreviated as ReLU\footnote{$\mathrm{ReLU}(x) = x$ for $x > 0$, otherwise $\mathrm{ReLU}(x) = 0$}). For example the $j$-th output of $i$-th layer could be computed as follows (where $\vec{\alpha}^{(i,j)}$ are parameters of the layer):
 
 \begin{equation}
     \label{eq:dense}
-    f^{(i)}_j(\vec{x}) = \mathrm{ReLU}\left(\alpha_{\mathrm{bias}}^{(i,j)} + \vec{\alpha}^{(i,j)} \vec{x}\right) = \mathrm{ReLU}\left(\alpha_{\mathrm{bias}}^{(i,j)} + \sum_{k}\alpha_k^{(i,j)}x_k\right)
+    f^{(i)}_j(\vec{x}) = \mathrm{ReLU}\left(\alpha_{\mathrm{bias}}^{(i,j)} + \left(\vec{\alpha}^{(i,j)}\right)^T \vec{x}\right) = \mathrm{ReLU}\left(\alpha_{\mathrm{bias}}^{(i,j)} + \sum_{k}\alpha_k^{(i,j)}x_k\right)
 \end{equation}
 
 While this description of \glspl{nn} is somewhat simplified in comparison with the recurrent and residual connections in modern models, it provides reasonable idea of how the \glspl{nn} operate.
 
-As in the case of other \glsentrylong{ml} models, the ultimate goal is to approximate some function $f^*$. While the function $f^*$ itself is usually unknown, there is a set of values (dataset) for which the desired output is know (i.e. pairs of $\vec{x}, \vec{y}$ where $f^*(\vec{x}) = \vec{y}$). How well the \gls{nn} approximates the function $f^*$ is then measured using the loss function. One of the most common loss function in the case where the output of the $f^*$ is a single number is \gls{mse}:
+As in the case of other \glsentrylong{ml} models, the ultimate goal is to approximate some function $f^*$. While the function $f^*$ itself is usually unknown, there is a set of values (dataset) for which the desired output is know (i.e., pairs of $\vec{x}, \vec{y}$ where $f^*(\vec{x}) = \vec{y}$). How well the \gls{nn} approximates the function $f^*$ is then measured using the loss function. One of the most common loss function in the case where the output of the $f^*$ is a single number is \gls{mse}:
 
 $$\text{MSE}_{f^*}(f) = \frac{1}{|X|} \sum_{\vec{x} \in X} (f(\vec{x}) - f^*(\vec{x}))^2$$
 
@@ -130,7 +130,7 @@ One specific type of \gls{nn} layer is a convolutional layer. These convolutiona
 Convolutional layers allow simple extraction of the same information from various parts of the input data while maintaining spatial information. They achieve this by using discrete convolution.\footnote{There are some differences compared to standard notation of convolution. Namely we sum over finite subset rather than all natural numbers, however to get the standard form we can pad the kernel with zeros outside of our finite subset. The second difference is that we iterate over $i+j$ rather than $i-j$, to obtain the original expression we need to just use ``mirrored'' kernel ($c'_i = c_{-i}$). As the kernels are initialized randomly and then learned, it does not matter if we use ``mirrored'' kernel or not.} In a simple case of input being just a vector, the corresponding function can be expressed as:
 $$y_i = \sum_{j=1}^N x_{i+j} c_j$$
 
-Where $\vec{x}$ and $\vec{y}$ are input and output vectors respectively and $\vec{c}$ is \emph{kernel}, i.e. vector of learned coefficients of size $N$.
+Where $\vec{x}$ and $\vec{y}$ are input and output vectors respectively and $\vec{c}$ is \emph{kernel}, i.e., vector of learned coefficients of size $N$.
 
 
 However, the primary usage of these layers is not processing one-dimensional vectors. We often use them for processing images. Each image is by itself two-dimensional structure. Furthermore, we usually represent each element of the input matrix by several numbers, which means we have to process three-dimensional tensors. In the input layer information along the third axis usually corresponds to three color channels. In the layers further in the network, the information is more abstract. With the addition of this third dimension applying the convolutional layer becomes more complex, but the basic idea remains the same. For example the value of $r$-th channel in $(i, j)$-th position can be computed as follows ($s$ in the sum represents an index of the input channel):
@@ -181,8 +181,8 @@ Triplet loss for selected triplet (A, P, N) is:
 Where $f$ is a transformation given by \gls{nn}, $\delta$
 is a selected distance function and $\alpha$ is a priori selected margin. The
 selected triplet is a triplet of specific samples -- $A$ is a generic point
-called ``anchor'' point, $P$ is a ``positive'' sample (i.e. sample of the same
-cluster as anchor point) and $N$ is a ``negative'' sample (i.e. sample of
+called ``anchor'' point, $P$ is a ``positive'' sample (i.e., sample of the same
+cluster as anchor point) and $N$ is a ``negative'' sample (i.e., sample of
 different cluster than anchor point).
 \end{defn}
 
